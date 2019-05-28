@@ -1,4 +1,4 @@
-import api from 'api.js';
+import { getAnswerIntroduce } from 'api.js';
 
 const state = {}
 
@@ -11,7 +11,7 @@ const actions = {
 			commit,
 			state
 		},params){
-		return api.getAnswerIntroducePromise(params);
+		return getAnswerIntroduce(params);
 	}
 }
 

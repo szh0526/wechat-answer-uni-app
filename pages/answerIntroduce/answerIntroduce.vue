@@ -17,6 +17,7 @@ export default {
 			title: '我的测评'
 		};
 	},
+	//监听页面初次渲染完成
 	onReady() {
 		this.$store.commit('setCurrentPage',"answerIntroduce");
 		
@@ -32,7 +33,12 @@ export default {
 			});
 		})
 	},
+	//监听页面加载
 	onLoad () {
+	},
+	//监听页面卸载
+	onUnload (){
+		
 	},
 	computed: {
 		currentPage:function () {
