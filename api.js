@@ -14,7 +14,7 @@ const success = (res, resolve, reject) => {
 }
 
 let apiUrl = {
-	getAnswerIntroduce: 'index/index'
+	getAnswerIntroduce: 'index/index',
 }
 
 for (let [key, value] of Object.entries(apiUrl)) {
