@@ -1,0 +1,115 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		// #ifdef	H5 
+		{
+			"path": "pages/index/index",
+			"style": {
+				"h5":{
+					"titleNView":{
+						"titleSize": "14",
+						"searchInput":{
+							"align":"left",
+							"placeholder":"搜索",
+							"backgroundColor":"#F7F7F7"
+						}
+					},
+					"pullToRefresh":{
+						"offset":20
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/category/category",
+			"style": {
+				"h5":{
+					"titleNView":{
+						"titleSize": "14",
+						"searchInput":{
+							"align":"left",
+							"placeholder":"搜索",
+							"backgroundColor":"#F7F7F7"
+						}
+					},
+					"pullToRefresh":{
+						"offset":20
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/myAssessment/myAssessment",
+			"style": {
+				"h5":{
+					"titleNView":{
+						"titleSize": "14",
+						"searchInput":{
+							"align":"left",
+							"placeholder":"搜索",
+							"backgroundColor":"#F7F7F7"
+						}
+					},
+					"pullToRefresh":{
+						"offset":20
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/serachTag/serachTag",
+			"style": {
+				"h5":{
+					"titleNView":{
+						"titleSize": "14",
+						"searchInput":{
+							"align":"left",
+							"placeholder":"搜索",
+							"backgroundColor":"#F7F7F7"
+						}
+					},
+					"pullToRefresh":{
+						"offset":20
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/answerIntroduce/answerIntroduce",
+			"style": {
+			}
+		}
+		// #endif
+	],
+	"globalStyle": {
+		"navigationStyle":"custom",
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "一心理测评",
+		"navigationBarBackgroundColor": "#F7F7F7",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"borderStyle": "black",
+		"backgroundColor": "#FFFFFF",
+		"color": "#C1C1C1",
+		"selectedColor": "#6E6E6E",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/image/tabbar/icon-home.png",
+				"selectedIconPath": "static/image/tabbar/icon-home-on.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/category/category",
+				"iconPath": "static/image/tabbar/icon-sort.png",
+				"selectedIconPath": "static/image/tabbar/icon-sort_on.png",
+				"text": "分类"
+			}
+			,{
+				"pagePath": "pages/myAssessment/myAssessment",
+				"iconPath": "static/image/tabbar/icon-mine.png",
+				"selectedIconPath": "static/image/tabbar/icon-mine_on.png",
+				"text": "我的测评"
+			}
+		]
+	}
+}
