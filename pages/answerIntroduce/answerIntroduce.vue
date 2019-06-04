@@ -34,7 +34,8 @@ export default {
 		})
 	},
 	//监听页面加载
-	onLoad () {
+	onLoad:function(option) {
+		console.log(option);
 	},
 	//监听页面卸载
 	onUnload (){

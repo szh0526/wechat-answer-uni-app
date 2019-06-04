@@ -88,7 +88,7 @@ export default {
 			console.error('image发生error事件，携带值为' + e.detail.errMsg);
 		},
 		getScalesPromise() {
-			const url = 'http://localhost:3999/api/service/getScales';
+			const url = `${this.$apiUrl}/service/getScales`;
 			return new Promise((resolve, reject) => {
 				uni.request({
 					url,
@@ -105,7 +105,7 @@ export default {
 			});
 		},
 		getCategorysPromise() {
-			const url = 'http://localhost:3999/api/service/getCategorys';
+			const url = `${this.$apiUrl}/service/getCategorys`;
 			return new Promise((resolve, reject) => {
 				uni.request({
 					url,

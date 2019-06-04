@@ -32,8 +32,9 @@ export default {
 		};
 	},
 	mounted: function() {
+		const url = `${this.$apiUrl}/service/getHomePageBannerData`;
 		uni.request({
-			url: 'http://localhost:3999/api/service/getHomePageBannerData',
+			url,
 			method: 'GET',
 			data: {},
 			success: res => {

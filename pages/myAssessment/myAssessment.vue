@@ -17,9 +17,9 @@ export default {
 		uni.showLoading({
 			title: '加载中...'
 		});
-		
+		const url = `${this.$apiUrl}/index/index`;
 		uni.request({
-			url: 'http://localhost:3999/api/index/index',
+			url,
 			method: 'GET',
 			data: {},
 			success: res => {

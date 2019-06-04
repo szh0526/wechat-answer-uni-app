@@ -15,12 +15,12 @@ export default {
 			title: '首页'
 		};
 	},
-	onLoad() {
+	onLoad:function() {
 		uni.showLoading({
 			title: '加载中...'
 		});
 		uni.request({
-			url: 'http://localhost:3999/api/index/index',
+			url:`${this.$apiUrl}/index/index`,
 			method: 'GET',
 			data: {},
 			success: res => {

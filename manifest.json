@@ -65,11 +65,14 @@
         "template" : "template.h5.html",
         "title" : "一心理测评",
         "devServer" : {
-            "https" : false
+            "host" : "",
+            "disableHostCheck" : true,
+            "https" : false,
+            "port" : ""
         },
         "router" : {
             "mode" : "hash",
-            "base" : "/h5/"
+            "base" : ""
         }
     }
 }
