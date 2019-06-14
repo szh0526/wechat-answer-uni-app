@@ -27,7 +27,7 @@ import uniPopup from '../../components/uni-popup/uni-popup.vue';
 export default {
 	data() {
 		return {
-			htmlStr:"<div>暂无</div>",
+			htmlStr:"",
 			h5Top:true,
 			showPopup:false
 		};
@@ -46,7 +46,7 @@ export default {
 			questionsId:this.$store.state.questionsId
 		}).then((data) => {
 			const {report_introduce_content} = data;
-			this.htmlStr = report_introduce_content || "";
+			this.htmlStr = report_introduce_content || "<div>暂无</div>";
 			this.showPopup = true;
 			uni.hideLoading();
 		}).catch(e=>{

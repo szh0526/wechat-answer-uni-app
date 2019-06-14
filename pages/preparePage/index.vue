@@ -27,7 +27,7 @@ import uniPopup from '../../components/uni-popup/uni-popup.vue';
 export default {
 	data() {
 		return {
-			htmlStr:"<h2>测前须知</h2><div>暂无</div>",
+			htmlStr:"",
 			h5Top:true,
 			showPopup:false
 		};
@@ -47,7 +47,7 @@ export default {
 		}).then((data) => {
 			uni.hideLoading();
 			const {prepare_content} = data;
-			this.htmlStr = prepare_content || "";
+			this.htmlStr = prepare_content || "<h2>测前须知</h2><div>暂无</div>";
 			this.showPopup = true;
 		}).catch(e=>{
 			uni.hideLoading();

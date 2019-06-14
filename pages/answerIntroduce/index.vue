@@ -21,7 +21,7 @@ export default {
 	data() {
 		return {
 			questionsId:null,
-			htmlStr:"<div>暂无</div>"
+			htmlStr:""
 		};
 	},
 	//监听页面初次渲染完成
@@ -38,35 +38,35 @@ export default {
 		this.$store.dispatch("initUserQuestionsPayInfo",{
 			questionsId
 		}).then((data) => {
-			const {questions_id} = data;
+			const {questions_id,is_answered,question_id} = data;
 			this.questionsId = questions_id;
 			this.$store.commit("setQuestionsId",questions_id);
 			this.$store.commit("initUserQuestionsPayInfo",data);
 			
-			this.$store.dispatch("getIntroducePage",{
-				questionsId:this.$store.state.questionsId
-			}).then((data) => {
-				const {introduce_content} = data;
-				const {is_answered,is,question_id} = this.$store.state.initUserQuestionsPayInfo || {};
-				if(is_answered){
-				//是否答完 0-没有答完 1-已答完 如果答完题则跳转到报告页第一页
-					const url = this.$pageConfig[4];
-					uni.redirectTo({url});
-				}else if(!is_answered && question_id){
-					//question_id > 0 调转到对应题
-					const url = this.$pageConfig[2];
-					uni.redirectTo({url});
-				}
-				this.htmlStr = introduce_content || "";
-				uni.hideLoading();
-			}).catch(e=>{
-				uni.hideLoading();
-				uni.showToast({
-					icon:"none",
-					title: e.message,
-					duration: 2000
-				});
-			})
+			if(is_answered){
+			//是否答完 0-没有答完 1-已答完 如果答完题则跳转到报告页第一页
+				const url = this.$pageConfig[4];
+				uni.redirectTo({url});
+			}else if(!is_answered && question_id){
+				//question_id > 0 调转到对应题
+				const url = this.$pageConfig[2];
+				uni.redirectTo({url});
+			}else{
+				this.$store.dispatch("getIntroducePage",{
+					questionsId:this.$store.state.questionsId
+				}).then((data) => {
+					const {introduce_content} = data;
+					this.htmlStr = introduce_content || "<div>暂无</div>";
+					uni.hideLoading();
+				}).catch(e=>{
+					uni.hideLoading();
+					uni.showToast({
+						icon:"none",
+						title: e.message,
+						duration: 2000
+					});
+				})
+			}
 		}).catch(e=>{
 			uni.hideLoading();
 			uni.showToast({
