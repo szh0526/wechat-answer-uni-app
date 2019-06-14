@@ -1,6 +1,7 @@
 # ignore packages installed by npm
 .DS_Store
 node_modules
+unpackage
 *.git
 *.svn
 npm-debug.log*

@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view v-show="show" :style="{ top: offsetTop + 'px' }" class="uni-mask" @click="hide" @touchmove.stop.prevent="moveHandle" />
-		<view v-show="show" :class="'uni-popup-' + position + ' ' + 'uni-popup-' + mode" class="uni-popup">
+		<view v-show="show" :class="'uni-popup-' + position + ' ' + 'uni-popup-' + mode + ' ' + customClass" class="uni-popup">
 			{{ msg }}
 			<slot />
 			<view v-if="position === 'middle' && mode === 'insert'" :class="{
@@ -55,6 +55,13 @@
 			buttonMode: {
 				type: String,
 				default: 'bottom'
+			},
+			/**
+			 * 额外样式
+			 */
+			customClass: {
+				type: String,
+				default: ''
 			}
 		},
 		data() {

@@ -68,11 +68,12 @@
             "host" : "",
             "disableHostCheck" : true,
             "https" : false,
-            "port" : ""
+            "port" : "8000"
         },
         "router" : {
             "mode" : "hash",
-            "base" : ""
-        }
+            "base" : "/build/"
+        },
+        "domain" : "wjgwzi.natappfree.cc"
     }
 }

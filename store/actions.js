@@ -1,13 +1,16 @@
 //公共action 异步修改store
-const getUserOpenId = async function({
+import {
+	getUserQuestionsPayInfo
+} from 'api.js';
+
+const initUserQuestionsPayInfo = function({
+	dispatch,
 	commit,
 	state
-}) {
-	return await new Promise((resolve, reject) => {
-		resolve(true)
-	})
+}, params) {
+	return getUserQuestionsPayInfo(params);
 }
 
 export default {
-	getUserOpenId
+	initUserQuestionsPayInfo
 }

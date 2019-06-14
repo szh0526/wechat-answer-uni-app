@@ -1,3 +1,38 @@
-.line-through{
+.line-through {
 	text-decoration: line-through;
+}
+
+.uni-page-wrapper {
+	background: #FFFFFF;
+}
+
+.uni-common-mt {
+	background: #FFF;
+	padding: 20upx;
+	margin-top: 0;
+}
+
+.html-wrap {
+	overflow: hidden;
+	overflow-y: auto;
+	height: -webkit-fill-available;
+}
+
+.html-wrap div {
+	text-align: center;
+}
+
+.html-wrap p {
+	text-align: justify;
+}
+
+.popup-wrap {
+	height: 90%;
+	width: 95%;
+}
+
+.popup-wrap .targetBtn{
+	width: 400upx;
+	font-weight:400;
+	background: var(--yellow);
 }

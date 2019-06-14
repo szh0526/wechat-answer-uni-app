@@ -1,4 +1,4 @@
-import { getAnswerIntroduce } from 'api.js';
+import { getIntroducePage } from 'api.js';
 
 const state = {}
 
@@ -6,12 +6,12 @@ const mutations = {
 }
 
 const actions = {
-	getAnswerIntroduce:function({
+	getIntroducePage:function({
 			dispatch,
 			commit,
 			state
 		},params){
-		return getAnswerIntroduce(params);
+		return getIntroducePage(params);
 	}
 }
 

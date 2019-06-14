@@ -1,87 +1,102 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		// #ifdef	H5 
 		{
-			"path": "pages/answerIntroduce/answerIntroduce",
-			"style": {
-			}
-		},
-		{
-			"path": "pages/index/index",
-			"style": {
-				"h5":{
-					"titleNView":{
-						"titleSize": "14",
-						"searchInput":{
-							"align":"left",
-							"placeholder":"搜索",
-							"backgroundColor":"#F7F7F7"
-						}
-					},
-					"pullToRefresh":{
-						"offset":20
-					}
-				}
-			}
-		},
-		{
-			"path": "pages/category/category",
-			"style": {
-				"h5":{
-					"titleNView":{
-						"titleSize": "14",
-						"searchInput":{
-							"align":"left",
-							"placeholder":"搜索",
-							"backgroundColor":"#F7F7F7"
-						}
-					},
-					"pullToRefresh":{
-						"offset":20
-					}
-				}
-			}
-		},
-		{
-			"path": "pages/myAssessment/myAssessment",
-			"style": {
-				"h5":{
-					"titleNView":{
-						"titleSize": "14",
-						"searchInput":{
-							"align":"left",
-							"placeholder":"搜索",
-							"backgroundColor":"#F7F7F7"
-						}
-					},
-					"pullToRefresh":{
-						"offset":20
-					}
-				}
-			}
-		},
-		{
-			"path": "pages/serachTag/serachTag",
-			"style": {
-				"h5":{
-					"titleNView":{
-						"titleSize": "14",
-						"searchInput":{
-							"align":"left",
-							"placeholder":"搜索",
-							"backgroundColor":"#F7F7F7"
-						}
-					},
-					"pullToRefresh":{
-						"offset":20
-					}
-				}
-			}
+			"path": "pages/answerIntroduce/index",
+			"style": {}
+		}, {
+			"path": "pages/preparePage/index",
+			"style": {}
+		}, {
+			"path": "pages/answerQuestion/index",
+			"style": {}
+		}, {
+			"path": "pages/reportResult/index",
+			"style": {}
+		}, {
+			"path": "pages/reportShow/index",
+			"style": {}
+		}, {
+			"path": "pages/userComment/index",
+			"style": {}
+		}, {
+			"path": "pages/userShare/index",
+			"style": {}
 		}
-		// #endif
+		// ,{
+		// 	"path": "pages/index/index",
+		// 	"style": {
+		// 		"h5": {
+		// 			"titleNView": {
+		// 				"titleSize": "14",
+		// 				"searchInput": {
+		// 					"align": "left",
+		// 					"placeholder": "搜索",
+		// 					"backgroundColor": "#F7F7F7"
+		// 				}
+		// 			},
+		// 			"pullToRefresh": {
+		// 				"offset": 20
+		// 			}
+		// 		}
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/category/category",
+		// 	"style": {
+		// 		"h5": {
+		// 			"titleNView": {
+		// 				"titleSize": "14",
+		// 				"searchInput": {
+		// 					"align": "left",
+		// 					"placeholder": "搜索",
+		// 					"backgroundColor": "#F7F7F7"
+		// 				}
+		// 			},
+		// 			"pullToRefresh": {
+		// 				"offset": 20
+		// 			}
+		// 		}
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/myAssessment/myAssessment",
+		// 	"style": {
+		// 		"h5": {
+		// 			"titleNView": {
+		// 				"titleSize": "14",
+		// 				"searchInput": {
+		// 					"align": "left",
+		// 					"placeholder": "搜索",
+		// 					"backgroundColor": "#F7F7F7"
+		// 				}
+		// 			},
+		// 			"pullToRefresh": {
+		// 				"offset": 20
+		// 			}
+		// 		}
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/serachTag/serachTag",
+		// 	"style": {
+		// 		"h5": {
+		// 			"titleNView": {
+		// 				"titleSize": "14",
+		// 				"searchInput": {
+		// 					"align": "left",
+		// 					"placeholder": "搜索",
+		// 					"backgroundColor": "#F7F7F7"
+		// 				}
+		// 			},
+		// 			"pullToRefresh": {
+		// 				"offset": 20
+		// 			}
+		// 		}
+		// 	}
+		// }
 	],
 	"globalStyle": {
-		"navigationStyle":"custom",
+		"navigationStyle": "custom",
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "一心理测评",
 		"navigationBarBackgroundColor": "#F7F7F7",
@@ -103,22 +118,12 @@
 				"iconPath": "static/image/tabbar/icon-sort.png",
 				"selectedIconPath": "static/image/tabbar/icon-sort_on.png",
 				"text": "分类"
-			}
-			,{
+			},
+			{
 				"pagePath": "pages/myAssessment/myAssessment",
 				"iconPath": "static/image/tabbar/icon-mine.png",
 				"selectedIconPath": "static/image/tabbar/icon-mine_on.png",
 				"text": "我的测评"
-			}
-		]
-	},
-	"condition" : { //模式配置，仅开发期间生效
-		"current": 0, //当前激活的模式(list 的索引项)
-		"list": [
-			{
-				"name": "", //模式名称
-				"path": "", //启动页面，必选
-				"query": "" //启动参数，在页面的onLoad函数里面得到
 			}
 		]
 	}
