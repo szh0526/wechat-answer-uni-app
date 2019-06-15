@@ -6,13 +6,6 @@ const mutations = {
 }
 
 const actions = {
-	// getPreparePage:function({
-	// 		dispatch,
-	// 		commit,
-	// 		state
-	// 	},params){
-	// 	return getPreparePage(params);
-	// }
 }
 
 export default {
