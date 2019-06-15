@@ -1,4 +1,4 @@
-import { getPreparePage } from 'api.js';
+import { getNextUserReport,getPreviousUserReport  } from 'api.js';
 
 const state = {}
 
@@ -6,12 +6,19 @@ const mutations = {
 }
 
 const actions = {
-	getPreparePage:function({
+	getNextUserReport:function({
 			dispatch,
 			commit,
 			state
 		},params){
-		return getPreparePage(params);
+		return getNextUserReport(params);
+	},
+	getPreviousUserReport:function({
+			dispatch,
+			commit,
+			state
+		},params){
+		return getPreviousUserReport(params);
 	}
 }
 

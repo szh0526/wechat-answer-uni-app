@@ -63,9 +63,15 @@
 				valueSync: ''
 			}
 		},
+		watch:{ 
+			'value':function(value){ 
+				this.valueSync = value; 
+			}
+		},
 		computed: {
 			stars() {
-				const value = Number(this.valueSync) ? Number(this.valueSync) : 0
+				const _self = this;
+				const value = Number(this.valueSync) ? Number(this.valueSync) : 0;
 				const starList = []
 				const floorValue = Math.floor(value)
 				const ceilValue = Math.ceil(value)

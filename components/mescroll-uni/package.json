@@ -1,0 +1,39 @@
+{
+  "_from": "mescroll-uni",
+  "_id": "mescroll-uni@1.0.30",
+  "_inBundle": false,
+  "_integrity": "sha1-aKYJ67f1dB6cJGtnGOR1/OIcKgo=",
+  "_location": "/mescroll-uni",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "mescroll-uni",
+    "name": "mescroll-uni",
+    "escapedName": "mescroll-uni",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npm.taobao.org/mescroll-uni/download/mescroll-uni-1.0.30.tgz",
+  "_shasum": "68a609ebb7f5741e9c246b6718e475fce21c2a0a",
+  "_spec": "mescroll-uni",
+  "_where": "/Users/sunzehao/Downloads/demo/uni-app/wechat-answer-uni-app",
+  "author": {
+    "name": "wenju"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "mescroll-uni -支持uni-app的下拉刷新上拉加载组件",
+  "license": "MIT",
+  "main": "mescroll-uni.vue",
+  "name": "mescroll-uni",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.30"
+}

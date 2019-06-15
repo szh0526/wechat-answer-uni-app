@@ -1,4 +1,4 @@
-import { getUserReportPage } from 'api.js';
+import { getUserReportPage,createUserReport } from 'api.js';
 
 const state = {}
 
@@ -12,7 +12,14 @@ const actions = {
 			state
 		},params){
 		return getUserReportPage(params);
-	}
+	},
+	createUserReport:function({
+			dispatch,
+			commit,
+			state
+		},params){
+		return createUserReport(params);
+	},
 }
 
 export default {

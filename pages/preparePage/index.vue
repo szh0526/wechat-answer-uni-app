@@ -6,15 +6,11 @@
 					<view class="uni-center center-box" style="height: 92%;">
 						<view class="uni-common-mt">
 							<div class="html-wrap">
-									<div style="margin-top: 20upx;margin-bottom: 20upx;">
-										<rich-text :nodes="htmlStr"></rich-text>
-									</div>
+								<div style="margin-top: 20upx;margin-bottom: 20upx;"><rich-text :nodes="htmlStr"></rich-text></div>
 							</div>
 						</view>
 					</view>
-					<view>
-						<button class="targetBtn" hover-class="none" type="default" size="default" @click="handleGo">好的,GO!</button>
-					</view>
+					<view><button class="targetBtn" hover-class="none" type="default" size="default" @click="handleGo">好的,GO!</button></view>
 				</uni-popup>
 			</view>
 		</view>
@@ -27,9 +23,9 @@ import uniPopup from '../../components/uni-popup/uni-popup.vue';
 export default {
 	data() {
 		return {
-			htmlStr:"",
-			h5Top:true,
-			showPopup:false
+			htmlStr: '',
+			h5Top: true,
+			showPopup: false
 		};
 	},
 	//监听页面初次渲染完成
@@ -39,35 +35,33 @@ export default {
 		});
 	},
 	//监听页面加载
-	onLoad:function(option) {
-		this.$store.commit('setCurrentPage',"preparePage");
-		
-		this.$store.dispatch("getPreparePage",{
-			questionsId:this.$store.state.questionsId
-		}).then((data) => {
-			uni.hideLoading();
-			const {prepare_content} = data;
-			this.htmlStr = prepare_content || "<h2>测前须知</h2><div>暂无</div>";
-			this.showPopup = true;
-		}).catch(e=>{
-			uni.hideLoading();
-			uni.showToast({
-				icon:"none",
-				title: e.message,
-				duration: 2000
+	onLoad: function(option) {
+		this.$store.commit('setCurrentPage', 'preparePage');
+
+		this.$store
+			.dispatch('getPreparePage', {})
+			.then(data => {
+				uni.hideLoading();
+				const { prepare_content } = data;
+				this.htmlStr = prepare_content || '<h2>测前须知</h2><div>暂无</div>';
+				this.showPopup = true;
+			})
+			.catch(e => {
+				uni.hideLoading();
+				uni.showToast({
+					icon: 'none',
+					title: e.message,
+					duration: 2000
+				});
 			});
-		})
 	},
 	//监听页面卸载
-	onUnload (){
-		
-	},
-	computed: {
-	},
+	onUnload() {},
+	computed: {},
 	methods: {
-		handleGo:function () {
+		handleGo: function() {
 			const url = this.$pageConfig[2];
-			uni.redirectTo({url});
+			uni.redirectTo({ url });
 		}
 	},
 	components: {
@@ -75,5 +69,4 @@ export default {
 	}
 };
 </script>
-<style>
-</style>
+<style></style>

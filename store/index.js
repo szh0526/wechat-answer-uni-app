@@ -15,6 +15,7 @@ Vue.use(Vuex);
 
 //根初始化状态
 const state = {
+	userId:"",
 	questionsId: "",
 	currentPage: "",
 	initUserQuestionsPayInfo:null

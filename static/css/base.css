@@ -36,3 +36,13 @@
 	font-weight:400;
 	background: var(--yellow);
 }
+
+.fixedBottomBtn{
+	position: fixed;
+	bottom: 0upx;
+	width: -webkit-fill-available;
+}
+
+.uni-rate-icon{
+	height: 48upx;
+}

@@ -6,6 +6,8 @@ import pageHead from './pages/component/pageHead/pageHead.vue';
 
 import store from './store'
 
+window.wxanswer = {};
+
 Vue.config.productionTip = false;
 
 Vue.prototype.$store = store;
@@ -21,9 +23,8 @@ Vue.prototype.$pageConfig = {
 	101:"/pages/serachTag/serachTag",//搜索页
 	102:"/pages/category/category",//分类页
 	103:"/pages/myAssessment/myAssessment",//我的测评页
-	
 }
-Vue.prototype.$apiUrl = 'http://pxhwyn.natappfree.cc/api';
+Vue.prototype.$apiUrl = 'http://localhost:3999/api';
 
 Vue.component('pageHead',pageHead);
 

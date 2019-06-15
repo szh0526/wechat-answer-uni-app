@@ -1,7 +1,7 @@
 import $ajax from './common/ajax.js';
 
 //接口请求配置
-const $apiUrl = 'http://pxhwyn.natappfree.cc/api';
+const $apiUrl = 'http://wmzdhc.natappfree.cc/api';
 const normalMsg = "接口异常!";
 
 let apiUrl = {
@@ -33,6 +33,11 @@ for (let [key, value] of Object.entries(apiUrl)) {
 }
 
 const fetch = async function(apiName, params, method = "GET") {
+	const commonParams = {
+		questionsId:window.wxanswer.questionsId,
+		userId:window.wxanswer.userId,
+	}
+	params = Object.assign({},params,commonParams);
 	return await new Promise((resolve, reject) => {
 		$ajax.get(apiUrl[apiName], params).then(res => {
 				//console.log(res);
