@@ -7,6 +7,7 @@
 					<div class="html-wrap"><rich-text :nodes="htmlStr"></rich-text></div>
 				</view>
 			</view>
+			<view><button class="targetBtn" hover-class="none" @click="handlePay">立即购买</button></view>
 		</view>
 	</view>
 </template>
@@ -37,7 +38,7 @@ export default {
 		this.$store
 			.dispatch('initUserQuestionsPayInfo', {})
 			.then(data => {
-				const { questions_id, user_id, is_answered, question_id } = data;
+				const { questions_id, user_id, is_answered, question_id,title } = data;
 				_self.questionsId = questions_id;
 				_self.$store.commit('setQuestionsId', questions_id);
 				_self.$store.commit('setUserId', user_id);
@@ -45,10 +46,12 @@ export default {
 
 				if (is_answered) {
 					//是否答完 0-没有答完 1-已答完 如果答完题则跳转到报告页第一页
+					window.document.title = "个人测评报告";
 					const url = _self.$pageConfig[4];
 					uni.redirectTo({ url });
 				} else if (!is_answered && question_id) {
 					//question_id > 0 调转到对应题
+					window.document.title = title;
 					const url = _self.$pageConfig[2];
 					uni.redirectTo({ url });
 				} else {
@@ -81,7 +84,13 @@ export default {
 	//监听页面卸载
 	onUnload() {},
 	computed: {},
-	methods: {},
+	methods: {
+		handlePay:function(){
+			window.document.title = "测试说明";
+			const url = this.$pageConfig[1];
+			uni.redirectTo({ url });
+		}
+	},
 	components: {
 		hasPayHead
 	}

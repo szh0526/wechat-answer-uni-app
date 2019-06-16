@@ -4,10 +4,10 @@
 			<view class="title">
 				<view class="container">
 					<view class="title-text">
-						<view v-for="(item, index) in imgs" :key="index" :id="'img-' + index">
-							<image class="logoContainer" :style="{ marginLeft: 23 * index + 'px' }" :src="item" @error="imageError"></image>
+						<view class="cu-avatar-group" style="padding: 0 10upx 0 20upx;">
+							<view class="cu-avatar round margin-left" v-for="(item,index) in imgs" :key="index" :style="[{marginLeft:'-20upx'},{backgroundImage:'url(' + item + ')' }]"></view>
 						</view>
-						<view class="text-box text-gray" :style="{ marginLeft: (imgs.length - 1) * 23 + 'px' }">
+						<view class="text-box text-gray">
 							<text>{{ counts }}人已购</text>
 						</view>
 					</view>
@@ -54,9 +54,6 @@ export default {
 		}
 	},
 	methods: {
-		imageError: function(e) {
-			console.error('image发生error事件，携带值为' + e.detail.errMsg);
-		}
 	},
 	components: {
 		uniNavBar
@@ -93,7 +90,7 @@ export default {
 .title-text {
 	flex: 1 1 0;
 	position: relative;
-	padding-left: 1.8rem;
+	/* padding-left: 1.8rem; */
 	line-height: 1.8;
 	color: #4c4b58;
 	font-weight: 700;
@@ -119,6 +116,7 @@ export default {
 	margin-right: 40upx;
 }
 .text-box {
-	margin-left: 40upx;
+	display: inline-flex;
+	line-height: 64upx;
 }
 </style>

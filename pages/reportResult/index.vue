@@ -64,6 +64,7 @@ export default {
 			this.$store
 				.dispatch('createUserReport', {})
 				.then(data => {
+					window.document.title = "个人测评报告";
 					const url = _self.$pageConfig[4];
 					uni.redirectTo({ url });
 				})

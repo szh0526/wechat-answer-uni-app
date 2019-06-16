@@ -15,9 +15,13 @@ export default {
 		return {
 		};
 	},
+	onReady:function(){
+	},
 	//监听页面加载
 	onLoad: function(option) {
-		this.$store.commit('setCurrentPage', 'preparePage');
+	},
+	mounted:function(){
+		this.$store.commit('setCurrentPage', 'userShare');
 	},
 	methods: {
 		handleShare: function() {

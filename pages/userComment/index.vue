@@ -2,7 +2,7 @@
 	<view class="uni-flex uni-column">
 		<view class="flex-item flex-item-V" style="background: #FFFFFF;">
 			<div class="title">
-				<image class="logoContainer" :src="titleImg" @error="imageError"></image>
+				<view class="cu-avatar lg radius" :style="[{backgroundImage:'url(' + titleImg + ')' }]"></view>
 				<text>{{ title }}</text>
 			</div>
 		</view>
@@ -91,8 +91,9 @@ export default {
 			this[type] = event.value;
 		},
 		handleShare: function() {
+			window.document.title = "分享测评";
 			const url = this.$pageConfig[6];
-			uni.redirectTo({ url });
+			uni.navigateTo({ url });
 		},
 		handleSubmit: function() {
 			const _self = this;
@@ -175,9 +176,9 @@ export default {
 .title uni-text {
 	font-size: 18px;
 	font-weight: 500;
-	float: left;
-	line-height: 80upx;
-	margin-right: 40upx;
+/* 	float: left; */
+	line-height: 96upx;
+	margin-left: 40upx;
 }
 
 .evaluation {

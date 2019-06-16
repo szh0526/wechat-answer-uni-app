@@ -60,6 +60,7 @@ export default {
 	},
 	methods: {
 		handleComment: function() {
+			window.document.title = "发表评价";
 			const url = this.$pageConfig[5];
 			uni.redirectTo({ url });
 		},

@@ -60,6 +60,8 @@ export default {
 	computed: {},
 	methods: {
 		handleGo: function() {
+			const { initUserQuestionsPayInfo } = this.$store.state;
+			window.document.title = initUserQuestionsPayInfo.title || "一心理测评";
 			const url = this.$pageConfig[2];
 			uni.redirectTo({ url });
 		}
