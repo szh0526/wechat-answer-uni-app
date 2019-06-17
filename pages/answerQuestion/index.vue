@@ -5,7 +5,7 @@
 				<view class="flex p-xs mb-sm">
 					<view class="flex" style="padding: 10upx 20upx 0 20upx;">
 						<text>
-							<b style="font-size: 1.2em;">{{ currentQuestionId }}</b>
+							<b style="font-size: 1.2em;">{{ qid }}</b>
 							/{{ total }}
 						</text>
 					</view>
@@ -48,6 +48,7 @@ import { dateUtils } from '../../common/util.js';
 export default {
 	data() {
 		return {
+			qid:0,
 			currentQuestionId: 0,
 			answersId: 0,
 			question_str: '', //问题描述
@@ -126,11 +127,12 @@ export default {
 					answersId: this.answersId
 				})
 				.then(data => {
+					uni.hideLoading();
 					const { question, answer, total } = data;
 					_self.total = total;
 					_self.percent = (question.qid / total) * 100;
-					_self.currentQuestionId = question.qid;
-					console.log('当前题', _self.currentQuestionId);
+					_self.qid = question.qid;
+					_self.currentQuestionId = question.id;
 					_self.question_str = question.question_str;
 					_self.items = !!answer
 						? answer.map(x => {
@@ -144,7 +146,6 @@ export default {
 								};
 						  })
 						: [];
-					uni.hideLoading();
 				})
 				.catch(e => {
 					uni.hideLoading();
@@ -167,25 +168,31 @@ export default {
 					countDownTime: this.countDownTime
 				})
 				.then(data => {
-					const { question, answer, total } = data;
-					_self.total = total;
-					_self.percent = (question.qid / total) * 100;
-					_self.currentQuestionId = question.qid;
-					console.log('当前题', _self.currentQuestionId);
-					_self.question_str = question.question_str;
-					_self.items = !!answer
-						? answer.map(x => {
-								if (x.isCheck) {
-									_self.answersId = x.id;
-								}
-								return {
-									value: String(x.id),
-									name: x.answer_str,
-									checked: !!x.isCheck
-								};
-						  })
-						: [];
-					uni.hideLoading();
+					if(data.isEnd == 1){
+						window.document.title = '个人评测报告';
+						const url = _self.$pageConfig[3];
+						uni.navigateTo({ url });
+					}else{
+						uni.hideLoading();
+						const { question, answer, total } = data;
+						_self.total = total;
+						_self.percent = (question.qid / total) * 100;
+						_self.qid = question.qid;
+						_self.currentQuestionId = question.id;
+						_self.question_str = question.question_str;
+						_self.items = !!answer
+							? answer.map(x => {
+									if (x.isCheck) {
+										_self.answersId = x.id;
+									}
+									return {
+										value: String(x.id),
+										name: x.answer_str,
+										checked: !!x.isCheck
+									};
+								})
+							: [];
+						}
 				})
 				.catch(e => {
 					uni.hideLoading();
@@ -198,11 +205,6 @@ export default {
 		},
 		onAnswerChange: function(event) {
 			this.answersId = event.target.value;
-		},
-		handle: function() {
-			window.document.title = '个人评测报告';
-			const url = this.$pageConfig[6];
-			uni.navigateTo({ url });
 		},
 		handlePrevQuestion: function() {
 			this.items = [];
