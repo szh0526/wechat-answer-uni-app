@@ -14,8 +14,8 @@
 					</view>
 					<view class="flex padding-sm">
 						<view class="cu-item" style="margin-right: 10upx;"><text class="lg text-gray cuIcon-time"></text></view>
-						<text>24:45</text>
-						<view class="cu-item" style="margin-left: 20upx;"><text class="lg text-gray cuIcon-question"></text></view>
+						<text>{{ timeStr }}</text>
+						<view class="cu-item" style="margin-left: 20upx;" v-if="0"><text class="lg text-gray cuIcon-question"></text></view>
 					</view>
 				</view>
 			</view>
@@ -36,52 +36,142 @@
 			</div>
 		</view>
 		<view v-if="1">
-			<button hover-class="none" type="primary" class="fixedLeftBtn" @click="handleQuestion">上一题</button>
-			<button hover-class="none" type="primary" class="fixedRightBtn" @click="handleQuestion">下一题</button>
+			<button hover-class="none" type="primary" class="fixedLeftBtn" @click="handlePrevQuestion">上一题</button>
+			<button hover-class="none" type="primary" class="fixedRightBtn" @click="handleNewxQuestion">下一题</button>
 		</view>
 	</view>
 </template>
 
 <script>
 import uniRate from '../../components/uni-rate/uni-rate.vue';
+import { dateUtils } from '../../common/util.js';
 export default {
 	data() {
 		return {
 			currentQuestionId: 0,
-			previousQuestionId: 0,
 			answersId: 0,
 			question_str: '', //问题描述
 			items: [],
 			total: 0,
-			percent: 0
+			percent: 0,
+			timer: null,
+			timeStr: '00:00',
+			countDownTime: ''
 		};
 	},
 	//监听页面加载
 	onLoad: function(option) {
 		this.$store.commit('setCurrentPage', 'answerQuestion');
-		const { question_id } = this.$store.state.initUserQuestionsPayInfo;
+		const { question_id, countDownTime } = this.$store.state.initUserQuestionsPayInfo;
 		this.currentQuestionId = question_id;
-		this.getQuestion();
+		this.countDownTime = countDownTime || "";
+		this.timerun(countDownTime);
+		//初始化先获取上一题
+		this.getPrevQuestion();
+	},
+	destroyed: function() {
+		clearInterval(this.timer);
 	},
 	methods: {
-		getQuestion: function() {
+		timerun: function(initTime) {
 			const _self = this;
-			//将当前题设置为上一题
-			this.previousQuestionId = this.currentQuestionId;
+			var isInit = false;
+			_self.timer = setInterval(function() {
+				var date = null;
+				if (!isInit) {
+					if (initTime) {
+						date = new Date(initTime);
+					} else {
+						date = new Date();
+						date.setHours(0);
+						date.setMinutes(0);
+						date.setSeconds(0);
+					}
+					isInit = true;
+				} else {
+					date = new Date(_self.countDownTime);
+					var hour = date.getHours();
+					var minutes = date.getMinutes();
+					var sec = date.getSeconds();
+					sec++;
+					if (sec > 0 && sec % 60 == 0) {
+						sec = 0;
+						minutes = minutes + 1;
+					}
+					if (minutes > 0 && minutes % 60 == 0) {
+						minutes = 0;
+						hour = hour + 1;
+					}
+					if (hour > 0 && hour % 24 == 0) {
+						sec = 0;
+						minutes = 0;
+						hour = 0;
+					}
+					date.setHours(hour);
+					date.setMinutes(minutes);
+					date.setSeconds(sec);
+				}
+				_self.timeStr = dateUtils.formatTimeToStr(date);
+				_self.countDownTime = date.toString();
+			}, 1000);
+		},
+		getPrevQuestion: function() {
+			const _self = this;
 			uni.showLoading({
 				title: '加载中...'
 			});
 			this.$store
-				.dispatch('getNextQuestion', {
+				.dispatch('getPreviousQuestion', {
 					currentQuestionId: this.currentQuestionId,
 					answersId: this.answersId
 				})
 				.then(data => {
 					const { question, answer, total } = data;
 					_self.total = total;
-					_self.percent = (question.id / total) * 100;
-					_self.currentQuestionId = question.id;
-					console.log('当前题', _self.currentQuestionId, '上一题', _self.previousQuestionId);
+					_self.percent = (question.qid / total) * 100;
+					_self.currentQuestionId = question.qid;
+					console.log('当前题', _self.currentQuestionId);
+					_self.question_str = question.question_str;
+					_self.items = !!answer
+						? answer.map(x => {
+								if (x.isCheck) {
+									_self.answersId = x.id;
+								}
+								return {
+									value: String(x.id),
+									name: x.answer_str,
+									checked: !!x.isCheck
+								};
+						  })
+						: [];
+					uni.hideLoading();
+				})
+				.catch(e => {
+					uni.hideLoading();
+					uni.showToast({
+						icon: 'none',
+						title: e.message,
+						duration: 2000
+					});
+				});
+		},
+		getNextQuestion: function() {
+			const _self = this;
+			uni.showLoading({
+				title: '加载中...'
+			});
+			this.$store
+				.dispatch('getNextQuestion', {
+					currentQuestionId: this.currentQuestionId,
+					answersId: this.answersId,
+					countDownTime: this.countDownTime
+				})
+				.then(data => {
+					const { question, answer, total } = data;
+					_self.total = total;
+					_self.percent = (question.qid / total) * 100;
+					_self.currentQuestionId = question.qid;
+					console.log('当前题', _self.currentQuestionId);
 					_self.question_str = question.question_str;
 					_self.items = !!answer
 						? answer.map(x => {
@@ -114,11 +204,13 @@ export default {
 			const url = this.$pageConfig[6];
 			uni.navigateTo({ url });
 		},
-		// handlePreviousQuestion: function() {
-		// 	this.getQuestion();
-		// },
-		handleQuestion: function() {
-			this.getQuestion();
+		handlePrevQuestion: function() {
+			this.items = [];
+			this.getPrevQuestion();
+		},
+		handleNewxQuestion: function() {
+			this.items = [];
+			this.getNextQuestion();
 		}
 	},
 	computed: {},

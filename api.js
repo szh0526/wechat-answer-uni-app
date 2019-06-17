@@ -1,7 +1,7 @@
 import $ajax from './common/ajax.js';
 
 //接口请求配置
-const $apiUrl = 'http://gn434g.natappfree.cc/api';
+const $apiUrl = 'http://c6mgmu.natappfree.cc/api';
 const normalMsg = "接口异常!";
 
 let apiUrl = {

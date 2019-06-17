@@ -1,4 +1,4 @@
-import {  } from 'api.js';
+import { getNextQuestion,getPreviousQuestion  } from 'api.js';
 
 const state = {}
 
@@ -6,13 +6,20 @@ const mutations = {
 }
 
 const actions = {
-	// getPreparePage:function({
-	// 		dispatch,
-	// 		commit,
-	// 		state
-	// 	},params){
-	// 	return getPreparePage(params);
-	// }
+	getNextQuestion:function({
+			dispatch,
+			commit,
+			state
+		},params){
+		return getNextQuestion(params);
+	},
+	getPreviousQuestion:function({
+			dispatch,
+			commit,
+			state
+		},params){
+		return getPreviousQuestion(params);
+	}
 }
 
 export default {
