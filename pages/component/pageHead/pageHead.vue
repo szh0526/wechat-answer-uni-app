@@ -36,7 +36,7 @@ export default {
 		},
 		onInputClick: function() {
 			const url = this.$pageConfig[101];
-			uni.navigateTo(url);
+			uni.redirectTo(url);
 		}
 	},
 	components: {

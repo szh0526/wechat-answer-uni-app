@@ -93,7 +93,7 @@ export default {
 		handleShare: function() {
 			window.document.title = "分享测评";
 			const url = this.$pageConfig[6];
-			uni.navigateTo({ url });
+			uni.redirectTo({ url });
 		},
 		handleSubmit: function() {
 			const _self = this;

@@ -1,7 +1,7 @@
 import $ajax from './common/ajax.js';
 
 //接口请求配置
-const BASEURL = "http://pys88q.natappfree.cc";
+const BASEURL = "http://5kj66v.natappfree.cc";
 const $apiUrl = `${BASEURL}/api`;
 const $wxjssdkUrl = `${BASEURL}/wxjssdk`;;
 const normalMsg = "接口异常!";

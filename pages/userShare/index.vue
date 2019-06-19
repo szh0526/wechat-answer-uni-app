@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<view class="uni-flex uni-column"><view class="flex-item flex-item-V"></view></view>
-		<view><button class="targetBtn" hover-class="none" @click="handleShare">让朋友也测测吧</button></view>
+		<view><button hover-class="none" @click="handleSharePYQ">分享到朋友圈</button></view>
+		<view><button hover-class="none" @click="handleSharePY">分享给朋友</button></view>
 	</view>
 </template>
 
@@ -39,7 +39,6 @@ export default {
 						jsApiList: [
 							'updateAppMessageShareData', //自定义“分享给朋友”及“分享到QQ”按钮的分享内容（1.4.0）
 							'updateTimelineShareData', //自定义“分享到朋友圈”及“分享到QQ空间”按钮的分享内容（1.4.0）
-							'onMenuShareAppMessage',
 							'onMenuShareTimeline'
 						] // 必填，需要使用的JS接口列表
 					});
@@ -62,66 +61,102 @@ export default {
 		});
 	},
 	methods: {
-		handleShare: function() {
-			this.setWechatConfig();
+		handleSharePYQ: function() {
+			this.setWechatConfig('pyq');
 		},
-		setWechatConfig() {
-			const { title, link, imgUrl, desc } = {
+		handleSharePY: function() {
+			this.setWechatConfig('py');
+		},
+		onComplete: function() {
+			this.$store
+				.dispatch('userShare', {})
+				.then(data => {
+					console.log(data);
+				})
+				.catch(e => {
+					uni.showToast({
+						icon: 'none',
+						title: e.message,
+						duration: 2000
+					});
+				});
+		},
+		setWechatConfig: function(way) {
+			const _self = this;
+			console.log(way, _self.config);
+			const { title, link, imgUrl, desc } = _self.config;
+			if (way == 'pyq') {
+				wx.updateTimelineShareData({
+					title,
+					link,
+					imgUrl,
+					success: function() {
+						console.log('分享给朋友圈成功!');
+						_self.onComplete();
+					},
+					cancel: function() {
+						console.log('用户取消分享!');
+					},
+					fail: function(res) {
+						console.log("分享给朋友圈失败\r\n",JSON.stringify(res));
+					},
+					complete: function() {
+						console.log('分享给朋友圈完成!');
+					}
+				});
+			}
+			if (way == 'py') {
+				wx.onMenuShareTimeline({
+						title,
+						link,
+						imgUrl,
+						success: function() {
+							console.log('分享给朋友成功!');
+							_self.onComplete();
+						},
+						cancel: function() {
+							console.log('用户取消分享!');
+						},
+						fail: function(res) {
+							console.log("分享给朋友失败\r\n",JSON.stringify(res));
+						},
+						complete: function() {
+							console.log('分享给朋友完成!');
+						}
+				})
+				// wx.updateAppMessageShareData({
+				// 	title,
+				// 	desc,
+				// 	link,
+				// 	imgUrl,
+				// 	success: function() {
+				// 		console.log('分享给朋友成功!');
+				// 		_self.onComplete();
+				// 	},
+				// 	cancel: function() {
+				// 		console.log('用户取消分享!');
+				// 	},
+				// 	fail: function(res) {
+				// 		console.log("分享给朋友失败\r\n",JSON.stringify(res));
+				// 	},
+				// 	complete: function() {
+				// 		console.log('分享给朋友完成!');
+				// 	}
+				// });
+			}
+		}
+	},
+	computed: {
+		config: function() {
+			const questionsId = this.$store.state.questionsId;
+			const url = window.location.href.split('#')[0];
+			const urlPrefix = window.location.origin;
+			return {
 				title: '测试标题', // 分享标题
-				imgUrl: 'http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqfnf9LqWC9KpLX3qiaLZI3nAajepAVJFcLGiaDtnlbEGLCjCiccZP0LBicLRZgWHxGUMGwr1WRgccuVA/132', // 分享图标
-				link: 'http://t8h92d.natappfree.cc/pages/answerIntroduce/index?id=abc', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+				imgUrl: `${urlPrefix}/build/static/image/logo.jpg`, // 分享图标
+				link: encodeURI(url), // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 				desc: '快来试试吧' //分享描述
 			};
-			// wx.updateAppMessageShareData({
-			// 	title,
-			// 	desc,
-			// 	link,
-			// 	imgUrl,
-			// 	success: function() {
-			// 		console.log('分享给朋友成功回调!');
-			// 	},
-			//      cancel: function () {
-			// 		console.log('用户取消转发!');
-			//      }
-			// });
-			wx.onMenuShareTimeline({
-				title,
-				link,
-				imgUrl,
-				success: function() {
-					console.log('分享给朋友成功回调!');
-				},
-			     cancel: function () {
-					console.log('用户取消转发!');
-			     },
-					 fail:function (res) {
-					console.log(JSON.stringify(res));
-			     },
-			});
-
-			// wx.onMenuShareAppMessage({
-			// 	title: '', // 分享标题
-			// 	desc: '', // 分享描述
-			// 	link: '', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-			// 	imgUrl: '', // 分享图标
-			// 	type: '', // 分享类型,music、video或link，不填默认为link
-			// 	dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-			// 	success: function () {
-			// 	// 用户点击了分享后执行的回调函数
-			// 	}
-			// });
-			// wx.updateTimelineShareData({
-			// 	title,
-			// 	link,
-			// 	imgUrl,
-			// 	success: function() {
-			// 		console.log('分享到朋友圈成功回调!');
-			// 	},
-			// 	//用户取消转发后调用的函数
-			//      cancel: function () {
-			// 		console.log('用户取消转发!');
-			//      }
-			// });
 		}
 	},
 	components: {}

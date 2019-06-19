@@ -171,7 +171,7 @@ export default {
 					if(data.isEnd == 1){
 						window.document.title = '个人评测报告';
 						const url = _self.$pageConfig[3];
-						uni.navigateTo({ url });
+						uni.redirectTo({ url });
 					}else{
 						uni.hideLoading();
 						const { question, answer, total } = data;
