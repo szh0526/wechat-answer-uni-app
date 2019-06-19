@@ -1,7 +1,9 @@
 import $ajax from './common/ajax.js';
 
 //接口请求配置
-const $apiUrl = 'http://c6mgmu.natappfree.cc/api';
+const BASEURL = "http://pys88q.natappfree.cc";
+const $apiUrl = `${BASEURL}/api`;
+const $wxjssdkUrl = `${BASEURL}/wxjssdk`;;
 const normalMsg = "接口异常!";
 
 let apiUrl = {
@@ -25,21 +27,21 @@ let apiUrl = {
 	getNextUserReport: '/userReport/getNextUserReport',
 	getPreviousUserReport: '/userReport/getPreviousUserReport',
 	createUserReport: '/userReport/createUserReport',
-	getUserReportPage: '/userReport/getUserReportPage'
+	getUserReportPage: '/userReport/getUserReportPage',
 }
 
 for (let [key, value] of Object.entries(apiUrl)) {
 	apiUrl[key] = `${$apiUrl}${value}`;
 }
 
-const fetch = async function(apiName, params, method = "GET") {
+const fetch = async function(url, params, method = "GET") {
 	const commonParams = {
 		questionsId:window.wxanswer.questionsId,
 		userId:window.wxanswer.userId,
 	}
 	params = Object.assign({},params,commonParams);
 	return await new Promise((resolve, reject) => {
-		$ajax.get(apiUrl[apiName], params).then(res => {
+		$ajax.get(url, params).then(res => {
 				//console.log(res);
 				if (res && res.code == 200) {
 					resolve(res.data);
@@ -69,52 +71,55 @@ const fetch = async function(apiName, params, method = "GET") {
 }
 
 const getIntroducePage = function(params) {
-	return fetch("getIntroducePage", params);
+	return fetch(apiUrl["getIntroducePage"], params);
 }
 const getPreparePage = function(params) {
-	return fetch("getPreparePage", params);
+	return fetch(apiUrl["getPreparePage"], params);
 }
 const getQuestionsTitles = function(params) {
-	return fetch("getQuestionsTitles", params);
+	return fetch(apiUrl["getQuestionsTitles"], params);
 }
 const getNextQuestion = function(params) {
-	return fetch("getNextQuestion", params);
+	return fetch(apiUrl["getNextQuestion"], params);
 }
 const getPreviousQuestion = function(params) {
-	return fetch("getPreviousQuestion", params);
+	return fetch(apiUrl["getPreviousQuestion"], params);
 }
 const getUserPayAmount = function(params) {
-	return fetch("getUserPayAmount", params);
+	return fetch(apiUrl["getUserPayAmount"], params);
 }
 const userShare = function(params) {
-	return fetch("userShare", params);
+	return fetch(apiUrl["userShare"], params);
 }
 const getUserComment = function(params) {
-	return fetch("getUserComment", params);
+	return fetch(apiUrl["getUserComment"], params);
 }
 const saveUserComment = function(params) {
-	return fetch("saveUserComment", params);
+	return fetch(apiUrl["saveUserComment"], params);
 }
 const getUserPayInfo = function(params) {
-	return fetch("getUserPayInfo", params);
+	return fetch(apiUrl["getUserPayInfo"], params);
 }
 const getUserQuestionsPayInfo = function(params) {
-	return fetch("getUserQuestionsPayInfo", params);
+	return fetch(apiUrl["getUserQuestionsPayInfo"], params);
 }
 const getUserInfo = function(params) {
-	return fetch("getUserInfo", params);
+	return fetch(apiUrl["getUserInfo"], params);
 }
 const getNextUserReport = function(params) {
-	return fetch("getNextUserReport", params);
+	return fetch(apiUrl["getNextUserReport"], params);
 }
 const getPreviousUserReport = function(params) {
-	return fetch("getPreviousUserReport", params);
+	return fetch(apiUrl["getPreviousUserReport"], params);
 }
 const createUserReport = function(params) {
-	return fetch("createUserReport", params);
+	return fetch(apiUrl["createUserReport"], params);
 }
 const getUserReportPage = function(params) {
-	return fetch("getUserReportPage", params);
+	return fetch(apiUrl["getUserReportPage"], params);
+}
+const getSignature = function(params) {
+	return fetch(`${$wxjssdkUrl}/getSignature`, params);
 }
 
 export {
@@ -133,5 +138,6 @@ export {
 	getNextUserReport,
 	getPreviousUserReport,
 	createUserReport,
-	getUserReportPage
+	getUserReportPage,
+	getSignature,
 }

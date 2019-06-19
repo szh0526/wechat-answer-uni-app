@@ -1,7 +1,16 @@
 //公共action 异步修改store
 import {
+	getSignature,
 	getUserQuestionsPayInfo
 } from 'api.js';
+
+const getSignatureInfo = function({
+	dispatch,
+	commit,
+	state
+}, params) {
+	return getSignature(params);
+}
 
 const initUserQuestionsPayInfo = function({
 	dispatch,
@@ -12,5 +21,6 @@ const initUserQuestionsPayInfo = function({
 }
 
 export default {
+	getSignatureInfo,
 	initUserQuestionsPayInfo
 }

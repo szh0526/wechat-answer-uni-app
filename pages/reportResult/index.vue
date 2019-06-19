@@ -30,9 +30,6 @@ export default {
 	},
 	//监听页面初次渲染完成
 	onReady() {
-		uni.showLoading({
-			title: '加载中...'
-		});
 	},
 	//监听页面加载
 	onLoad: function(option) {
@@ -44,10 +41,8 @@ export default {
 				const { report_introduce_content } = data;
 				this.htmlStr = report_introduce_content || '<div>暂无</div>';
 				this.showPopup = true;
-				uni.hideLoading();
 			})
 			.catch(e => {
-				uni.hideLoading();
 				uni.showToast({
 					icon: 'none',
 					title: e.message,
