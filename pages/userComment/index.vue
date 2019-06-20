@@ -50,9 +50,16 @@ export default {
 	},
 	//监听页面加载
 	onLoad: function(option) {
+		const { initUserQuestionsPayInfo } = this.$store.state;
+		if(Object.prototype.toString.call(initUserQuestionsPayInfo) !== "[object Object]"){
+			//当全局接口数据为空时 返回首页
+			const url = this.$pageConfig[0];
+			uni.redirectTo({ url });
+			return;
+		}
 		const _self = this;
 		this.$store.commit('setCurrentPage', 'userComment');
-		const { is_comment, title, titleImg } = this.$store.state.initUserQuestionsPayInfo;
+		const { is_comment, title, titleImg } = initUserQuestionsPayInfo;
 		this.showSubmit = is_comment == 0 ? true : false; //是否评论 0-未评论,1-已评论
 		this.showShare = is_comment == 1 ? true : false;
 		this.title = title;

@@ -36,6 +36,15 @@ export default {
 	},
 	//监听页面加载
 	onLoad: function(option) {
+		const { initUserQuestionsPayInfo } = this.$store.state;
+		
+		if(Object.prototype.toString.call(initUserQuestionsPayInfo) !== "[object Object]"){
+			//当全局接口数据为空时 返回首页
+			const url = this.$pageConfig[0];
+			uni.redirectTo({ url });
+			return;
+		}
+		
 		this.$store.commit('setCurrentPage', 'preparePage');
 
 		this.$store

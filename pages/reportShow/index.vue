@@ -48,6 +48,13 @@ export default {
 		};
 	},
 	onLoad: function() {
+		const { initUserQuestionsPayInfo } = this.$store.state;
+		if(Object.prototype.toString.call(initUserQuestionsPayInfo) !== "[object Object]"){
+			//当全局接口数据为空时 返回首页
+			const url = this.$pageConfig[0];
+			uni.redirectTo({ url });
+			return;
+		}
 		this.$store.commit('setCurrentPage', 'reportShow');
 	},
 	// 必须注册滚动到底部的事件,使上拉加载生效
