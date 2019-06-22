@@ -1,7 +1,7 @@
 import $ajax from './common/ajax.js';
 
 //接口请求配置
-const BASEURL = "http://sunzh.natapp1.cc";
+const BASEURL = "http://www.cswouo.cn";
 const $apiUrl = `${BASEURL}/api`;
 const $wxjssdkUrl = `${BASEURL}/wxjssdk`;;
 const normalMsg = "接口异常!";

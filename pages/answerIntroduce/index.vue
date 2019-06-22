@@ -34,9 +34,12 @@ export default {
 		const _self = this;
 		this.$store.commit('setCurrentPage', 'answerIntroduce');
 		const questionsId = util.getQueryString('id');
+		const channel = util.getQueryString('channel');
 
 		this.$store
-			.dispatch('initUserQuestionsPayInfo', {})
+			.dispatch('initUserQuestionsPayInfo', {
+				channel
+			})
 			.then(data => {
 				const { questions_id, user_id, is_answered, question_id,title } = data;
 				_self.questionsId = questions_id;
