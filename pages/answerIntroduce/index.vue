@@ -35,6 +35,7 @@ export default {
 		this.$store.commit('setCurrentPage', 'answerIntroduce');
 		const questionsId = util.getQueryString('id');
 		const channel = util.getQueryString('channel');
+	  this.$store.commit('setQuestionsId', questionsId);
 
 		this.$store
 			.dispatch('initUserQuestionsPayInfo', {
