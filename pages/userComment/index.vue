@@ -27,12 +27,13 @@
 			<view class="uni-textarea"><textarea :value="commentStr" @blur="bindTextAreaBlur" placeholder="说说你的反馈建议" maxlength="150" style="height:550upx;" /></view>
 		</view>
 		<view v-if="showSubmit"><button hover-class="none" :loading="loadingSubmit" :disabled="disableSubmit" class="fixedBottomBtn" @click="handleSubmit">提交</button></view>
-		<view v-if="showShare"><button hover-class="none" class="fixedBottomBtn" @click="handleShare">去分享</button></view>
+		<view v-if="showShare"><wx-share-button title="去分享" /></view>
 	</view>
 </template>
 
 <script>
 import uniRate from '../../components/uni-rate/uni-rate.vue';
+import wxShareButton from '../component/wxShareButton/index.vue';
 export default {
 	data() {
 		return {
@@ -98,9 +99,6 @@ export default {
 			this[type] = event.value;
 		},
 		handleShare: function() {
-			window.document.title = "分享测评";
-			const url = this.$pageConfig[6];
-			uni.redirectTo({ url });
 		},
 		handleSubmit: function() {
 			const _self = this;
@@ -167,7 +165,8 @@ export default {
 		}
 	},
 	components: {
-		uniRate
+		uniRate,
+		wxShareButton
 	}
 };
 </script>

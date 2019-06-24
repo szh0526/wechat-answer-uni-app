@@ -47,13 +47,15 @@ export default {
 						jsApiList: [
 							'updateAppMessageShareData', //自定义“分享给朋友”及“分享到QQ”按钮的分享内容（1.4.0）
 							'updateTimelineShareData', //自定义“分享到朋友圈”及“分享到QQ空间”按钮的分享内容（1.4.0）
-							'onMenuShareTimeline'
+							'onMenuShareTimeline', //获取“分享到朋友圈”按钮点击状态及自定义分享内容接口（即将废弃）
+							'onMenuShareAppMessage',//获取“分享给朋友”按钮点击状态及自定义分享内容接口（即将废弃）
 						] // 必填，需要使用的JS接口列表
 					});
 					//config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，
 					wx.ready(() => {
 						//分享操作 可以用按钮click触发
 						//this.setWechatConfig();
+						this.setWechatConfig('py',this.config);
 					});
 					wx.error(function(res) {
 						console.log('异常：', res);
@@ -89,10 +91,10 @@ export default {
 					});
 				});
 		},
-		setWechatConfig: function(way) {
+		setWechatConfig (way,data) {
 			const _self = this;
-			console.log(way, _self.config);
-			const { title, link, imgUrl, desc } = _self.config;
+			console.log(way, data);
+			const { title, link, imgUrl, desc } = data;
 			if (way == 'pyq') {
 				wx.updateTimelineShareData({
 					title,
@@ -114,6 +116,7 @@ export default {
 				});
 			}
 			if (way == 'py') {
+				console.log(wx)
 				wx.onMenuShareTimeline({
 						title,
 						link,
@@ -155,7 +158,7 @@ export default {
 		}
 	},
 	computed: {
-		config: function() {
+		config () {
 			const questionsId = this.$store.state.questionsId;
 			const url = window.location.href.split('#')[0];
 			const urlPrefix = window.location.origin;
