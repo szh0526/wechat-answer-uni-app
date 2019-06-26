@@ -5,7 +5,7 @@
 			<view class="flex-item flex-item-V">
 				<view>
 					<scroll-view id="scroll" :scroll-y="true" @scroll="scroll">
-						<view v-for="(item, index) in imgList" :key="index"><v-lazyLoad :src="item.src" mode="widthFix"></v-lazyLoad></view>
+						<view v-for="(item, index) in imgList" :key="index"><v-lazyLoad :src="item.introduce_content" mode="widthFix"></v-lazyLoad></view>
 					</scroll-view>
 				</view>
 			</view>
@@ -40,8 +40,8 @@ export default {
 			() => {
 				this.$store
 					.dispatch('getIntroducePage', {})
-					.then(temp => {
-						this.imgList = temp.data || [];
+					.then(data => {
+						this.imgList = data || [];
 						lazyLoad.init('#scroll');
 					})
 					.catch(e => {
