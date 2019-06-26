@@ -1,4 +1,7 @@
-import { getIntroducePage } from 'api.js';
+import { 
+	getIntroducePage,
+	getIntroduceQRCode
+} from 'api.js';
 
 const state = {}
 
@@ -12,7 +15,14 @@ const actions = {
 			state
 		},params){
 		return getIntroducePage(params);
-	}
+	},
+	getIntroduceQRCode:function({
+			dispatch,
+			commit,
+			state
+		},params){
+		return getIntroduceQRCode(params);
+	},
 }
 
 export default {

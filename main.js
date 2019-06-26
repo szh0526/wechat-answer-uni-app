@@ -11,6 +11,9 @@ window.wxanswer = {};
 
 Vue.config.productionTip = false;
 if (wechat.isWechat()) {
+	wechat.share(null,()=>{
+		console.log("初始化全局分享成功!")
+	});
 	Vue.prototype.$wechat = wechat;
 }
 Vue.prototype.$store = store;
@@ -22,7 +25,6 @@ Vue.prototype.$pageConfig = {
 	4: "/pages/reportShow/index", //报告展示页
 	5: "/pages/userComment/index", //用户评价页
 	6: "/pages/userShare/index", //用户分享页
-	7: "/pages/wxShare/index", //分享页
 	100: "/pages/index/index", //首页
 	101: "/pages/serachTag/serachTag", //搜索页
 	102: "/pages/category/category", //分类页

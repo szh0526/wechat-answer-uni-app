@@ -5,8 +5,8 @@
 		</view>
 		<view v-show="showShare">
 			<div id="share">
-				<img src="/build/static/image/guide_point.png" >
-				<img src="/build/static/image/guide_btn.png" @click="handleCancel">
+				<img src="/build/static/image/common/guide_point.png" />
+				<img src="/build/static/image/common/guide_btn.png" @click="handleCancel" />
 			</div>
 		</view>
 	</view>
@@ -23,40 +23,35 @@ export default {
 	},
 	data() {
 		return {
-			showShare:false
+			showShare: false
 		};
 	},
-	mounted: function() {
-	},
+	mounted: function() {},
 	methods: {
 		handleShare: function() {
-			this.setWechatConfig();
+			this.showShare = true;
+			//this.setWechatConfig();
 		},
-		handleCancel:function() {
+		handleCancel: function() {
 			this.showShare = false;
 		},
 		setWechatConfig: function() {
 			const _self = this;
 			const url = window.location.href.split('#')[0];
 			const urlPrefix = window.location.origin;
-			const { title, link, imgUrl, desc } = {
+			const config = {
 				title: '测试标题', // 分享标题
 				imgUrl: `${urlPrefix}/build/static/image/logo.jpg`, // 分享图标
 				link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 				desc: '快来试试吧' //分享描述
 			};
 			if (this.$wechat && this.$wechat.isWechat()) {
-				this.$wechat.share({
-					title,
-					desc,
-					link,
-					imgUrl
-				},url,()=>{
+				this.$wechat.share(config,() => {
 					_self.showShare = true;
 				});
 			}
 		}
-	},
+	}
 };
 </script>
 <style>

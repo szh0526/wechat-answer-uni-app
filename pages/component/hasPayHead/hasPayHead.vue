@@ -1,14 +1,14 @@
 <template>
 	<view v-if="imgs.length">
-		<uni-nav-bar>
+		<uni-nav-bar :border="false" backgroundColor="#ffbb2e" height="110upx">
 			<view class="title">
 				<view class="container">
 					<view class="title-text">
-						<view class="cu-avatar-group" style="padding: 0 10upx 0 20upx;">
-							<view class="cu-avatar round margin-left" v-for="(item,index) in imgs" :key="index" :style="[{marginLeft:'-20upx'},{backgroundImage:'url(' + item + ')' }]"></view>
+						<view class="cu-avatar-group" style="padding: 0 20upx 0 10upx;">
+							<view class="cu-avatar round margin-left" v-for="(item,index) in imgs" :key="index" :style="[{marginLeft:'-10upx'},{backgroundImage:'url(' + item + ')' }]"></view>
 						</view>
-						<view class="text-box text-gray">
-							<text>{{ counts }}人已购</text>
+						<view class="text-box" style="color: #000000;">
+							<text>{{ counts }}人已测</text>
 						</view>
 					</view>
 				</view>
@@ -84,7 +84,8 @@ export default {
 	display: flex;
 	z-index: 2;
 	align-items: center;
-	background: hsla(0, 0%, 100%, 0.95);
+	background-color: #ffbb2e;
+	/* background: hsla(0, 0%, 100%, 0.95); */
 }
 
 .title-text {
@@ -118,5 +119,9 @@ export default {
 .text-box {
 	display: inline-flex;
 	line-height: 64upx;
+	font-weight: 400;
+}
+.cu-avatar-group .cu-avatar{
+	border: 0upx;
 }
 </style>

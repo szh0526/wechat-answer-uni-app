@@ -9,6 +9,8 @@ const normalMsg = "接口异常!";
 let apiUrl = {
 	//介绍
 	getIntroducePage: '/introducePage/getIntroducePage',
+	getIntroduceQRCode: '/introducePage/getIntroduceQRCode',
+
 	getPreparePage: '/preparePage/getPreparePage',
 	//题库
 	getQuestionsTitles: '/questions/getQuestionsTitles',
@@ -28,6 +30,10 @@ let apiUrl = {
 	getPreviousUserReport: '/userReport/getPreviousUserReport',
 	createUserReport: '/userReport/createUserReport',
 	getUserReportPage: '/userReport/getUserReportPage',
+
+	//支付
+	userPay: '/questions/userPay',
+	unifiedOrder: '/orders/unifiedOrder'
 }
 
 for (let [key, value] of Object.entries(apiUrl)) {
@@ -36,10 +42,10 @@ for (let [key, value] of Object.entries(apiUrl)) {
 
 const fetch = async function(url, params, method = "GET") {
 	const commonParams = {
-		questionsId:window.wxanswer.questionsId,
-		userId:window.wxanswer.userId,
+		questionsId: window.wxanswer.questionsId,
+		userId: window.wxanswer.userId,
 	}
-	params = Object.assign({},params,commonParams);
+	params = Object.assign({}, params, commonParams);
 	return await new Promise((resolve, reject) => {
 		$ajax.get(url, params).then(res => {
 				//console.log(res);
@@ -72,6 +78,9 @@ const fetch = async function(url, params, method = "GET") {
 
 const getIntroducePage = function(params) {
 	return fetch(apiUrl["getIntroducePage"], params);
+}
+const getIntroduceQRCode = function(params) {
+	return fetch(apiUrl["getIntroduceQRCode"], params);
 }
 const getPreparePage = function(params) {
 	return fetch(apiUrl["getPreparePage"], params);
@@ -121,9 +130,16 @@ const getUserReportPage = function(params) {
 const getSignature = function(params) {
 	return fetch(`${$wxjssdkUrl}/getSignature`, params);
 }
+const userPay = function(params) {
+	return fetch(apiUrl["userPay"], params);
+}
+const unifiedOrder = function(params) {
+	return fetch(apiUrl["unifiedOrder"], params);
+}
 
 export {
 	getIntroducePage,
+	getIntroduceQRCode,
 	getPreparePage,
 	getQuestionsTitles,
 	getNextQuestion,
@@ -140,4 +156,6 @@ export {
 	createUserReport,
 	getUserReportPage,
 	getSignature,
+	userPay,
+	unifiedOrder
 }
