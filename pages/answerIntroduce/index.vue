@@ -1,15 +1,13 @@
 <template>
 	<view>
 		<view class="uni-flex uni-column">
-			<view class="flex-item flex-item-V" v-if="questionsId"><has-pay-head :questionsId="questionsId" /></view>
-			<view class="flex-item flex-item-V">
-				<view>
-					<scroll-view id="scroll" :scroll-y="true" @scroll="scroll">
-						<view v-for="(item, index) in imgList" :key="index"><v-lazyLoad :src="item.introduce_content" mode="widthFix"></v-lazyLoad></view>
-					</scroll-view>
-				</view>
+			<view id="has-pay-head" class="flex-item flex-item-V" v-if="questionsId"><has-pay-head :questionsId="questionsId" /></view>
+			<view>
+				<scroll-view id="scroll" scroll-y>
+					<view v-for="(item, index) in imgList" :key="index"><image :src="item.introduce_content" mode="widthFix"></image></view>
+				</scroll-view>
 			</view>
-			<view><button class="targetBtn" hover-class="none" @touchstart="handlePay">立即购买</button></view>
+			<view><div class="goButton" :style="{ 'background-image': 'url(/build/static/image/common/' + backgroundImage + ')' }" @touchstart="handlePay"></div></view>
 		</view>
 	</view>
 </template>
@@ -17,43 +15,17 @@
 <script>
 import util from '../../common/util.js';
 import hasPayHead from '../component/hasPayHead/hasPayHead.vue';
-import lazyLoad from '../../components/pocky-lazyLoad/lazyLoad.js';
-import VLazyLoad from '../../components/pocky-lazyLoad/lazyLoad.vue';
 
 export default {
 	data() {
 		return {
 			questionsId: null,
-			showImg: false,
+			backgroundImage: 'goPay2x.png', //支付goPay2x.png
 			imgList: []
 		};
 	},
 	//监听页面初次渲染完成
-	onReady() {
-		//初始化图片懒加载 生命周期必须为 onReady http://ask.dcloud.net.cn/question/62163
-		lazyLoad.setConfig(
-			{
-				// loading: '/static/image/common/loading3x.png', // 加载完成之前的替代图片
-				error: '/static/image/common/error3x.png', // 加载错误的替代图片，
-				preLoadHeight: 100 // 距离底部多少高度预加载图片
-			},
-			() => {
-				this.$store
-					.dispatch('getIntroducePage', {})
-					.then(data => {
-						this.imgList = data || [];
-						lazyLoad.init('#scroll');
-					})
-					.catch(e => {
-						uni.showToast({
-							icon: 'none',
-							title: e.message,
-							duration: 2000
-						});
-					});
-			}
-		);
-	},
+	onReady() {},
 	//监听页面加载
 	onLoad: function(option) {
 		const _self = this;
@@ -84,6 +56,19 @@ export default {
 					window.document.title = title;
 					const url = _self.$pageConfig[2];
 					uni.redirectTo({ url });
+				} else {
+					_self.$store
+						.dispatch('getIntroducePage', {})
+						.then(data => {
+							_self.imgList = data || [];
+						})
+						.catch(e => {
+							uni.showToast({
+								icon: 'none',
+								title: e.message,
+								duration: 2000
+							});
+						});
 				}
 			})
 			.catch(e => {
@@ -111,19 +96,33 @@ export default {
 					}
 				);
 			}
-		},
-		scroll: function(e) {
-			lazyLoad.scroll(); // 监听滚动条事件
 		}
 	},
 	components: {
-		hasPayHead,
-		VLazyLoad
+		hasPayHead
 	}
 };
 </script>
 <style>
 #scroll {
 	height: 1400upx; /* 需要给scroll-view设置高度 */
+}
+
+#scroll image {
+	margin-bottom: -20upx;
+	width: 100%;
+}
+
+.goButton {
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	height: 120upx;
+	width: 600upx;
+	/* background-image: url(/build/static/image/common/goPay2x.png); */
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
 }
 </style>

@@ -98,7 +98,7 @@ export default {
 }
 
 .img-lazyLoad {
-	margin-bottom: -16upx;
+	margin-bottom: -20upx;
 	position: relative;
 }
 
