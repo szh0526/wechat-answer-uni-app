@@ -1,5 +1,6 @@
 import { 
 	getIntroducePage,
+	clickTest,
 	getIntroduceQRCode
 } from 'api.js';
 
@@ -15,6 +16,13 @@ const actions = {
 			state
 		},params){
 		return getIntroducePage(params);
+	},
+	clickTest:function({
+			dispatch,
+			commit,
+			state
+		},params){
+		return clickTest(params);
 	},
 	getIntroduceQRCode:function({
 			dispatch,

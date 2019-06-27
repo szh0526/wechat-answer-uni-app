@@ -18,6 +18,7 @@ const state = {
 	userId:"",
 	questionsId: "",
 	currentPage: "",
+	page:"",
 	initUserQuestionsPayInfo:null
 }
 

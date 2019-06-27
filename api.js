@@ -1,7 +1,7 @@
 import $ajax from './common/ajax.js';
 
 //接口请求配置
-const BASEURL = "http://www.cswouo.cn";
+const BASEURL = "http://www.52huashengmi.cn";
 const $apiUrl = `${BASEURL}/api`;
 const $wxjssdkUrl = `${BASEURL}/wxjssdk`;;
 const normalMsg = "接口异常!";
@@ -9,6 +9,7 @@ const normalMsg = "接口异常!";
 let apiUrl = {
 	//介绍
 	getIntroducePage: '/introducePage/getIntroducePage',
+	clickTest: '/introducePage/clickTest',
 	getIntroduceQRCode: '/introducePage/getIntroduceQRCode',
 
 	getPreparePage: '/preparePage/getPreparePage',
@@ -44,6 +45,7 @@ const fetch = async function(url, params, method = "GET") {
 	const commonParams = {
 		questionsId: window.wxanswer.questionsId,
 		userId: window.wxanswer.userId,
+		page: window.wxanswer.page,
 	}
 	params = Object.assign({}, params, commonParams);
 	return await new Promise((resolve, reject) => {
@@ -58,27 +60,17 @@ const fetch = async function(url, params, method = "GET") {
 			.catch(err => {
 				reject(new Error(normalMsg));
 			})
-		// uni.request({
-		// 	url: apiUrl[apiName],
-		// 	method,
-		// 	data: params,
-		// 	success: (res) => {
-		// 		if (res.data && res.data.code == 200) {
-		// 			resolve(res.data);
-		// 		} else {
-		// 			reject(new Error(res.message ? res.message : normalMsg));
-		// 		}
-		// 	},
-		// 	fail: () => {
-		// 		reject(new Error(normalMsg));
-		// 	}
-		// });
 	})
 }
 
 const getIntroducePage = function(params) {
 	return fetch(apiUrl["getIntroducePage"], params);
 }
+
+const clickTest = function(params) {
+	return fetch(apiUrl["clickTest"], params);
+}
+
 const getIntroduceQRCode = function(params) {
 	return fetch(apiUrl["getIntroduceQRCode"], params);
 }
@@ -139,6 +131,7 @@ const unifiedOrder = function(params) {
 
 export {
 	getIntroducePage,
+	clickTest,
 	getIntroduceQRCode,
 	getPreparePage,
 	getQuestionsTitles,

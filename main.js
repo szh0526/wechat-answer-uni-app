@@ -11,9 +11,9 @@ window.wxanswer = {};
 
 Vue.config.productionTip = false;
 if (wechat.isWechat()) {
-	wechat.share(null,()=>{
-		console.log("初始化全局分享成功!")
-	});
+	// wechat.share(null,()=>{
+	// 	console.log("初始化全局分享成功!")
+	// });
 	Vue.prototype.$wechat = wechat;
 }
 Vue.prototype.$store = store;

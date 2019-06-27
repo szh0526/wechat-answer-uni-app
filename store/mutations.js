@@ -13,6 +13,11 @@ const setQuestionsId = function(state, questionsId) {
 	state.questionsId = questionsId
 }
 
+const setPage = function(state, page) {
+	window.wxanswer.page = page;
+	state.page = page
+}
+
 const initUserQuestionsPayInfo = function(state, info) {
 	state.initUserQuestionsPayInfo = info;
 }
@@ -21,5 +26,6 @@ export default {
 	setCurrentPage,
 	setUserId,
 	setQuestionsId,
+	setPage,
 	initUserQuestionsPayInfo
 }
