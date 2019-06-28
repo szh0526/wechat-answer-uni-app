@@ -16,14 +16,18 @@
 				<div class="beginTest">
 					<ol>
 						<li>
-							<p>测试题一共24题，请尽量在<font color="#ff7d77">20</font>分钟内完成，否则数据可能无法保存(右上方有时间进度条);</p>
+							<p>
+								测试题一共24题，请尽量在
+								<font color="#ff7d77">20</font>
+								分钟内完成，否则数据可能无法保存(右上方有时间进度条);
+							</p>
 						</li>
 						<li><p>答案没有对错之分，如实作答即可，若遇到难以抉择的问题，请根据第一感觉作答，你的作答将得到严格保密；</p></li>
 						<li><p>如遇电话、死机等导致测试中断，可到公众号找回，系统将保留你的答题记录。</p></li>
 					</ol>
+					<div class="goButton" @click="handleGo"></div>
 				</div>
 			</view>
-			<view><div class="goButton" @click="handleGo"></div></view>
 		</view>
 	</view>
 </template>
@@ -47,6 +51,8 @@ export default {
 	},
 	//监听页面加载
 	onLoad: function(option) {
+		this.beginTestHeight = window.document;
+
 		const { initUserQuestionsPayInfo } = this.$store.state;
 
 		if (Object.prototype.toString.call(initUserQuestionsPayInfo) !== '[object Object]') {
@@ -93,7 +99,8 @@ export default {
 </script>
 <style>
 .headWrap {
-	height: 400upx;
+	/* height: 400upx; */
+	height: 35vh;
 	width: 100%;
 	background-image: url(/build/static/image/common/chahua.png);
 	background-repeat: no-repeat;
@@ -106,10 +113,11 @@ export default {
 	left: 0;
 	right: 0;
 	bottom: 144upx;
-	/* top: 0; */
 	margin: auto;
-	height: 720upx;
-	width: 660upx;
+	/* height: 720upx;
+	width: 660upx; */
+	height: 58vh;
+	width: 87vw;
 	border-radius: 20upx;
 	box-shadow: 0 12upx 20upx #ccc;
 }
@@ -132,15 +140,21 @@ export default {
 }
 
 .goButton {
-	position: fixed;
+	position: relative;
 	left: 0;
 	right: 0;
-	bottom: 8upx;
+	bottom: -18upx;
 	margin: auto;
-	height: 120upx;
-	width: 600upx;
+	/* height: 120upx;
+	width: 600upx; */
+	height: 10vh;
+	width: 75vw;
 	background-image: url(/build/static/image/common/goTest.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
+}
+
+.goButton:active{
+	opacity: 0.4;
 }
 </style>

@@ -10,8 +10,10 @@
 			<view v-show="showGo"><div class="goButton" @click="handleGo"></div></view>
 			<view v-show="showHelp">
 				<div class="masker" catchtouchmove="ture"></div>
-				<div class="showMsg"><div class="qrcode"></div></div>
-				<div class="closeMsg" @click="handleClose"></div>
+				<div class="showMsg">
+					<div class="qrcode"></div>
+					<div class="closeMsg" @click="handleClose"></div>
+				</div>
 			</view>
 		</view>
 	</view>
@@ -24,8 +26,8 @@ import hasPayHead from '../component/hasPayHead/hasPayHead.vue';
 export default {
 	data() {
 		return {
-			scrollable:true,
-			showGo:false,
+			scrollable: true,
+			showGo: false,
 			showHelp: false,
 			questionsId: null,
 			imgList: []
@@ -49,15 +51,15 @@ export default {
 				channel
 			})
 			.then(data => {
-				const { is_test,questions_id, user_id, is_answered, question_id, title } = data;
+				const { is_test, questions_id, user_id, is_answered, question_id, questions_title } = data;
 				_self.questionsId = questions_id;
 				_self.$store.commit('setQuestionsId', questions_id);
 				_self.$store.commit('setUserId', user_id);
 				_self.$store.commit('initUserQuestionsPayInfo', data);
-				
-				if(is_test){ 
+
+				if (is_test) {
 					//0未点测试 1已点测试
-					window.document.title = "开始问答";
+					window.document.title = '开始问答';
 					const url = _self.$pageConfig[1];
 					uni.redirectTo({ url });
 				} else if (is_answered) {
@@ -67,7 +69,7 @@ export default {
 					uni.redirectTo({ url });
 				} else if (!is_answered && question_id) {
 					//question_id > 0 调转到对应题
-					window.document.title = title;
+					window.document.title = questions_titletitle;
 					const url = _self.$pageConfig[2];
 					uni.redirectTo({ url });
 				} else {
@@ -105,7 +107,7 @@ export default {
 		handleGo: function() {
 			this.showHelp = true;
 			this.scrollable = false;
-			
+
 			this.$store
 				.dispatch('clickTest', {})
 				.then(data => {
@@ -140,7 +142,7 @@ export default {
 </script>
 <style>
 #scroll {
-	height: 1400upx; /* 需要给scroll-view设置高度 */
+	height: 100vh; /* 需要给scroll-view设置高度 */
 }
 
 #scroll image {
@@ -167,8 +169,10 @@ export default {
 	bottom: 85px;
 	top: 0;
 	margin: auto;
-	height: 370px;
-	width: 320px;
+	/* 	height: 370px;
+	width: 320px; */
+	height: 70vh;
+	width: 87vw;
 	background-image: url(/build/static/image/common/showMsg2x.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
@@ -176,8 +180,10 @@ export default {
 }
 
 .showMsg .qrcode {
-	height: 120px;
-	width: 120px;
+	/* 	height: 120px;
+	width: 120px; */
+	height: 24vh;
+	width: 38vw;
 	left: 0;
 	right: 0;
 	bottom: 22px;
@@ -189,13 +195,15 @@ export default {
 }
 
 .closeMsg {
-	position: fixed;
+	position: absolute;
 	left: 0;
 	right: 0;
-	bottom: 85px;
+	bottom: -60px;
 	margin: auto;
-	height: 40px;
-	width: 40px;
+	/* height: 40px;
+	width: 40px; */
+	height: 8vh;
+	width: 10vw;
 	background-image: url(/build/static/image/common/closeMsg2x.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
@@ -208,10 +216,16 @@ export default {
 	right: 0;
 	bottom: 20upx;
 	margin: auto;
-	height: 120upx;
-	width: 600upx;
+	/* height: 120upx;
+	width: 600upx; */
+	height: 10vh;
+	width: 75vw;
 	background-image: url(/build/static/image/common/goCeping2x.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
+}
+
+.goButton:active{
+	/* opacity: 0.8; */
 }
 </style>

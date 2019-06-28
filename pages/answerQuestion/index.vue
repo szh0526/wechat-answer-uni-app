@@ -1,49 +1,56 @@
 <template>
 	<view class="uni-flex uni-column answerquestion">
 		<view class="flex-item flex-item-V">
-			<view class="countdown">
-				<view class="flex p-xs mb-sm">
-					<view class="flex" style="padding: 10upx 20upx 0 20upx;">
-						<text>
-							<b style="font-size: 1.2em;">{{ qid }}</b>
-							/{{ total }}
-						</text>
+			<div class="headWrap">
+				<view class="flex p-xs mb-sm" style="padding-top:80upx;">
+					<view class="flex total">
+						<text>{{ qid }}/{{ total }}</text>
 					</view>
-					<view class="flex-twice" style="padding-top: 24upx;">
-						<view class="cu-progress striped radius"><view class="bg-yellow" :style="[{ width: percent + '%' }]"></view></view>
+					<view class="flex-twice" style="padding-top: 26upx;">
+						<view class="cu-progress striped radius"><view class="bg-white" :style="[{ width: percent + '%' }]"></view></view>
 					</view>
-					<view class="flex padding-sm">
-						<view class="cu-item" style="margin-right: 10upx;"><text class="lg text-gray cuIcon-time"></text></view>
+					<view class="flex" style="padding: 26upx 36upx 0 20upx">
+						<!-- <view class="cu-item" style="margin-right: 10upx;"><text class="lg text-gray cuIcon-time"></text></view> -->
 						<text>{{ timeStr }}</text>
-						<view class="cu-item" style="margin-left: 20upx;" v-if="0"><text class="lg text-gray cuIcon-question"></text></view>
+						<!-- <view class="cu-item" style="margin-left: 20upx;" v-if="0"><text class="lg text-gray cuIcon-question"></text></view> -->
 					</view>
 				</view>
-			</view>
+				<p>您经常在孩子就餐的时候做以下事情吗?</p>
+			</div>
 		</view>
 		<view class="flex-item flex-item-V">
 			<div class="evaluation">
 				<view class="flex-item tip">
-					<text>{{ question_str }}</text>
+					<p class="qtitle">{{ question_str }}</p>
+					<p class="example">{{ example_str }}</p>
 				</view>
 				<view class="uni-list">
 					<radio-group @change="onAnswerChange">
-						<label class="uni-list-cell" v-for="(item, index) in items" :key="index">
-							<view>{{ item.name }}</view>
-							<view><radio :value="item.value" :checked="item.checked" /></view>
-						</label>
+						<view v-for="(item, index) in items" :key="index">
+							<ol>
+								<li class="uni-list-cell"  :style="{background:item.background}">
+									<view style="margin-left: 30upx;font-size: 32upx;">{{ item.sortDesc }}&nbsp;&nbsp;&nbsp;&nbsp;{{ item.name }}</view>
+									<view><radio color="#ff6671" :value="item.value" :checked="item.checked" /></view>
+								</li>
+							</ol>
+						</view>
 					</radio-group>
 				</view>
 			</div>
 		</view>
-		<view v-if="1">
-			<button hover-class="none" type="primary" class="fixedLeftBtn" @click="handlePrevQuestion">上一题</button>
-			<button hover-class="none" type="primary" class="fixedRightBtn" @click="handleNewxQuestion">下一题</button>
+		<view class="flex-item flex-item-V">
+			<view class="questionBox">
+				<div @click="handlePrevQuestion"></div>
+				<div @click="handleNewxQuestion"></div>
+			</view>
 		</view>
+		<view v-if="false"><report-result-popup/></view>
 	</view>
 </template>
 
 <script>
 import uniRate from '../../components/uni-rate/uni-rate.vue';
+import reportResultPopup from '../component/reportResultPopup/index.vue';
 import { dateUtils } from '../../common/util.js';
 export default {
 	data() {
@@ -52,12 +59,14 @@ export default {
 			currentQuestionId: 0,
 			answersId: 0,
 			question_str: '', //问题描述
+			example_str: '', //举例描述
 			items: [],
 			total: 0,
 			percent: 0,
 			timer: null,
 			timeStr: '00:00',
-			countDownTime: ''
+			countDownTime: '',
+			cellBackground:"#fff"
 		};
 	},
 	//监听页面加载
@@ -137,11 +146,35 @@ export default {
 				.then(data => {
 					uni.hideLoading();
 					const { question, answer, total } = data;
+					const colors = {
+						1:{
+							color:"#f696ad",
+							sortDesc:"A、"
+						},
+						2:{
+							color:"#f799a2",
+							sortDesc:"B、"
+						},
+						3:{
+							color:"#f6928d",
+							sortDesc:"C、"
+						},
+						4:{
+							color:"#f6847f",
+							sortDesc:"D、"
+						},
+						5:{
+							color:"#f1786c",
+							sortDesc:"E、"
+						},
+					}
 					_self.total = total;
 					_self.percent = (question.qid / total) * 100;
 					_self.qid = question.qid;
 					_self.currentQuestionId = question.id;
 					_self.question_str = question.question_str;
+					_self.example_str = question.example_str;
+					
 					_self.items = !!answer
 						? answer.map(x => {
 								if (x.isCheck) {
@@ -150,6 +183,8 @@ export default {
 								return {
 									value: String(x.id),
 									name: x.answer_str,
+									background:colors[x.sort_code].color || colors["1"].color,
+									sortDesc:colors[x.sort_code].sortDesc || colors["1"].sortDesc,
 									checked: !!x.isCheck
 								};
 						  })
@@ -188,6 +223,7 @@ export default {
 						_self.qid = question.qid;
 						_self.currentQuestionId = question.id;
 						_self.question_str = question.question_str;
+						_self.example_str = question.example_str;
 						_self.items = !!answer
 							? answer.map(x => {
 									if (x.isCheck) {
@@ -225,15 +261,42 @@ export default {
 	},
 	computed: {},
 	components: {
+		reportResultPopup,
 		uniRate
 	}
 };
 </script>
 
 <style>
+.headWrap {
+	color: #fff;
+	height: 21vh;
+	width: 100%;
+	background-image: url(/build/static/image/common/progress.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+.headWrap .total{
+	font-size: 1.2em;
+	padding: 20upx 48upx 12upx 48upx;
+	color: #ff6671;
+}
+
+.headWrap .cu-progress{
+	border: 4upx solid #f1f1f1;
+	border-radius: 10upx;
+	background-color: unset;
+}
+
+.headWrap p{
+	margin: 6upx 84upx 20upx 90upx;
+	font-size: 15px;
+}
+	
 .answerquestion {
+	height: 100vh;
 	background: #ffffff;
-	height: -webkit-fill-available;
 }
 .title {
 	height: 80upx;
@@ -251,15 +314,25 @@ export default {
 }
 
 .evaluation {
-	margin: 0 30upx 0 30upx;
-	padding: 30upx 0;
+	margin: 0 20upx 0 20upx;
+	padding: 20upx 0 30upx 0;
 }
 
 .evaluation .tip {
+	text-align: center;
 	display: block;
-	font-weight: 700;
-	font-size: 1.17em;
-	margin-bottom: 20upx;
+	/* margin-bottom: 10upx; */
+}
+
+.evaluation .qtitle{
+	color: #787380;
+	font-size: 1.2em;
+	margin: 0 40upx 0 40upx;
+}
+
+.evaluation .example{
+	color: #38b6c0;
+	font-size: 1.05em;
 }
 
 .evaluation uni-view {
@@ -274,10 +347,17 @@ export default {
 }
 
 .uni-list-cell {
+	font-size: 14px;
+	color: #fff;
+	width: 82vw;
+	height: 3vh;
 	padding: 30upx;
-	border: 2upx solid #d3d3d3;
-	border-radius: 20upx;
-	margin: 20upx 0 20upx 0;
+	border-radius: 22upx;
+	margin: 18upx 18upx 0px 18upx;
+}
+
+.uni-list ol{
+	padding-inline-start: 0px;
 }
 
 .uni-list::before {
@@ -306,5 +386,34 @@ export default {
 	padding: 10upx;
 	border-bottom: 2upx solid #d3d3d3;
 	box-shadow: 4upx 0 14upx -2upx #d3d3d3;
+}
+
+.questionBox {
+	margin: 5upx;
+	text-align: center;
+}
+
+.questionBox div{
+	display: inline-block;
+	height: 8vh;
+	width: 22vw;
+}
+
+.questionBox div:active{
+	opacity: 0.4;
+}
+
+.questionBox div:first-child{
+	margin-right: 100upx;
+	background-image: url(/build/static/image/common/prevQuestion.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+.questionBox div:last-child{
+	margin-left: 100upx;
+	background-image: url(/build/static/image/common/nextQuestion.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
 }
 </style>
