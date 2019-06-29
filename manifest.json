@@ -68,7 +68,7 @@
             "host" : "",
             "disableHostCheck" : true,
             "https" : false,
-            "port" : "8000"
+            "port" : 8001
         },
         "router" : {
             "mode" : "hash",

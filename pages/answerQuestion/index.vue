@@ -28,7 +28,7 @@
 					<radio-group @change="onAnswerChange">
 						<view v-for="(item, index) in items" :key="index">
 							<ol>
-								<li class="uni-list-cell"  :style="{background:item.background}">
+								<li class="uni-list-cell" :style="{ background: item.background }">
 									<view style="margin-left: 30upx;font-size: 32upx;">{{ item.sortDesc }}&nbsp;&nbsp;&nbsp;&nbsp;{{ item.name }}</view>
 									<view><radio color="#ff6671" :value="item.value" :checked="item.checked" /></view>
 								</li>
@@ -44,7 +44,7 @@
 				<div @click="handleNewxQuestion"></div>
 			</view>
 		</view>
-		<view v-if="false"><report-result-popup/></view>
+		<view><report-result-popup :show="showReport" /></view>
 	</view>
 </template>
 
@@ -52,10 +52,33 @@
 import uniRate from '../../components/uni-rate/uni-rate.vue';
 import reportResultPopup from '../component/reportResultPopup/index.vue';
 import { dateUtils } from '../../common/util.js';
+
+const colors = {
+	1: {
+		color: '#f696ad',
+		sortDesc: 'A、'
+	},
+	2: {
+		color: '#f799a2',
+		sortDesc: 'B、'
+	},
+	3: {
+		color: '#f6928d',
+		sortDesc: 'C、'
+	},
+	4: {
+		color: '#f6847f',
+		sortDesc: 'D、'
+	},
+	5: {
+		color: '#f1786c',
+		sortDesc: 'E、'
+	}
+};
 export default {
 	data() {
 		return {
-			qid:0,
+			qid: 0,
 			currentQuestionId: 0,
 			answersId: 0,
 			question_str: '', //问题描述
@@ -66,23 +89,24 @@ export default {
 			timer: null,
 			timeStr: '00:00',
 			countDownTime: '',
-			cellBackground:"#fff"
+			cellBackground: '#fff',
+			showReport: false
 		};
 	},
 	//监听页面加载
 	onLoad: function(option) {
 		const { initUserQuestionsPayInfo } = this.$store.state;
-		if(Object.prototype.toString.call(initUserQuestionsPayInfo) !== "[object Object]"){
+		if (Object.prototype.toString.call(initUserQuestionsPayInfo) !== '[object Object]') {
 			//当全局接口数据为空时 返回首页
 			const url = this.$pageConfig[0];
 			uni.redirectTo({ url });
 			return;
 		}
-		
+
 		this.$store.commit('setCurrentPage', 'answerQuestion');
 		const { question_id, countDownTime } = initUserQuestionsPayInfo;
 		this.currentQuestionId = question_id;
-		this.countDownTime = countDownTime || "";
+		this.countDownTime = countDownTime || '';
 		this.timerun(countDownTime);
 		//初始化先获取上一题
 		this.getPrevQuestion();
@@ -135,46 +159,24 @@ export default {
 		},
 		getPrevQuestion: function() {
 			const _self = this;
-			uni.showLoading({
-				title: '加载中...'
-			});
+			// uni.showLoading({
+			// 	title: '加载中...'
+			// });
 			this.$store
 				.dispatch('getPreviousQuestion', {
 					currentQuestionId: this.currentQuestionId,
 					answersId: this.answersId
 				})
 				.then(data => {
-					uni.hideLoading();
+					//uni.hideLoading();
 					const { question, answer, total } = data;
-					const colors = {
-						1:{
-							color:"#f696ad",
-							sortDesc:"A、"
-						},
-						2:{
-							color:"#f799a2",
-							sortDesc:"B、"
-						},
-						3:{
-							color:"#f6928d",
-							sortDesc:"C、"
-						},
-						4:{
-							color:"#f6847f",
-							sortDesc:"D、"
-						},
-						5:{
-							color:"#f1786c",
-							sortDesc:"E、"
-						},
-					}
 					_self.total = total;
 					_self.percent = (question.qid / total) * 100;
 					_self.qid = question.qid;
 					_self.currentQuestionId = question.id;
 					_self.question_str = question.question_str;
 					_self.example_str = question.example_str;
-					
+
 					_self.items = !!answer
 						? answer.map(x => {
 								if (x.isCheck) {
@@ -183,15 +185,15 @@ export default {
 								return {
 									value: String(x.id),
 									name: x.answer_str,
-									background:colors[x.sort_code].color || colors["1"].color,
-									sortDesc:colors[x.sort_code].sortDesc || colors["1"].sortDesc,
+									background: colors[x.sort_code].color || colors['1'].color,
+									sortDesc: colors[x.sort_code].sortDesc || colors['1'].sortDesc,
 									checked: !!x.isCheck
 								};
 						  })
 						: [];
 				})
 				.catch(e => {
-					uni.hideLoading();
+					//uni.hideLoading();
 					uni.showToast({
 						icon: 'none',
 						title: e.message,
@@ -201,9 +203,9 @@ export default {
 		},
 		getNextQuestion: function() {
 			const _self = this;
-			uni.showLoading({
-				title: '加载中...'
-			});
+			// uni.showLoading({
+			// 	title: '加载中...'
+			// });
 			this.$store
 				.dispatch('getNextQuestion', {
 					currentQuestionId: this.currentQuestionId,
@@ -211,12 +213,10 @@ export default {
 					countDownTime: this.countDownTime
 				})
 				.then(data => {
-					if(data.isEnd == 1){
-						window.document.title = '个人评测报告';
-						const url = _self.$pageConfig[3];
-						uni.redirectTo({ url });
-					}else{
-						uni.hideLoading();
+					// uni.hideLoading();
+					if (data.isEnd == 1) {
+						this.showReport = true;
+					} else {
 						const { question, answer, total } = data;
 						_self.total = total;
 						_self.percent = (question.qid / total) * 100;
@@ -232,14 +232,16 @@ export default {
 									return {
 										value: String(x.id),
 										name: x.answer_str,
+										background: colors[x.sort_code].color || colors['1'].color,
+										sortDesc: colors[x.sort_code].sortDesc || colors['1'].sortDesc,
 										checked: !!x.isCheck
 									};
-								})
+							  })
 							: [];
-						}
+					}
 				})
 				.catch(e => {
-					uni.hideLoading();
+					// uni.hideLoading();
 					uni.showToast({
 						icon: 'none',
 						title: e.message,
@@ -277,23 +279,23 @@ export default {
 	background-size: 100% 100%;
 }
 
-.headWrap .total{
+.headWrap .total {
 	font-size: 1.2em;
 	padding: 20upx 48upx 12upx 48upx;
 	color: #ff6671;
 }
 
-.headWrap .cu-progress{
+.headWrap .cu-progress {
 	border: 4upx solid #f1f1f1;
 	border-radius: 10upx;
 	background-color: unset;
 }
 
-.headWrap p{
+.headWrap p {
 	margin: 6upx 84upx 20upx 90upx;
 	font-size: 15px;
 }
-	
+
 .answerquestion {
 	height: 100vh;
 	background: #ffffff;
@@ -324,13 +326,13 @@ export default {
 	/* margin-bottom: 10upx; */
 }
 
-.evaluation .qtitle{
+.evaluation .qtitle {
 	color: #787380;
 	font-size: 1.2em;
 	margin: 0 40upx 0 40upx;
 }
 
-.evaluation .example{
+.evaluation .example {
 	color: #38b6c0;
 	font-size: 1.05em;
 }
@@ -356,7 +358,7 @@ export default {
 	margin: 18upx 18upx 0px 18upx;
 }
 
-.uni-list ol{
+.uni-list ol {
 	padding-inline-start: 0px;
 }
 
@@ -393,24 +395,24 @@ export default {
 	text-align: center;
 }
 
-.questionBox div{
+.questionBox div {
 	display: inline-block;
 	height: 8vh;
 	width: 22vw;
 }
 
-.questionBox div:active{
+.questionBox div:active {
 	opacity: 0.4;
 }
 
-.questionBox div:first-child{
+.questionBox div:first-child {
 	margin-right: 100upx;
 	background-image: url(/build/static/image/common/prevQuestion.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
 
-.questionBox div:last-child{
+.questionBox div:last-child {
 	margin-left: 100upx;
 	background-image: url(/build/static/image/common/nextQuestion.png);
 	background-repeat: no-repeat;

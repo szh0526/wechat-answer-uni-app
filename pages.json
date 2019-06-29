@@ -9,19 +9,22 @@
 		}, {
 			"path": "pages/answerQuestion/index",
 			"style": {}
-		}, {
-			"path": "pages/reportResult/index",
-			"style": {}
-		}, {
+		}, 
+		// {
+		// 	"path": "pages/reportResult/index",
+		// 	"style": {}
+		// }, 
+		{
 			"path": "pages/reportShow/index",
 			"style": {}
 		}, {
 			"path": "pages/userComment/index",
 			"style": {}
-		}, {
-			"path": "pages/userShare/index",
-			"style": {}
 		}
+		// ,{
+		// 	"path": "pages/userShare/index",
+		// 	"style": {}
+		// }
 		// ,{
 		// 	"path": "pages/index/index",
 		// 	"style": {
