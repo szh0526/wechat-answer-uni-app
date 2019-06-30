@@ -20,14 +20,7 @@
 				</view>
 				<view class="score" style="border-bottom-width: 0;">
 					<text>建议实用性</text>
-					<uni-rate
-						max="5"
-						:value="practicabilityScore"
-						@change="onRateChange('practicabilityScore', $event)"
-						color="#cecece"
-						activeColor="#f5aa4c"
-						margin="10"
-					></uni-rate>
+					<uni-rate max="5" :value="practicabilityScore" @change="onRateChange('practicabilityScore', $event)" color="#cecece" activeColor="#f5aa4c" margin="10"></uni-rate>
 				</view>
 				<view class="uni-textarea">
 					<textarea :value="commentStr" @blur="bindTextAreaBlur" @input="bindTextAreaInput" placeholder="请留下您的反馈意见" maxlength="200" />
@@ -35,14 +28,16 @@
 				</view>
 				<view class="questionBox">
 					<view v-if="showSubmit">
-						<div 
-						class="submit" 
-						:style="{'pointer-events':disableSubmit ? 'none' : '','background-image': 'url(/build/static/image/common/' + (disableSubmit ? 'disableSubmit' : 'submit2x') + '.png)'}" 
-						@click="handleSubmit" />
+						<div
+							class="submit"
+							:style="{
+								'pointer-events': disableSubmit ? 'none' : '',
+								'background-image': 'url(/build/static/image/common/' + (disableSubmit ? 'disableSubmit2x' : 'submit2x') + '.png)'
+							}"
+							@click="handleSubmit"
+						/>
 					</view>
-					<view v-if="true">
-						<wx-share-button title="去分享" />
-					</view>
+					<view v-if="true"><wx-share-button title="去分享" /></view>
 				</view>
 			</div>
 		</view>
@@ -62,8 +57,8 @@ export default {
 			easyuseScore: '',
 			title: '',
 			name: '',
-			img:'',
-			date:'',
+			img: '',
+			date: '',
 			commentStr: '',
 			remainCount: 200
 		};
@@ -81,7 +76,7 @@ export default {
 		this.$store.commit('setCurrentPage', 'userComment');
 		const { is_comment, title, userinfo } = initUserQuestionsPayInfo;
 		this.showSubmit = true; //是否评论 0-未评论,1-已评论
-		this.disableSubmit = is_comment == 1 ? true : false;//已评论过的禁用按钮
+		this.disableSubmit = is_comment == 1 ? true : false; //已评论过的禁用按钮
 		this.title = title;
 		this.name = userinfo.name;
 		this.img = userinfo.img;
@@ -89,9 +84,6 @@ export default {
 
 		//已评论的调用接口请求数据
 		if (is_comment == 1) {
-			uni.showLoading({
-				title: '加载中...'
-			});
 			this.$store
 				.dispatch('getUserComment', {})
 				.then(data => {
@@ -100,10 +92,8 @@ export default {
 					_self.practicabilityScore = practicabilityScore;
 					_self.easyuseScore = easyuseScore;
 					_self.commentStr = commentStr;
-					uni.hideLoading();
 				})
 				.catch(e => {
-					uni.hideLoading();
 					uni.showToast({
 						icon: 'none',
 						title: e.message,
@@ -194,7 +184,7 @@ export default {
 .commentWrap {
 	height: 100vh;
 	width: 100vw;
-	background-image: url(/build/static/image/common/cooment.png);
+	background-image: url(/build/static/image/common/coment.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }

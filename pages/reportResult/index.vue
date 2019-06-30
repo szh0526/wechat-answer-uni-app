@@ -29,18 +29,17 @@ export default {
 		};
 	},
 	//监听页面初次渲染完成
-	onReady() {
-	},
+	onReady() {},
 	//监听页面加载
 	onLoad: function(option) {
 		const { initUserQuestionsPayInfo } = this.$store.state;
-		if(Object.prototype.toString.call(initUserQuestionsPayInfo) !== "[object Object]"){
+		if (Object.prototype.toString.call(initUserQuestionsPayInfo) !== '[object Object]') {
 			//当全局接口数据为空时 返回首页
 			const url = this.$pageConfig[0];
 			uni.redirectTo({ url });
 			return;
 		}
-		
+
 		this.$store.commit('setCurrentPage', 'reportResult');
 
 		this.$store
@@ -67,7 +66,7 @@ export default {
 			this.$store
 				.dispatch('createUserReport', {})
 				.then(data => {
-					window.document.title = "个人测评报告";
+					window.document.title = '个人测评报告';
 					const url = _self.$pageConfig[4];
 					uni.redirectTo({ url });
 				})

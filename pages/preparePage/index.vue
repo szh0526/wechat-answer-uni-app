@@ -44,11 +44,7 @@ export default {
 		};
 	},
 	//监听页面初次渲染完成
-	onReady() {
-		uni.showLoading({
-			title: '加载中...'
-		});
-	},
+	onReady() {},
 	//监听页面加载
 	onLoad: function(option) {
 		this.beginTestHeight = window.document;
@@ -67,13 +63,11 @@ export default {
 		this.$store
 			.dispatch('getPreparePage', {})
 			.then(data => {
-				uni.hideLoading();
 				const { prepare_content } = data;
 				this.htmlStr = prepare_content || '<h2>测前须知</h2><div>暂无</div>';
 				this.showPopup = true;
 			})
 			.catch(e => {
-				uni.hideLoading();
 				uni.showToast({
 					icon: 'none',
 					title: e.message,
@@ -154,7 +148,7 @@ export default {
 	background-size: 100% 100%;
 }
 
-.goButton:active{
+.goButton:active {
 	opacity: 0.4;
 }
 </style>

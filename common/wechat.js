@@ -139,7 +139,7 @@ export default {
 			});
 		}, url,'share');
 	},
-	pay: function(option, callback) {
+	pay: function(callback) {
 		if (!this.isWechat()) {
 			return;
 		}

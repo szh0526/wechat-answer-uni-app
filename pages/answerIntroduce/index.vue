@@ -57,17 +57,17 @@ export default {
 				_self.$store.commit('setUserId', user_id);
 				_self.$store.commit('initUserQuestionsPayInfo', data);
 
-				if (is_test) {
+				if (is_test && !is_answered) {
 					//0未点测试 1已点测试
 					window.document.title = '开始问答';
 					const url = _self.$pageConfig[1];
 					uni.redirectTo({ url });
-				} else if (is_answered) {
+				} else if (is_test && is_answered) {
 					//是否答完 0-没有答完 1-已答完 如果答完题则跳转到报告页第一页
 					window.document.title = '个人测评报告';
 					const url = _self.$pageConfig[4];
 					uni.redirectTo({ url });
-				} else if (!is_answered && question_id) {
+				} else if (is_test && !is_answered && question_id) {
 					//question_id > 0 调转到对应题
 					window.document.title = questions_titletitle;
 					const url = _self.$pageConfig[2];
@@ -225,7 +225,7 @@ export default {
 	background-size: 100% 100%;
 }
 
-.goButton:active{
+.goButton:active {
 	/* opacity: 0.8; */
 }
 </style>

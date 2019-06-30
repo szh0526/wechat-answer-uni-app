@@ -17,7 +17,7 @@ export default {
 	//监听页面加载
 	onLoad: function(option) {
 		const { initUserQuestionsPayInfo } = this.$store.state;
-		if(Object.prototype.toString.call(initUserQuestionsPayInfo) !== "[object Object]"){
+		if (Object.prototype.toString.call(initUserQuestionsPayInfo) !== '[object Object]') {
 			//当全局接口数据为空时 返回首页
 			const url = this.$pageConfig[0];
 			uni.redirectTo({ url });
@@ -48,14 +48,14 @@ export default {
 							'updateAppMessageShareData', //自定义“分享给朋友”及“分享到QQ”按钮的分享内容（1.4.0）
 							'updateTimelineShareData', //自定义“分享到朋友圈”及“分享到QQ空间”按钮的分享内容（1.4.0）
 							'onMenuShareTimeline', //获取“分享到朋友圈”按钮点击状态及自定义分享内容接口（即将废弃）
-							'onMenuShareAppMessage',//获取“分享给朋友”按钮点击状态及自定义分享内容接口（即将废弃）
+							'onMenuShareAppMessage' //获取“分享给朋友”按钮点击状态及自定义分享内容接口（即将废弃）
 						] // 必填，需要使用的JS接口列表
 					});
 					//config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，
 					wx.ready(() => {
 						//分享操作 可以用按钮click触发
 						//this.setWechatConfig();
-						this.setWechatConfig('py',this.config);
+						this.setWechatConfig('py', this.config);
 					});
 					wx.error(function(res) {
 						console.log('异常：', res);
@@ -91,7 +91,7 @@ export default {
 					});
 				});
 		},
-		setWechatConfig (way,data) {
+		setWechatConfig(way, data) {
 			const _self = this;
 			console.log(way, data);
 			const { title, link, imgUrl, desc } = data;
@@ -108,7 +108,7 @@ export default {
 						console.log('用户取消分享!');
 					},
 					fail: function(res) {
-						console.log("分享给朋友圈失败\r\n",JSON.stringify(res));
+						console.log('分享给朋友圈失败\r\n', JSON.stringify(res));
 					},
 					complete: function() {
 						console.log('分享给朋友圈完成!');
@@ -116,25 +116,25 @@ export default {
 				});
 			}
 			if (way == 'py') {
-				console.log(wx)
+				console.log(wx);
 				wx.onMenuShareTimeline({
-						title,
-						link,
-						imgUrl,
-						success: function() {
-							console.log('分享给朋友成功!');
-							_self.onComplete();
-						},
-						cancel: function() {
-							console.log('用户取消分享!');
-						},
-						fail: function(res) {
-							console.log("分享给朋友失败\r\n",JSON.stringify(res));
-						},
-						complete: function() {
-							console.log('分享给朋友完成!');
-						}
-				})
+					title,
+					link,
+					imgUrl,
+					success: function() {
+						console.log('分享给朋友成功!');
+						_self.onComplete();
+					},
+					cancel: function() {
+						console.log('用户取消分享!');
+					},
+					fail: function(res) {
+						console.log('分享给朋友失败\r\n', JSON.stringify(res));
+					},
+					complete: function() {
+						console.log('分享给朋友完成!');
+					}
+				});
 				// wx.updateAppMessageShareData({
 				// 	title,
 				// 	desc,
@@ -158,7 +158,7 @@ export default {
 		}
 	},
 	computed: {
-		config () {
+		config() {
 			const questionsId = this.$store.state.questionsId;
 			const url = window.location.href.split('#')[0];
 			const urlPrefix = window.location.origin;
