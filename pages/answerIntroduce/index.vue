@@ -120,19 +120,6 @@ export default {
 						duration: 2000
 					});
 				});
-
-			// if (this.$wechat && this.$wechat.isWechat()) {
-			// 	const url = this.$pageConfig[1];
-			// 	this.$wechat.pay(
-			// 		{
-			// 			title: '测试说明',
-			// 			url: url
-			// 		},
-			// 		() => {
-			// 			//支付成功回调
-			// 		}
-			// 	);
-			// }
 		}
 	},
 	components: {

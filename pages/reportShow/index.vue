@@ -20,7 +20,7 @@
 				<view><wx-share-button title="去分享" /></view>
 			</view>
 			<view class="payBox" v-if="showPay">
-				<view><div class="pay" @click="handlePay">支付3.9元继续查看</div></view>
+				<view><div class="pay" @click="handlePay">支付{{payAmount}}元继续查看</div></view>
 			</view>
 		</div>
 	</view>
@@ -39,6 +39,7 @@ export default {
 			showComment: false,
 			showPay: false,
 			showDown: true,
+			payAmount:0,
 			currentPage: 0,
 			title: '',
 			name: '',
@@ -55,11 +56,12 @@ export default {
 			return;
 		}
 		this.$store.commit('setCurrentPage', 'reportShow');
-		const { title, userinfo } = initUserQuestionsPayInfo;
+		const { title, userinfo,payAmount } = initUserQuestionsPayInfo;
 		this.title = title;
 		this.name = userinfo.name;
 		this.img = userinfo.img;
 		this.date = userinfo.date;
+		this.payAmount = payAmount;
 
 		this.upCallback();
 	},
