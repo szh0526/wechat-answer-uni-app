@@ -1,33 +1,51 @@
 <template>
-	<view class="uni-flex uni-column">
-		<view class="flex-item flex-item-V" style="background: #FFFFFF;">
-			<div class="title">
-				<view class="cu-avatar lg radius" :style="[{backgroundImage:'url(' + titleImg + ')' }]"></view>
-				<text>{{ title }}</text>
+	<view class="uni-flex uni-column commentWrap">
+		<view class="flex-item flex-item-V">
+			<div class="userinfo">
+				<div class="info">
+					<text style="font-size: 1.2em;">{{ title }}</text>
+					<text style="font-size: 1.2em;">{{ name }}</text>
+					<text>{{ date }}</text>
+				</div>
+				<div class="img"><view class="cu-avatar lg round" :style="[{ margin: '30upx' }, { backgroundImage: 'url(' + img + ')' }]"></view></div>
 			</div>
-		</view>
-		<view class="flex-item flex-item-V" style="background: #FFFFFF;">
 			<div class="evaluation">
-				<view class="flex-item tip"><text>该评测对你有帮助吗?</text></view>
 				<view class="score">
 					<text>题目易用性</text>
-					<uni-rate max="5" :value="easyuseScore" @change="onRateChange('easyuseScore', $event)"></uni-rate>
+					<uni-rate max="5" :value="easyuseScore" @change="onRateChange('easyuseScore', $event)" color="#cecece" activeColor="#f5aa4c" margin="10"></uni-rate>
 				</view>
 				<view class="score">
 					<text>结果准确性</text>
-					<uni-rate max="5" :value="accuracyScore" @change="onRateChange('accuracyScore', $event)"></uni-rate>
+					<uni-rate max="5" :value="accuracyScore" @change="onRateChange('accuracyScore', $event)" color="#cecece" activeColor="#f5aa4c" margin="10"></uni-rate>
 				</view>
-				<view class="score">
+				<view class="score" style="border-bottom-width: 0;">
 					<text>建议实用性</text>
-					<uni-rate max="5" :value="practicabilityScore" @change="onRateChange('practicabilityScore', $event)"></uni-rate>
+					<uni-rate
+						max="5"
+						:value="practicabilityScore"
+						@change="onRateChange('practicabilityScore', $event)"
+						color="#cecece"
+						activeColor="#f5aa4c"
+						margin="10"
+					></uni-rate>
+				</view>
+				<view class="uni-textarea">
+					<textarea :value="commentStr" @blur="bindTextAreaBlur" @input="bindTextAreaInput" placeholder="请留下您的反馈意见" maxlength="200" />
+					<div class="tip">剩余 {{ remainCount }} 字</div>
+				</view>
+				<view class="questionBox">
+					<view v-if="showSubmit">
+						<div 
+						class="submit" 
+						:style="{'pointer-events':disableSubmit ? 'none' : '','background-image': 'url(/build/static/image/common/' + (disableSubmit ? 'disableSubmit' : 'submit2x') + '.png)'}" 
+						@click="handleSubmit" />
+					</view>
+					<view v-if="true">
+						<wx-share-button title="去分享" />
+					</view>
 				</view>
 			</div>
 		</view>
-		<view class="flex-item flex-item-V" style="margin-top: 40upx;">
-			<view class="uni-textarea"><textarea :value="commentStr" @blur="bindTextAreaBlur" placeholder="说说你的反馈建议" maxlength="150" style="height:550upx;" /></view>
-		</view>
-		<view v-if="showSubmit"><button hover-class="none" :loading="loadingSubmit" :disabled="disableSubmit" class="fixedBottomBtn" @click="handleSubmit">提交</button></view>
-		<view v-if="showShare"><wx-share-button title="去分享" /></view>
 	</view>
 </template>
 
@@ -37,22 +55,23 @@ import wxShareButton from '../component/wxShareButton/index.vue';
 export default {
 	data() {
 		return {
-			showShare: false,
 			showSubmit: false,
 			disableSubmit: false,
-			loadingSubmit: false,
 			accuracyScore: '',
 			practicabilityScore: '',
 			easyuseScore: '',
 			title: '',
-			titleImg: '',
-			commentStr: ''
+			name: '',
+			img:'',
+			date:'',
+			commentStr: '',
+			remainCount: 200
 		};
 	},
 	//监听页面加载
 	onLoad: function(option) {
 		const { initUserQuestionsPayInfo } = this.$store.state;
-		if(Object.prototype.toString.call(initUserQuestionsPayInfo) !== "[object Object]"){
+		if (Object.prototype.toString.call(initUserQuestionsPayInfo) !== '[object Object]') {
 			//当全局接口数据为空时 返回首页
 			const url = this.$pageConfig[0];
 			uni.redirectTo({ url });
@@ -60,11 +79,13 @@ export default {
 		}
 		const _self = this;
 		this.$store.commit('setCurrentPage', 'userComment');
-		const { is_comment, title, titleImg } = initUserQuestionsPayInfo;
-		this.showSubmit = is_comment == 0 ? true : false; //是否评论 0-未评论,1-已评论
-		this.showShare = is_comment == 1 ? true : false;
+		const { is_comment, title, userinfo } = initUserQuestionsPayInfo;
+		this.showSubmit = true; //是否评论 0-未评论,1-已评论
+		this.disableSubmit = is_comment == 1 ? true : false;//已评论过的禁用按钮
 		this.title = title;
-		this.titleImg = titleImg;
+		this.name = userinfo.name;
+		this.img = userinfo.img;
+		this.date = userinfo.date;
 
 		//已评论的调用接口请求数据
 		if (is_comment == 1) {
@@ -93,12 +114,15 @@ export default {
 	},
 	methods: {
 		bindTextAreaBlur: function(e) {
-			this.commentStr = e.detail.value;
+			const value = e.detail.value;
+			this.commentStr = value;
+		},
+		bindTextAreaInput: function(e) {
+			const value = e.detail.value;
+			this.remainCount = 200 - value.length;
 		},
 		onRateChange: function(type, event) {
 			this[type] = event.value;
-		},
-		handleShare: function() {
 		},
 		handleSubmit: function() {
 			const _self = this;
@@ -108,7 +132,7 @@ export default {
 				uni.showToast({
 					icon: 'none',
 					title: '请对题目易用性进行评分!',
-					duration: 2000
+					duration: 1000
 				});
 				return;
 			}
@@ -116,7 +140,7 @@ export default {
 				uni.showToast({
 					icon: 'none',
 					title: '请对结果准确性进行评分!',
-					duration: 2000
+					duration: 1000
 				});
 				return;
 			}
@@ -124,20 +148,18 @@ export default {
 				uni.showToast({
 					icon: 'none',
 					title: '请对建议实用性进行评分!',
-					duration: 2000
+					duration: 1000
 				});
 				return;
 			}
 			if (!commentStr) {
 				uni.showToast({
 					icon: 'none',
-					title: '请填写反馈建议!',
-					duration: 2000
+					title: '请填写反馈意见!',
+					duration: 1000
 				});
 				return;
 			}
-			this.disableSubmit = true;
-			this.loadingSubmit = true;
 
 			this.$store
 				.dispatch('saveUserComment', {
@@ -147,10 +169,7 @@ export default {
 					commentStr
 				})
 				.then(data => {
-					setTimeout(function() {
-						_self.loadingSubmit = false;
-						_self.handleShare();
-					}, 1000);
+					_self.disableSubmit = true;
 				})
 				.catch(e => {
 					uni.showToast({
@@ -172,31 +191,52 @@ export default {
 </script>
 
 <style>
-.title {
-	height: 80upx;
-	margin: 0 30upx 0 30upx;
-	padding: 30upx 0;
-	border-bottom: 1upx solid #dcdcdc;
+.commentWrap {
+	height: 100vh;
+	width: 100vw;
+	background-image: url(/build/static/image/common/cooment.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
 }
 
-.title uni-text {
-	font-size: 18px;
-	font-weight: 500;
-/* 	float: left; */
-	line-height: 96upx;
-	margin-left: 40upx;
+.userinfo {
+	height: 17vh;
+	margin: 0 30upx 0 30upx;
+	padding: 30upx 0;
+}
+
+.userinfo uni-text {
+	display: block;
+	color: #fff;
+	margin: 10upx 20upx 10upx 20upx;
+	font-size: 1em;
+}
+
+.userinfo .info {
+	float: left;
+	padding: 10upx;
+	width: 50vw;
+	height: 100%;
+}
+
+.userinfo .img {
+	float: right;
+	width: 30vw;
+	height: 100%;
 }
 
 .evaluation {
-	margin: 0 30upx 0 30upx;
-	padding: 30upx 0;
-}
-
-.evaluation .tip {
-	display: block;
-	font-weight: 400;
-	font-size: 1.17em;
-	margin-bottom: 20upx;
+	padding: 32upx 16upx 40upx 16upx;
+	margin: auto;
+	height: 66vh;
+	width: 88vw;
+	color: #78747e;
+	font-size: 1em;
+	background-color: #fcffff;
+	overflow: hidden;
+	overflow-y: auto;
+	border-radius: 20upx;
+	box-shadow: 0 12upx 20upx #ccc;
 }
 
 .evaluation uni-view {
@@ -204,24 +244,65 @@ export default {
 }
 
 .evaluation .score > uni-text {
-	font-size: 14px;
 	float: left;
-	line-height: 50upx;
-	margin-right: 40upx;
+	line-height: 60upx;
+	margin-right: 60upx;
 }
 
 .evaluation .score {
-	margin: 10upx 0;
+	margin-bottom: 10px;
+	padding: 3px 15px 8px 15px;
+	width: 100%;
+	border-bottom: 1px solid #e1e1e1;
 }
 
-.logoContainer {
-	box-sizing: border-box;
-	width: 80upx;
-	height: 80upx;
-	float: left;
-	background: #4c4b58;
-	/* border: 0.02667rem solid #fff; */
-	overflow: hidden;
-	margin-right: 30upx;
+.evaluation .uni-textarea {
+	position: relative;
+	padding: 10upx;
+	height: 37vh;
+	background-color: #d6f7f7;
+	border-radius: 10upx;
+}
+.evaluation .uni-textarea uni-textarea {
+	height: 100%;
+}
+
+.evaluation .uni-textarea .tip {
+	bottom: 20upx;
+	position: absolute;
+	right: 28upx;
+}
+
+.cu-avatar.lg {
+	width: 23vw;
+	height: 14vh;
+}
+
+.evaluation .questionBox {
+	margin: auto;
+	position: absolute;
+	left: 0;
+	width: 62vw;
+	/* top: 0; */
+	bottom: 30upx;
+	right: 0;
+}
+
+.evaluation .questionBox div {
+	width: 30vw;
+	height: 8vh;
+	margin: auto;
+	display: inline-block;
+}
+
+.evaluation .questionBox div.submit {
+	margin-right: 20upx;
+	background-image: url(/build/static/image/common/submit2x.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+.evaluation .questionBox div.share {
+	margin-left: 20upx;
 }
 </style>

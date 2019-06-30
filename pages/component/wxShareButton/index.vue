@@ -1,8 +1,6 @@
 <template>
 	<view>
-		<view>
-			<button hover-class="none" @click="handleShare">{{ title }}</button>
-		</view>
+		<div class="share" @click="handleShare"></div>
 		<view v-show="showShare">
 			<div id="share">
 				<img src="/build/static/image/common/guide_point.png" />
@@ -55,20 +53,27 @@ export default {
 };
 </script>
 <style>
+.share {
+	width: 30vw;
+	height: 8vh;
+	background-image: url(/build/static/image/common/share2x.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
 #share {
-	-webkit-user-select: none;
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.65);
-	text-align: center;
-	top: 0;
+	background-color: black;
 	left: 0;
-	z-index: 105;
+	opacity: 0.7;
+	position: fixed;
+	top: 0;
+	z-index: 9999;
+	height: 100%;
+	width: 100%;
 }
 #share img {
 	float: right;
 	width: 600upx;
-	max-width: 100%;
+	max-width: 80%;
 }
 </style>
