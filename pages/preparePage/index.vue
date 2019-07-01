@@ -94,7 +94,7 @@ export default {
 <style>
 .headWrap {
 	/* height: 400upx; */
-	height: 35vh;
+	height: 33vh;
 	width: 100%;
 	background-image: url(/build/static/image/common/chahua.png);
 	background-repeat: no-repeat;
@@ -102,6 +102,7 @@ export default {
 }
 
 .beginTest {
+	font-size: 1em;
 	background-color: #f1f1f1;
 	position: fixed;
 	left: 0;
@@ -110,7 +111,7 @@ export default {
 	margin: auto;
 	/* height: 720upx;
 	width: 660upx; */
-	height: 58vh;
+	height: 60vh;
 	width: 87vw;
 	border-radius: 20upx;
 	box-shadow: 0 12upx 20upx #ccc;
@@ -126,7 +127,7 @@ export default {
 	font-size: 30upx;
 	line-height: 50upx;
 	margin-left: 60upx;
-	margin-bottom: 52upx;
+	margin-bottom: 40upx;
 }
 
 .beginTest ol p {
@@ -141,7 +142,7 @@ export default {
 	margin: auto;
 	/* height: 120upx;
 	width: 600upx; */
-	height: 10vh;
+	height: 11vh;
 	width: 75vw;
 	background-image: url(/build/static/image/common/goTest.png);
 	background-repeat: no-repeat;

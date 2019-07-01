@@ -270,7 +270,7 @@ export default {
 
 .payBox {
 	margin: auto;
-	position: absolute;
+	position: fixed;
 	left: 0;
 	width: 62vw;
 	/* top: 0; */
@@ -282,6 +282,8 @@ export default {
 	color: #fff;
 	text-align: center;
 	font-size: 1.2em;
+	border-radius: 20upx;
+	font-weight: bold;
 	padding: 10upx;
 	width: 55vw;
 	height: 6vh;

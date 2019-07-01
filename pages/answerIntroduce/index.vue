@@ -11,7 +11,9 @@
 			<view v-show="showHelp">
 				<div class="masker" catchtouchmove="ture"></div>
 				<div class="showMsg">
-					<div class="qrcode"></div>
+					<div class="qrcode">
+						<img src="/build/static/image/etwy/code.jpeg"></img>
+					</div>
 					<div class="closeMsg" @click="handleClose"></div>
 				</div>
 			</view>
@@ -176,9 +178,14 @@ export default {
 	bottom: 22px;
 	margin: auto;
 	position: absolute;
-	background-image: url(/build/static/image/etwy/code.jpeg);
+	/* background-image: url(/build/static/image/etwy/code.jpeg);
 	background-repeat: no-repeat;
-	background-size: 100% 100%;
+	background-size: 100% 100%; */
+}
+
+.showMsg .qrcode img{
+	width: 100%;
+	height: 100%;
 }
 
 .closeMsg {
@@ -190,7 +197,7 @@ export default {
 	/* height: 40px;
 	width: 40px; */
 	height: 8vh;
-	width: 10vw;
+	width: 11vw;
 	background-image: url(/build/static/image/common/closeMsg2x.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;

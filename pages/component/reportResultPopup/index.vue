@@ -1,5 +1,5 @@
 <template>
-	<view v-show="show">
+	<view v-show="show" class="reportPopup">
 		<div class="masker" catchtouchmove="ture"></div>
 		<div class="showMsg">
 			<div class="begin">
@@ -57,7 +57,11 @@ export default {
 };
 </script>
 <style>
-.masker {
+.reportPopup{
+	
+}	
+
+.reportPopup .masker {
 	pointer-events: none;
 	background-color: black;
 	left: 0;
@@ -69,7 +73,7 @@ export default {
 	width: 100%;
 }
 
-.showMsg {
+.reportPopup .showMsg {
 	position: fixed;
 	left: 0;
 	right: 0;
@@ -84,7 +88,7 @@ export default {
 	z-index: 9999;
 }
 
-.goButton {
+.reportPopup .goButton {
 	position: fixed;
 	left: 0;
 	right: 0;
@@ -100,11 +104,11 @@ export default {
 	z-index: 9999;
 }
 
-.goButton:active {
+.reportPopup .goButton:active {
 /* 	opacity: 0.4; */
 }
 
-.begin {
+.reportPopup .begin {
 	padding: 30upx;
 	font-size: 1em;
 	color: #75737c;
@@ -122,20 +126,20 @@ export default {
 	box-shadow: 0 12upx 20upx #ccc;
 }
 
-.begin p {
+.reportPopup .begin p {
 }
 
-.begin ul {
+.reportPopup .begin ul {
 	list-style-type: upper-roman;
 	padding: 40upx 20upx 20upx 40upx;
 }
 
-.begin ul > li {
+.reportPopup .begin ul > li {
 	margin-left: 0;
 	margin-bottom: 10upx;
 }
 
-.begin .part1 {
+.reportPopup .begin .part1 {
 	height: 8vh;
 	width: 17vw;
 	background-image: url(/build/static/image/common/part1.png);
@@ -143,7 +147,7 @@ export default {
 	background-size: 88% 46%;
 }
 
-.begin .part2 {
+.reportPopup .begin .part2 {
 	height: 8vh;
 	width: 17vw;
 	background-image: url(/build/static/image/common/part2.png);
@@ -151,7 +155,7 @@ export default {
 	background-size: 88% 46%;
 }
 
-.begin .part3 {
+.reportPopup .begin .part3 {
 	height: 8vh;
 	width: 17vw;
 	background-image: url(/build/static/image/common/part3.png);

@@ -41,7 +41,7 @@
 		<view class="flex-item flex-item-V">
 			<view class="questionBox">
 				<div @click="handlePrevQuestion"></div>
-				<div @click="handleNewxQuestion"></div>
+				<div @click="handleNextQuestion"></div>
 			</view>
 		</view>
 		<view><report-result-popup :show="showReport" /></view>
@@ -109,7 +109,7 @@ export default {
 		this.countDownTime = countDownTime || '';
 		this.timerun(countDownTime);
 		//初始化先获取上一题
-		this.getPrevQuestion();
+		this.getNextQuestion();
 	},
 	destroyed: function() {
 		clearInterval(this.timer);
@@ -213,6 +213,9 @@ export default {
 					countDownTime: this.countDownTime
 				})
 				.then(data => {
+					//调用完接口清空选项
+					this.answersId = null;
+					
 					// uni.hideLoading();
 					if (data.isEnd == 1) {
 						this.showReport = true;
@@ -256,7 +259,15 @@ export default {
 			this.items = [];
 			this.getPrevQuestion();
 		},
-		handleNewxQuestion: function() {
+		handleNextQuestion: function() {
+			if(this.answersId == null){
+				uni.showToast({
+					icon: 'none',
+					title: "请选择一个选项!",
+					duration: 1000
+				});
+				return;
+			}
 			this.items = [];
 			this.getNextQuestion();
 		}
@@ -270,11 +281,23 @@ export default {
 </script>
 
 <style>
+@-webkit-keyframes fadeIn {
+	0% {
+		opacity: 0; /*初始状态 透明度为0*/
+	}
+	50% {
+		opacity: 0.7; /*中间状态 透明度为0*/
+	}
+	100% {
+		opacity: 1; /*结尾状态 透明度为1*/
+	}
+}
+
 .headWrap {
 	color: #fff;
-	height: 21vh;
+	height: 22vh;
 	width: 100%;
-	background-image: url(/build/static/image/common/progress.png);
+	background-image: url(/build/static/image/common/userInfo.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
@@ -283,6 +306,9 @@ export default {
 	font-size: 1.2em;
 	padding: 20upx 48upx 12upx 48upx;
 	color: #ff6671;
+	background-image: url(/build/static/image/common/total2x.png);
+	background-repeat: no-repeat;
+	background-size: 86% 100%;
 }
 
 .headWrap .cu-progress {
@@ -316,8 +342,12 @@ export default {
 }
 
 .evaluation {
-	margin: 0 20upx 0 20upx;
+	margin: 0upx 20upx 0 20upx;
 	padding: 20upx 0 30upx 0;
+	-webkit-animation-name: fadeIn; /*动画名称*/
+	-webkit-animation-duration: 1500ms; /*动画持续时间*/
+	-webkit-animation-iteration-count: 1; /*动画次数*/
+	-webkit-animation-delay: 0s; /*延迟时间*/
 }
 
 .evaluation .tip {
@@ -359,6 +389,7 @@ export default {
 }
 
 .uni-list ol {
+	margin-top: 10upx;
 	padding-inline-start: 0px;
 }
 
