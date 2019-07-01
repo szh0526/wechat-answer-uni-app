@@ -54,6 +54,7 @@ export default {
 </script>
 <style>
 .share {
+	margin: 20upx 50upx 10upx 50upx;
 	width: 30vw;
 	height: 8vh;
 	background-image: url(/build/static/image/common/share2x.png);

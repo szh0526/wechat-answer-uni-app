@@ -72,6 +72,13 @@ export default {
 			uni.redirectTo({ url });
 			return;
 		}
+		//监听窗口大小变化事件 解决弹出软键盘时页面错乱
+		window.addEventListener('resize', function() {
+			if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName == 'TEXTAREA') {
+				document.activeElement.scrollIntoView({ behavior: 'smooth' });
+			}
+		});
+
 		const _self = this;
 		this.$store.commit('setCurrentPage', 'userComment');
 		const { is_comment, title, userinfo } = initUserQuestionsPayInfo;
@@ -103,7 +110,33 @@ export default {
 		}
 	},
 	methods: {
+		// 解决苹果不回弹页面 解决弹出软键盘时页面错乱
+		blurAdjust: function(e) {
+			setTimeout(() => {
+				if (document.activeElement.tagName !== 'INPUT' || document.activeElement.tagName !== 'TEXTAREA') {
+					return;
+				}
+				let result = 'pc';
+				if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+					//判断iPhone|iPad|iPod|iOS
+					result = 'ios';
+				} else if (/(Android)/i.test(navigator.userAgent)) {
+					//判断Android
+					result = 'android';
+				}
+
+				if ((result = 'ios')) {
+					document.activeElement.scrollIntoViewIfNeeded(true);
+				}
+			}, 100);
+		},
 		bindTextAreaBlur: function(e) {
+			var u = navigator.userAgent,
+				app = navigator.appVersion;
+			var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+			if (isIOS) {
+				this.blurAdjust();
+			}
 			const value = e.detail.value;
 			this.commentStr = value;
 		},
@@ -218,7 +251,7 @@ export default {
 .evaluation {
 	padding: 32upx 16upx 40upx 16upx;
 	margin: auto;
-	height: 66vh;
+	height: 69vh;
 	width: 88vw;
 	color: #78747e;
 	font-size: 1em;
@@ -269,13 +302,12 @@ export default {
 }
 
 .evaluation .questionBox {
-	margin: auto;
+/* 	margin: auto;
 	position: absolute;
 	left: 0;
 	width: 62vw;
-	/* top: 0; */
 	bottom: 30upx;
-	right: 0;
+	right: 0; */
 }
 
 .evaluation .questionBox div {
@@ -286,13 +318,12 @@ export default {
 }
 
 .evaluation .questionBox div.submit {
-	margin-right: 20upx;
+	margin: 20upx 50upx 10upx 50upx;
 	background-image: url(/build/static/image/common/submit2x.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
 
 .evaluation .questionBox div.share {
-	margin-left: 20upx;
 }
 </style>

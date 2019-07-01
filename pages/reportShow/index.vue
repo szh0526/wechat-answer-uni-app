@@ -113,8 +113,8 @@ export default {
 					//最后一页隐藏下一页按钮
 					this.showDown = data.isEnd == 0 && data.must_pay == 0;
 
-					//页数+1
-					this.currentPage = this.currentPage + 1;
+					//页数
+					this.currentPage = data.id; // this.currentPage + 1;
 
 					//设置列表数据
 					if (data.isTop == 1) this.dataList = []; //如果是第一页需手动制空列表
@@ -218,7 +218,7 @@ export default {
 	-webkit-animation-delay: 0s; /*延迟时间*/
 }
 
-.nextPage {
+.htmlWrap .nextPage {
 	position: fixed;
 	left: 0;
 	right: 0;
@@ -230,7 +230,7 @@ export default {
 	box-shadow: 0px -6px 12px 1px #fff;
 }
 
-.nextPage .down {
+.htmlWrap .nextPage .down {
 	margin: auto;
 	height: 4vh;
 	width: 4vw;
@@ -239,7 +239,7 @@ export default {
 	background-size: 100% 100%;
 }
 
-.questionBox {
+.htmlWrap .questionBox {
 	display: inline-flex;
 	margin: auto;
 	position: fixed;
@@ -250,25 +250,24 @@ export default {
 	right: 0;
 }
 
-.questionBox div {
+.htmlWrap .questionBox div {
 	width: 30vw;
 	height: 8vh;
 	margin: auto;
 	display: inline-block;
 }
 
-.questionBox div.comment {
-	margin-right: 20upx;
+.htmlWrap .questionBox div.comment {
+	margin: 20upx 0 10upx 0;
 	background-image: url(/build/static/image/common/goComent2x.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
 
-.questionBox div.share {
-	margin-left: 20upx;
+.htmlWrap .questionBox div.share {
 }
 
-.payBox {
+.htmlWrap .payBox {
 	margin: auto;
 	position: fixed;
 	left: 0;
@@ -278,7 +277,7 @@ export default {
 	right: 0;
 }
 
-.payBox div {
+.htmlWrap .payBox div {
 	color: #fff;
 	text-align: center;
 	font-size: 1.2em;
@@ -291,7 +290,7 @@ export default {
 	display: inline-block;
 }
 
-.payBox div.pay {
+.htmlWrap .payBox div.pay {
 	background-image: url(/build/static/image/common/goPay.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
