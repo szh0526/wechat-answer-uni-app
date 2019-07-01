@@ -7,7 +7,7 @@
 					<text style="font-size: 1.2em;">{{ name }}</text>
 					<text>{{ date }}</text>
 				</div>
-				<div class="img"><view class="cu-avatar lg round" :style="[{ margin: '30upx' }, { backgroundImage: 'url(' + img + ')' }]"></view></div>
+				<div class="img"><view class="cu-avatar lg round" :style="[{ margin: '26upx' }, { backgroundImage: 'url(' + img + ')' }]"></view></div>
 			</div>
 			<div class="evaluation">
 				<view class="score">
@@ -265,7 +265,7 @@ export default {
 
 .cu-avatar.lg {
 	width: 23vw;
-	height: 14vh;
+	height: 15vh;
 }
 
 .evaluation .questionBox {

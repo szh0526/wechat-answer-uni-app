@@ -6,7 +6,7 @@
 				<text style="font-size: 1.2em;">{{ name }}</text>
 				<text>{{ date }}</text>
 			</div>
-			<div class="img"><view class="cu-avatar lg round" :style="[{ margin: '30upx' }, { backgroundImage: 'url(' + img + ')' }]"></view></div>
+			<div class="img"><view class="cu-avatar lg round" :style="[{ margin: '26upx' }, { backgroundImage: 'url(' + img + ')' }]"></view></div>
 		</div>
 		<div class="htmlWrap">
 			<view v-for="(item, index) in dataList" :key="index">
@@ -187,7 +187,7 @@ export default {
 
 .cu-avatar.lg {
 	width: 23vw;
-	height: 14vh;
+	height: 15vh;
 }
 
 .htmlWrap {
@@ -272,7 +272,7 @@ export default {
 	margin: auto;
 	position: fixed;
 	left: 0;
-	width: 62vw;
+	width: 57vw;
 	/* top: 0; */
 	bottom: 10upx;
 	right: 0;
