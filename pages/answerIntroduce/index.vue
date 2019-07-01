@@ -71,7 +71,7 @@ export default {
 					uni.redirectTo({ url });
 				} else if (is_test && !is_answered && question_id) {
 					//question_id > 0 调转到对应题
-					window.document.title = questions_titletitle;
+					window.document.title = questions_title;
 					const url = _self.$pageConfig[2];
 					uni.redirectTo({ url });
 				} else {

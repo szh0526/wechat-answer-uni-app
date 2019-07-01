@@ -79,10 +79,10 @@ export default {
 		const url = window.location.href.split('#')[0];
 		const _urlPrefix = window.location.origin;
 		data = data || {
-			title: '测试标题', // 分享标题
-			imgUrl: `${_urlPrefix}/build/static/image/logo.jpg`, // 分享图标
+			title: '90%宝妈都在犯的错误，快去测一测', // 分享标题
+			imgUrl: `${_urlPrefix}/build/static/image/logo.jpeg`, // 分享图标
 			link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-			desc: '快来试试吧' //分享描述
+			desc: '欧美家长都在用的专业问卷，现在可以免费领取了，点击查看详情' //分享描述
 		};
 
 		//每次都需要重新初始化配置，才可以进行分享  

@@ -164,7 +164,7 @@ export default {
 			const urlPrefix = window.location.origin;
 			return {
 				title: '测试标题', // 分享标题
-				imgUrl: `${urlPrefix}/build/static/image/logo.jpg`, // 分享图标
+				imgUrl: `${urlPrefix}/build/static/image/logo.jpeg`, // 分享图标
 				link: encodeURI(url), // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 				desc: '快来试试吧' //分享描述
 			};

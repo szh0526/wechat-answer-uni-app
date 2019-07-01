@@ -4,7 +4,7 @@
 			<view class="container">
 				<view class="title-text">
 					<a @click="onSwitchTab">
-						<image class="logoContainer" src="/static/image/logo.jpg" @error="imageError"></image>
+						<image class="logoContainer" src="/static/image/logo.jpeg" @error="imageError"></image>
 						一心理测评
 					</a>
 				</view>

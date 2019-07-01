@@ -2,7 +2,7 @@
 	<view class="uni-flex uni-column answerquestion">
 		<view class="flex-item flex-item-V">
 			<div class="headWrap">
-				<view class="flex p-xs mb-sm" style="padding-top:80upx;">
+				<view class="flex p-xs mb-sm" style="padding-top:48upx;">
 					<view class="flex total">
 						<text>{{ qid }}/{{ total }}</text>
 					</view>
@@ -295,7 +295,7 @@ export default {
 
 .headWrap {
 	color: #fff;
-	height: 22vh;
+	height: 19vh;
 	width: 100%;
 	background-image: url(/build/static/image/common/userInfo.png);
 	background-repeat: no-repeat;

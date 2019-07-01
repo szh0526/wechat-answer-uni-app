@@ -113,10 +113,11 @@ export default {
 	font-size: 1em;
 	color: #75737c;
 	background-color: #fff;
-	position: fixed;
+	position: relative;
 	left: 0;
 	right: 0;
-	bottom: 156upx;
+	bottom: 0;
+	top: 29vh;
 	margin: auto;
 	height: 50vh;
 	width: 77vw;
