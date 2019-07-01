@@ -20,7 +20,7 @@
 				<view><wx-share-button title="去分享" /></view>
 			</view>
 			<view class="payBox" v-if="showPay">
-				<view><div class="pay" @click="handlePay">支付{{payAmount}}元继续查看</div></view>
+				<view><div class="pay" @click="handlePay">支付{{payAmount}}继续查看</div></view>
 			</view>
 		</div>
 	</view>
