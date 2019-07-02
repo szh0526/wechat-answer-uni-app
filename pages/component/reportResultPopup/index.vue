@@ -11,7 +11,7 @@
 					<li><p>哪些环节是做的好的、哪些环节是需要马上改善的?</p></li>
 					<li><p>针对面临的问题,如何具体做最有效?</p></li>
 				</ul>
-				<div class="goButton" @click="handleGo"></div>
+				<div class="goButton" @click="handleGo">看报告</div>
 			</div>
 		</div>
 	</view>
@@ -77,7 +77,7 @@ export default {
 	position: fixed;
 	left: 0;
 	right: 0;
-	bottom: 15px;
+	bottom: 4vh;
 	top: 0;
 	margin: auto;
 	height: 90vh;
@@ -91,17 +91,21 @@ export default {
 .reportPopup .goButton {
 	position: fixed;
 	left: 0;
-	right: 0;
-	bottom: 22upx;
+	right: 0;    
+	bottom: 3vh;
 	margin: auto;
-	/* height: 120upx;
-	width: 600upx; */
-	height: 9vh;
-	width: 79vw;
-	background-image: url(/build/static/image/common/showReport2x.png);
+	height: 8vh;
+	width: 65vw;
+	background-image: url(/build/static/image/common/redbutton.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 	z-index: 9999;
+	font-size: 1.3em;
+	line-height: 8vh;
+	letter-spacing:2px;
+	border-radius: 5px;
+	text-align: center;
+	color: #fff;
 }
 
 .reportPopup .goButton:active {
@@ -109,7 +113,7 @@ export default {
 }
 
 .reportPopup .begin {
-	padding: 30upx;
+	padding: 15px;
 	font-size: 1em;
 	color: #75737c;
 	background-color: #fff;
@@ -120,11 +124,11 @@ export default {
 	top: 29vh;
 	margin: auto;
 	height: 50vh;
-	width: 77vw;
+	width: 71vw;
 	overflow: hidden;
 	overflow-y: auto;
-	border-radius: 20upx;
-	box-shadow: 0 12upx 20upx #ccc;
+	border-radius: 10px;
+	box-shadow: 0 6px 10px #ccc;
 }
 
 .reportPopup .begin p {
@@ -132,12 +136,12 @@ export default {
 
 .reportPopup .begin ul {
 	list-style-type: upper-roman;
-	padding: 40upx 20upx 20upx 40upx;
+	padding: 20px 10px 10px 20px;
 }
 
 .reportPopup .begin ul > li {
 	margin-left: 0;
-	margin-bottom: 10upx;
+	margin-bottom: 1vh;
 }
 
 .reportPopup .begin .part1 {

@@ -63,7 +63,7 @@
     },
     "h5" : {
         "template" : "template.h5.html",
-        "title" : "一心理测评",
+        "title" : "妈妈测",
         "devServer" : {
             "host" : "",
             "disableHostCheck" : true,

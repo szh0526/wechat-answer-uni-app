@@ -7,7 +7,7 @@
 					<text style="font-size: 1.2em;">{{ name }}</text>
 					<text>{{ date }}</text>
 				</div>
-				<div class="img"><view class="cu-avatar lg round" :style="[{ margin: '26upx' }, { backgroundImage: 'url(' + img + ')' }]"></view></div>
+				<div class="img"><view class="cu-avatar lg round" :style="[{ backgroundImage: 'url(' + img + ')' }]"></view></div>
 			</div>
 			<div class="evaluation">
 				<view class="score">
@@ -26,20 +26,19 @@
 					<textarea :value="commentStr" @blur="bindTextAreaBlur" @input="bindTextAreaInput" placeholder="请留下您的反馈意见" maxlength="200" />
 					<div class="tip">剩余 {{ remainCount }} 字</div>
 				</view>
-				<view class="questionBox">
-					<view v-if="showSubmit">
-						<div
-							class="submit"
-							:style="{
-								'pointer-events': disableSubmit ? 'none' : '',
-								'background-image': 'url(/build/static/image/common/' + (disableSubmit ? 'disableSubmit2x' : 'submit2x') + '.png)'
-							}"
-							@click="handleSubmit"
-						/>
-					</view>
-					<view v-if="true"><wx-share-button title="去分享" /></view>
-				</view>
 			</div>
+			<view class="questionBox">
+				<view v-if="showSubmit">
+					<div
+						class="submit"
+						:style="{
+							'pointer-events': disableSubmit ? 'none' : ''
+						}"
+						@click="handleSubmit"
+					>提交</div>
+				</view>
+				<view v-if="true"><wx-share-button title="去分享" /></view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -82,7 +81,7 @@ export default {
 		const _self = this;
 		this.$store.commit('setCurrentPage', 'userComment');
 		const { is_comment, title, userinfo } = initUserQuestionsPayInfo;
-		this.showSubmit = true; //是否评论 0-未评论,1-已评论
+		this.showSubmit = true; //is_comment == 1 ? true : false; //是否评论 0-未评论,1-已评论
 		this.disableSubmit = is_comment == 1 ? true : false; //已评论过的禁用按钮
 		this.title = title;
 		this.name = userinfo.name;
@@ -223,43 +222,60 @@ export default {
 }
 
 .userinfo {
-	height: 17vh;
-	margin: 0 30upx 0 30upx;
-	padding: 30upx 0;
+	color: #fff;
+	height: 19vh;
+	width: 100%;
+	padding: 2vh 0;
+}
+
+.userinfo div {
+	margin: 0 0 0 15px;
 }
 
 .userinfo uni-text {
 	display: block;
 	color: #fff;
-	margin: 10upx 20upx 10upx 20upx;
+	margin: 1vh 10px 1vh 10px;
 	font-size: 1em;
 }
 
 .userinfo .info {
-	float: left;
-	padding: 10upx;
-	width: 50vw;
-	height: 100%;
+	position: absolute;
+	top: 3vh;
+	left: 1vh;
+	bottom: 77.5vh;
+	width: 48vw;
+	height: 30vh;
 }
 
 .userinfo .img {
-	float: right;
-	width: 30vw;
+	position: absolute;
+	right: 5vh;
+	/* left: 0; */
+	bottom: 77.5vh;
+	top: 0;
+	margin: auto;
+	width: 90px;
+	height: 90px;
+}
+
+.cu-avatar.lg {
+	width: 100%;
 	height: 100%;
 }
 
 .evaluation {
-	padding: 32upx 16upx 40upx 16upx;
+	padding: 16px 8px 20px 8px;
 	margin: auto;
-	height: 69vh;
+	height: 59vh;
 	width: 88vw;
 	color: #78747e;
 	font-size: 1em;
 	background-color: #fcffff;
 	overflow: hidden;
 	overflow-y: auto;
-	border-radius: 20upx;
-	box-shadow: 0 12upx 20upx #ccc;
+	border-radius: 10px;
+	box-shadow: 0 6px 10px #ccc;
 }
 
 .evaluation uni-view {
@@ -268,11 +284,13 @@ export default {
 
 .evaluation .score > uni-text {
 	float: left;
-	line-height: 60upx;
-	margin-right: 60upx;
+	line-height: 30px;
+	margin-right: 4vh;
 }
 
 .evaluation .score {
+	height: 6vh;
+	font-size: 1.1em;
 	margin-bottom: 10px;
 	padding: 3px 15px 8px 15px;
 	width: 100%;
@@ -281,49 +299,53 @@ export default {
 
 .evaluation .uni-textarea {
 	position: relative;
-	padding: 10upx;
-	height: 37vh;
+	padding: 5px;
+	height: 35vh;
 	background-color: #d6f7f7;
-	border-radius: 10upx;
+	border-radius: 5px;
 }
 .evaluation .uni-textarea uni-textarea {
 	height: 100%;
 }
 
 .evaluation .uni-textarea .tip {
-	bottom: 20upx;
+	bottom: 10px;
 	position: absolute;
-	right: 28upx;
+	right: 14px;
 }
 
-.cu-avatar.lg {
-	width: 23vw;
-	height: 15vh;
-}
-
-.evaluation .questionBox {
-/* 	margin: auto;
-	position: absolute;
+.questionBox {
+	display: inline-flex;
+	margin: auto;
+	position: fixed;
 	left: 0;
-	width: 62vw;
-	bottom: 30upx;
-	right: 0; */
+	width: 68vw;
+	/* top: 0; */
+	bottom: 1vh;
+	right: 0;
 }
 
-.evaluation .questionBox div {
-	width: 30vw;
+.questionBox div {
+	width: 32vw;
 	height: 8vh;
 	margin: auto;
 	display: inline-block;
 }
 
-.evaluation .questionBox div.submit {
-	margin: 20upx 50upx 10upx 50upx;
-	background-image: url(/build/static/image/common/submit2x.png);
+.questionBox div.submit {
+	margin: 10px 0 5px 0;
+	background-image: url(/build/static/image/common/buttonbg.png);
 	background-repeat: no-repeat;
-	background-size: 100% 100%;
+	background-size: 100% 100%;    
+	font-size: 1.2em;
+	height: 7vh;
+	line-height: 7vh;
+	letter-spacing:2px;
+	border-radius: 5px;
+	text-align: center;
+	color: #fff;
 }
 
-.evaluation .questionBox div.share {
+.questionBox div.share {
 }
 </style>

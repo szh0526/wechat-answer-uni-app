@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<div class="share" @click="handleShare"></div>
+		<div class="share" @click="handleShare">分享给朋友</div>
 		<view v-show="showShare">
 			<div id="share">
 				<img src="/build/static/image/common/guide_point.png" />
@@ -54,12 +54,18 @@ export default {
 </script>
 <style>
 .share {
-	margin: 20upx 50upx 10upx 50upx;
-	width: 30vw;
-	height: 8vh;
-	background-image: url(/build/static/image/common/share2x.png);
+	margin: 10px 25px 5px 25px;
+	width: 32vw;
+	background-image: url(/build/static/image/common/buttonbg.png);
 	background-repeat: no-repeat;
-	background-size: 100% 100%;
+	background-size: 100% 100%;    
+	font-size: 1.2em;
+	height: 7vh;
+	line-height: 7vh;
+	letter-spacing:2px;
+	border-radius: 5px;
+	text-align: center;
+	color: #fff;
 }
 
 #share {
@@ -74,7 +80,7 @@ export default {
 }
 #share img {
 	float: right;
-	width: 600upx;
+	width: 300px;
 	max-width: 80%;
 }
 </style>

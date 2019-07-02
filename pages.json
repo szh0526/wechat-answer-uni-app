@@ -101,7 +101,7 @@
 	"globalStyle": {
 		"navigationStyle": "custom",
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "一心理测评",
+		"navigationBarTitleText": "妈妈测",
 		"navigationBarBackgroundColor": "#F7F7F7",
 		"backgroundColor": "#F8F8F8"
 	},

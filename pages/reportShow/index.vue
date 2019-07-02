@@ -6,17 +6,18 @@
 				<text style="font-size: 1.2em;">{{ name }}</text>
 				<text>{{ date }}</text>
 			</div>
-			<div class="img"><view class="cu-avatar lg round" :style="[{ margin: '26upx' }, { backgroundImage: 'url(' + img + ')' }]"></view></div>
+			<div class="img"><view class="cu-avatar lg round" :style="[{ backgroundImage: 'url(' + img + ')' }]"></view></div>
 		</div>
 		<div class="htmlWrap">
 			<view v-for="(item, index) in dataList" :key="index">
-				<div :class="index > 0 ? 'report' : 'report_0'" :id="item.hash"><rich-text :nodes="item.htmlStr"></rich-text></div>
+				<div :class="index > 0 ? 'report' : 'report_0'"><rich-text :nodes="item.htmlStr"></rich-text></div>
 			</view>
-			<view v-if="showDown">
-				<div class="nextPage" @click="handleNextPage"><div class="down"></div></div>
+			<view class="reportBox" v-if="showDown">
+				<div :style="{'pointer-events':isStart ? 'none' : 'unset'}" @click="handlePrevPage">上一页</div>
+				<div @click="handleNextPage">下一页</div>
 			</view>
 			<view class="questionBox" v-if="showComment">
-				<view><div class="comment" @click="handleComment" /></view>
+				<view><div class="comment" @click="handleComment">去评价</div></view>
 				<view><wx-share-button title="去分享" /></view>
 			</view>
 			<view class="payBox" v-if="showPay">
@@ -39,6 +40,7 @@ export default {
 			showComment: false,
 			showPay: false,
 			showDown: true,
+			isStart: false,
 			payAmount:0,
 			currentPage: 0,
 			title: '',
@@ -91,6 +93,9 @@ export default {
 			const url = this.$pageConfig[5];
 			uni.redirectTo({ url });
 		},
+		handlePrevPage: function() {
+			this.downCallback();
+		},
 		handleNextPage: function() {
 			this.upCallback();
 		},
@@ -101,10 +106,8 @@ export default {
 					currentPage: this.currentPage
 				})
 				.then(data => {
-					const dataListLen = this.dataList.length;
-					const hash = 'report_' + dataListLen;
 					// 接口返回的当前页数据列表 (数组)
-					let curPageData = data.report_str ? [{ hash: hash, htmlStr: data.report_str }] : [];
+					let curPageData = data.report_str ? [{ htmlStr: data.report_str }] : [];
 
 					//最后一页显示 去评价和分享按钮
 					this.showComment = data.isEnd == 1;
@@ -114,18 +117,38 @@ export default {
 					this.showDown = data.isEnd == 0 && data.must_pay == 0;
 
 					//页数
-					this.currentPage = data.id; // this.currentPage + 1;
+					this.currentPage = data.id;
+					
+					this.isStart = false;
 
 					//设置列表数据
-					if (data.isTop == 1) this.dataList = []; //如果是第一页需手动制空列表
-					this.dataList = this.dataList.concat(curPageData); //追加新数据
+					this.dataList = curPageData; //追加新数据
+				})
+				.catch(e => {
+					uni.showToast({
+						icon: 'none',
+						title: e.message,
+						duration: 2000
+					});
+				});
+		},
+		/*下拉加载的回调*/
+	  downCallback: function() {
+			this.$store
+				.dispatch('getPreviousUserReport', {
+					currentPage: this.currentPage
+				})
+				.then(data => {
+					// 接口返回的当前页数据列表 (数组)
+					let curPageData = data.report_str ? [{ htmlStr: data.report_str }] : [];
 
-					setTimeout(() => {
-						//跳转到新页
-						if (dataListLen > 1) {
-							window.location.hash = '#' + hash;
-						}
-					}, 500);
+					//页数
+					this.currentPage = data.id;
+					
+					this.isStart = data.isStart;
+
+					//设置列表数据
+					this.dataList = curPageData; //追加新数据
 				})
 				.catch(e => {
 					uni.showToast({
@@ -155,60 +178,68 @@ export default {
 	color: #fff;
 	height: 22vh;
 	width: 100%;
-	padding: 30upx 0;
+	padding: 2vh 0;
 	background-image: url(/build/static/image/common/userInfo.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
 
 .userinfo div {
-	margin: 0 30upx 0 30upx;
+	margin: 0 0 0 15px;
 }
 
 .userinfo uni-text {
 	display: block;
 	color: #fff;
-	margin: 10upx 20upx 10upx 20upx;
+	margin: 1vh 10px 1vh 10px;
 	font-size: 1em;
 }
 
 .userinfo .info {
-	float: left;
-	padding: 10upx;
-	width: 50vw;
-	height: 100%;
+	position: absolute;
+	top: 3vh;
+	left: 1vh;
+	bottom: 77.5vh;
+	width: 48vw;
+	height: 30vh;
 }
 
 .userinfo .img {
-	float: right;
-	width: 30vw;
-	height: 100%;
+	position: absolute;
+	right: 5vh;
+	/* left: 0; */
+	bottom: 77.5vh;
+	top: 0;
+	margin: auto;
+	width: 90px;
+	height: 90px;
 }
 
-.cu-avatar.lg {
-	width: 23vw;
-	height: 15vh;
+.cu-avatar.lg {    
+	width: 100%;
+	height: 100%;
 }
 
 .htmlWrap {
 	font-size: 1em;
 	position: absolute;
 	left: 0;
-	top: 21vh;
+	top: 21.5vh;
 	right: 0;
-	padding: 32upx;
+	padding: 16px;
 	margin: auto;
-	height: 74vh;
+	height: 63vh;
 	width: 84vw;
 	color: #78747e;
 	font-size: 1em;
 	background-color: #fcffff;
 	overflow: hidden;
 	overflow-y: auto;
-	border-top-right-radius: 20upx;
-	border-top-left-radius: 20upx;
-	border-bottom: 0;
-	box-shadow: 0 12upx 20upx #ccc;
+	/* border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
+	border-bottom: 0; */
+	border-radius: 10px;
+	box-shadow: 0 6px 10px #ccc;
 }
 
 .htmlWrap .report {
@@ -220,7 +251,7 @@ export default {
 
 .htmlWrap .nextPage {
 	position: fixed;
-	left: 0;
+	left: 0; 
 	right: 0;
 	bottom: 0;
 	margin: auto;
@@ -244,24 +275,31 @@ export default {
 	margin: auto;
 	position: fixed;
 	left: 0;
-	width: 62vw;
+	width: 68vw;
 	/* top: 0; */
-	bottom: 0;
+	bottom: 1vh;
 	right: 0;
 }
 
 .htmlWrap .questionBox div {
-	width: 30vw;
+	width: 32vw;
 	height: 8vh;
 	margin: auto;
 	display: inline-block;
 }
 
 .htmlWrap .questionBox div.comment {
-	margin: 20upx 0 10upx 0;
-	background-image: url(/build/static/image/common/goComent2x.png);
+	margin: 10px 0 5px 0;
+	background-image: url(/build/static/image/common/buttonbg.png);
 	background-repeat: no-repeat;
-	background-size: 100% 100%;
+	background-size: 100% 100%;    
+	font-size: 1.2em;
+	height: 7vh;
+	line-height: 7vh;
+	letter-spacing:2px;
+	border-radius: 5px;
+	text-align: center;
+	color: #fff;
 }
 
 .htmlWrap .questionBox div.share {
@@ -273,7 +311,7 @@ export default {
 	left: 0;
 	width: 57vw;
 	/* top: 0; */
-	bottom: 10upx;
+	bottom: 1vh;
 	right: 0;
 }
 
@@ -281,9 +319,9 @@ export default {
 	color: #fff;
 	text-align: center;
 	font-size: 1.2em;
-	border-radius: 20upx;
+	border-radius: 10px;
 	font-weight: bold;
-	padding: 10upx;
+	padding: 5px;
 	width: 55vw;
 	height: 6vh;
 	margin: auto;
@@ -291,7 +329,55 @@ export default {
 }
 
 .htmlWrap .payBox div.pay {
-	background-image: url(/build/static/image/common/goPay.png);
+	background-image: url(/build/static/image/common/buttonbg.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	font-size: 1.2em;
+	line-height: 5.5vh;
+	letter-spacing:2px;
+	border-radius: 5px;
+	text-align: center;
+	color: #fff;
+}
+
+.reportBox {
+	margin: 3px;    
+	font-size: 1.2em;
+  line-height: 7vh;
+	letter-spacing:2px;
+	border-radius: 5px;
+	text-align: center;
+	color: #fff;
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 1vh;
+	margin: auto;
+}
+
+.reportBox div {
+	display: inline-block;
+	/* height: 50px;
+	width: 22vw; */
+	height: 7vh;
+	width: 19vw;
+	border-radius: 27px;
+}
+
+.reportBox div:active {
+	opacity: 0.4;
+}
+
+.reportBox div:first-child {
+	margin-right: 50px;
+	background-image: url(/build/static/image/common/redbutton.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+.reportBox div:last-child {
+	margin-left: 50px;
+	background-image: url(/build/static/image/common/redbutton.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }

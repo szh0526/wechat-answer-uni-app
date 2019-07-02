@@ -79,7 +79,7 @@ export default {
 <style>
 .tower-swiper .tower-item {
 	transform: scale(calc(0.5 + var(--index) / 10));
-	margin-left: calc(var(--left) * 100upx - 150upx);
+	margin-left: calc(var(--left) * 50px - 75px);
 	z-index: var(--index);
 }
 </style>

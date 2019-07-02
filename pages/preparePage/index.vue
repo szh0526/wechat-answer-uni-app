@@ -6,7 +6,7 @@
 					<view class="uni-center center-box" style="height: 92%;">
 						<view class="uni-common-mt">
 							<div class="html-wrap">
-								<div style="margin-top: 20upx;margin-bottom: 20upx;"><rich-text :nodes="htmlStr"></rich-text></div>
+								<div style="margin-top: 10px;margin-bottom: 10px;"><rich-text :nodes="htmlStr"></rich-text></div>
 							</div>
 						</view>
 					</view>
@@ -25,7 +25,7 @@
 						<li><p>答案没有对错之分，如实作答即可，若遇到难以抉择的问题，请根据第一感觉作答，你的作答将得到严格保密；</p></li>
 						<li><p>如遇电话、死机等导致测试中断，可到公众号找回，系统将保留你的答题记录。</p></li>
 					</ol>
-					<div class="goButton" @click="handleGo"></div>
+					<div class="goButton" @click="handleGo">好的 , GO !</div>
 				</div>
 			</view>
 		</view>
@@ -81,7 +81,7 @@ export default {
 	methods: {
 		handleGo: function() {
 			const { initUserQuestionsPayInfo } = this.$store.state;
-			window.document.title = initUserQuestionsPayInfo.questions_title || '一心理测评';
+			window.document.title = initUserQuestionsPayInfo.questions_title;
 			const url = this.$pageConfig[2];
 			uni.redirectTo({ url });
 		}
@@ -93,7 +93,6 @@ export default {
 </script>
 <style>
 .headWrap {
-	/* height: 400upx; */
 	height: 33vh;
 	width: 100%;
 	background-image: url(/build/static/image/common/chahua.png);
@@ -102,51 +101,52 @@ export default {
 }
 
 .beginTest {
-	font-size: 1em;
+	font-size: 1.1em;
 	background-color: #f1f1f1;
 	position: fixed;
 	left: 0;
 	right: 0;
-	bottom: 144upx;
+	bottom: 13vh;
 	margin: auto;
-	/* height: 720upx;
-	width: 660upx; */
 	height: 60vh;
 	width: 87vw;
-	border-radius: 20upx;
-	box-shadow: 0 12upx 20upx #ccc;
+	border-radius: 10px;
+	box-shadow: 0 6px 10px #ccc;
 }
 
 .beginTest ol {
 	color: #787380;
-	padding: 50upx;
+	padding: 3vh;
 	height: -webkit-fill-available;
 }
 
 .beginTest ol > li {
-	font-size: 30upx;
-	line-height: 50upx;
-	margin-left: 60upx;
-	margin-bottom: 40upx;
+	line-height: 4vh;
+	margin-left: 25px;
+	margin-bottom: 25px;
 }
 
 .beginTest ol p {
-	letter-spacing: 4upx;
+	letter-spacing: 2px;
 }
 
 .goButton {
 	position: relative;
 	left: 0;
 	right: 0;
-	bottom: -18upx;
+	bottom: -9px;
 	margin: auto;
-	/* height: 120upx;
-	width: 600upx; */
-	height: 11vh;
-	width: 75vw;
-	background-image: url(/build/static/image/common/goTest.png);
+	height: 8vh;
+	width: 71vw;
+	background-image: url(/build/static/image/common/redbutton.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
+	font-size: 1.2em;
+	line-height: 8vh;
+	letter-spacing:2px;
+	border-radius: 5px;
+	text-align: center;
+	color: #fff;
 }
 
 .goButton:active {

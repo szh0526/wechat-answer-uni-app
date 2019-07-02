@@ -7,7 +7,7 @@
 					<view v-for="(item, index) in imgList" :key="index"><image :src="item.introduce_content" mode="widthFix"></image></view>
 				</scroll-view>
 			</view>
-			<view v-show="showGo"><div class="goButton" @click="handleGo"></div></view>
+			<view v-show="showGo"><div class="goButton" @click="handleGo">立即测试</div></view>
 			<view v-show="showHelp">
 				<div class="masker" catchtouchmove="ture"></div>
 				<div class="showMsg">
@@ -59,12 +59,12 @@ export default {
 				_self.$store.commit('setUserId', user_id);
 				_self.$store.commit('initUserQuestionsPayInfo', data);
 
-				if (is_test && !is_answered) {
+				if (is_test && !is_answered && !question_id) {
 					//0未点测试 1已点测试
 					window.document.title = '开始问答';
 					const url = _self.$pageConfig[1];
 					uni.redirectTo({ url });
-				} else if (is_test && is_answered) {
+				} else if (is_test && is_answered && question_id) {
 					//是否答完 0-没有答完 1-已答完 如果答完题则跳转到报告页第一页
 					window.document.title = '个人测评报告';
 					const url = _self.$pageConfig[4];
@@ -135,7 +135,7 @@ export default {
 }
 
 #scroll image {
-	margin-bottom: -20upx;
+	margin-bottom: -10px;
 	width: 100%;
 }
 
@@ -155,12 +155,12 @@ export default {
 	position: fixed;
 	left: 0;
 	right: 0;
-	bottom: 85px;
+	bottom: 25px;
 	top: 0;
 	margin: auto;
 	/* 	height: 370px;
 	width: 320px; */
-	height: 70vh;
+	height: 60vh;
 	width: 87vw;
 	background-image: url(/build/static/image/common/showMsg2x.png);
 	background-repeat: no-repeat;
@@ -171,11 +171,11 @@ export default {
 .showMsg .qrcode {
 	/* 	height: 120px;
 	width: 120px; */
-	height: 24vh;
-	width: 38vw;
+	height: 20vh;
+	width: 34vw;
 	left: 0;
 	right: 0;
-	bottom: 22px;
+	bottom: 3vh;
 	margin: auto;
 	position: absolute;
 	/* background-image: url(/build/static/image/etwy/code.jpeg);
@@ -192,11 +192,11 @@ export default {
 	position: absolute;
 	left: 0;
 	right: 0;
-	bottom: -60px;
+	bottom: -10vh;
 	margin: auto;
 	/* height: 40px;
 	width: 40px; */
-	height: 8vh;
+	height: 7vh;
 	width: 11vw;
 	background-image: url(/build/static/image/common/closeMsg2x.png);
 	background-repeat: no-repeat;
@@ -208,15 +208,20 @@ export default {
 	position: fixed;
 	left: 0;
 	right: 0;
-	bottom: 20upx;
+	bottom: 2vh;
 	margin: auto;
-	/* height: 120upx;
-	width: 600upx; */
-	height: 10vh;
-	width: 75vw;
-	background-image: url(/build/static/image/common/goCeping2x.png);
+	height: 45px;
+	width: 62vw;
+	background-image: url(/build/static/image/common/buttonbg.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
+	font-size: 19px;
+	line-height: 41px;
+	letter-spacing:2px;
+	border-radius: 5px;
+	text-align: center;
+	font-weight: bold;
+	color: #fff;
 }
 
 .goButton:active {

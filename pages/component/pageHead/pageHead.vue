@@ -5,7 +5,7 @@
 				<view class="title-text">
 					<a @click="onSwitchTab">
 						<image class="logoContainer" src="/static/image/logo.jpeg" @error="imageError"></image>
-						一心理测评
+						妈妈测
 					</a>
 				</view>
 				<view class="serach"><mSearch @search="search($event)" :onInputClick="onInputClick" :show="false" placeholder="搜索"></mSearch></view>
@@ -92,8 +92,8 @@ export default {
 	position: absolute;
 	left: 0;
 	top: 1px;
-	width: 50upx;
-	height: 50upx;
+	width: 25px;
+	height: 25px;
 	border-radius: 50%;
 	background: #4c4b58;
 	border: 0.02667rem solid #fff;
@@ -103,6 +103,6 @@ export default {
 .serach {
 	position: absolute;
 	right: 0px;
-	width: 300upx;
+	width: 150px;
 }
 </style>

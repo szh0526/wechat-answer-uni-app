@@ -4,8 +4,8 @@
 			<view class="title">
 				<view class="container">
 					<view class="title-text">
-						<view class="cu-avatar-group" style="padding: 0 20upx 0 10upx;">
-							<view class="cu-avatar round margin-left" v-for="(item,index) in imgs" :key="index" :style="[{marginLeft:'-10upx'},{backgroundImage:'url(' + item + ')' }]"></view>
+						<view class="cu-avatar-group" style="padding: 0 10px 0 5px;">
+							<view class="cu-avatar round margin-left" v-for="(item,index) in imgs" :key="index" :style="[{marginLeft:'-5px'},{backgroundImage:'url(' + item + ')' }]"></view>
 						</view>
 						<view class="text-box" style="color: #000000;">
 							<text>{{ counts }}人已测</text>
@@ -108,20 +108,20 @@ export default {
 	position: absolute;
 	left: 0;
 	top: 1px;
-	width: 50upx;
-	height: 50upx;
+	width: 25px;
+	height: 25px;
 	border-radius: 50%;
 	background: #4c4b58;
 	/* border: 0.02667rem solid #fff; */
 	overflow: hidden;
-	margin-right: 40upx;
+	margin-right: 20px;
 }
 .text-box {
 	display: inline-flex;
-	line-height: 64upx;
+	line-height: 32px;
 	font-weight: 400;
 }
 .cu-avatar-group .cu-avatar{
-	border: 0upx;
+	border: 0;
 }
 </style>
