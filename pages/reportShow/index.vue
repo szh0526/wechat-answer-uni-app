@@ -110,7 +110,7 @@ export default {
 					let isEnd = parseInt(data.isEnd);
 					// 接口返回的当前页数据列表 (数组)
 					let curPageData = data.report_str ? [{ htmlStr: `<div class='report'>${data.report_str}</div>` }] : [];
-					//最后一页显示 去评价和分享按钮
+					//最后一页显示 去评价
 					this.showComment = isEnd == 1;
 					//显示支付按钮
 					this.showPay = isEnd == 0 && data.must_pay == 1;
@@ -138,6 +138,10 @@ export default {
 				})
 				.then(data => {
 					let isStart = parseInt(data.isStart);
+					//最后一页显示 去评价
+					this.showComment = false;
+					//最后一页显示 去评价
+					this.showDown = true;
 					if(isStart == 0){
 						// 接口返回的当前页数据列表 (数组)
 						let curPageData = data.report_str ? [{ htmlStr: `<div class='report'>${data.report_str}</div>` }] : [];

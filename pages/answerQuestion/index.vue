@@ -40,7 +40,7 @@
 		</view>
 		<view class="flex-item flex-item-V">
 			<view class="questionBox">
-				<div @click="handlePrevQuestion">上一题</div>
+				<div :style="{'pointer-events':isStart ? 'none' : 'unset'}" @click="handlePrevQuestion">上一题</div>
 				<div @click="handleNextQuestion">下一题</div>
 			</view>
 		</view>
@@ -90,7 +90,8 @@ export default {
 			timeStr: '00:00',
 			countDownTime: '',
 			cellBackground: '#fff',
-			showReport: false
+			showReport: false,
+			isStart:false,
 		};
 	},
 	//监听页面加载
@@ -165,7 +166,13 @@ export default {
 					answersId: this.answersId
 				})
 				.then(data => {
+					const isStart = parseInt(data.isStart);
+					if(isStart){
+						_self.isStart = true;
+						return;
+					}
 					const { question, answer, total } = data;
+					_self.isStart = false;
 					_self.total = total;
 					_self.percent = (question.qid / total) * 100;
 					_self.qid = question.qid;
@@ -208,6 +215,7 @@ export default {
 				.then(data => {
 					//调用完接口清空选项
 					this.answersId = null;
+					this.isStart = false;
 					if (data.isEnd == 1) {
 						this.showReport = true;
 					} else {
@@ -247,7 +255,6 @@ export default {
 			this.answersId = event.target.value;
 		},
 		handlePrevQuestion: function() {
-			this.items = [];
 			this.getPrevQuestion();
 		},
 		handleNextQuestion: function() {
