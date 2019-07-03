@@ -10,16 +10,17 @@
 		</div>
 		<div class="htmlWrap">
 			<view v-for="(item, index) in dataList" :key="index">
-				<div :class="index > 0 ? 'report' : 'report_0'"><rich-text :nodes="item.htmlStr"></rich-text></div>
+				<rich-text :nodes="item.htmlStr"></rich-text>
 			</view>
 			<view class="reportBox" v-if="showDown">
 				<div :style="{'pointer-events':isStart ? 'none' : 'unset'}" @click="handlePrevPage">上一页</div>
-				<div @click="handleNextPage">下一页</div>
+				<div v-if="!showComment" @click="handleNextPage">下一页</div>
+				<div v-if="showComment" @click="handleComment">去评价</div>
 			</view>
-			<view class="questionBox" v-if="showComment">
+			<!-- <view class="questionBox" v-if="showComment">
 				<view><div class="comment" @click="handleComment">去评价</div></view>
 				<view><wx-share-button title="去分享" /></view>
-			</view>
+			</view> -->
 			<view class="payBox" v-if="showPay">
 				<view><div class="pay" @click="handlePay">支付{{payAmount}}继续查看</div></view>
 			</view>
@@ -106,21 +107,18 @@ export default {
 					currentPage: this.currentPage
 				})
 				.then(data => {
+					let isEnd = parseInt(data.isEnd);
 					// 接口返回的当前页数据列表 (数组)
-					let curPageData = data.report_str ? [{ htmlStr: data.report_str }] : [];
-
+					let curPageData = data.report_str ? [{ htmlStr: `<div class='report'>${data.report_str}</div>` }] : [];
 					//最后一页显示 去评价和分享按钮
-					this.showComment = data.isEnd == 1;
+					this.showComment = isEnd == 1;
 					//显示支付按钮
-					this.showPay = data.isEnd == 0 && data.must_pay == 1;
-					//最后一页隐藏下一页按钮
-					this.showDown = data.isEnd == 0 && data.must_pay == 0;
-
+					this.showPay = isEnd == 0 && data.must_pay == 1;
+					//最后一页隐藏上一页按钮
+					this.showDown = data.must_pay == 0;
 					//页数
 					this.currentPage = data.id;
-					
 					this.isStart = false;
-
 					//设置列表数据
 					this.dataList = curPageData; //追加新数据
 				})
@@ -139,16 +137,17 @@ export default {
 					currentPage: this.currentPage
 				})
 				.then(data => {
-					// 接口返回的当前页数据列表 (数组)
-					let curPageData = data.report_str ? [{ htmlStr: data.report_str }] : [];
-
-					//页数
-					this.currentPage = data.id;
-					
-					this.isStart = data.isStart;
-
-					//设置列表数据
-					this.dataList = curPageData; //追加新数据
+					let isStart = parseInt(data.isStart);
+					if(isStart == 0){
+						// 接口返回的当前页数据列表 (数组)
+						let curPageData = data.report_str ? [{ htmlStr: `<div class='report'>${data.report_str}</div>` }] : [];
+						//页数
+						this.currentPage = data.id;
+						//设置列表数据
+						this.dataList = curPageData; //追加新数据
+					}else{
+						this.isStart = true;
+					}
 				})
 				.catch(e => {
 					uni.showToast({

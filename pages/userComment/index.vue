@@ -27,6 +27,8 @@
 					<div class="tip">剩余 {{ remainCount }} 字</div>
 				</view>
 			</div>
+		</view>
+		<view class="flex-item flex-item-V">
 			<view class="questionBox">
 				<view v-if="showSubmit">
 					<div
@@ -82,7 +84,7 @@ export default {
 		this.$store.commit('setCurrentPage', 'userComment');
 		const { is_comment, title, userinfo } = initUserQuestionsPayInfo;
 		this.showSubmit = true; //is_comment == 1 ? true : false; //是否评论 0-未评论,1-已评论
-		this.disableSubmit = is_comment == 1 ? true : false; //已评论过的禁用按钮
+		//this.disableSubmit = is_comment == 1 ? true : false; //已评论过的禁用按钮
 		this.title = title;
 		this.name = userinfo.name;
 		this.img = userinfo.img;
@@ -182,6 +184,8 @@ export default {
 				});
 				return;
 			}
+			
+			_self.disableSubmit = true;
 
 			this.$store
 				.dispatch('saveUserComment', {
@@ -191,9 +195,15 @@ export default {
 					commentStr
 				})
 				.then(data => {
-					_self.disableSubmit = true;
+					_self.disableSubmit = false;
+					uni.showToast({
+						icon: 'none',
+						title: "提交成功!",
+						duration: 1000
+					});
 				})
 				.catch(e => {
+					_self.disableSubmit = false;
 					uni.showToast({
 						icon: 'none',
 						title: e.message,
@@ -267,7 +277,7 @@ export default {
 .evaluation {
 	padding: 16px 8px 20px 8px;
 	margin: auto;
-	height: 59vh;
+	height: 330px;
 	width: 88vw;
 	color: #78747e;
 	font-size: 1em;
@@ -289,7 +299,7 @@ export default {
 }
 
 .evaluation .score {
-	height: 6vh;
+	height: 38px;
 	font-size: 1.1em;
 	margin-bottom: 10px;
 	padding: 3px 15px 8px 15px;
@@ -300,7 +310,7 @@ export default {
 .evaluation .uni-textarea {
 	position: relative;
 	padding: 5px;
-	height: 35vh;
+	height: 195px;
 	background-color: #d6f7f7;
 	border-radius: 5px;
 }
@@ -316,18 +326,19 @@ export default {
 
 .questionBox {
 	display: inline-flex;
-	margin: auto;
+	width: 70vw;
+	text-align: center;
+	margin-left: 15%;
+	margin-right: 15%;
+	/* margin: auto;
 	position: fixed;
 	left: 0;
-	width: 68vw;
-	/* top: 0; */
 	bottom: 1vh;
-	right: 0;
+	right: 0; */
 }
 
 .questionBox div {
 	width: 32vw;
-	height: 8vh;
 	margin: auto;
 	display: inline-block;
 }
