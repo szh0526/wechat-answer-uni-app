@@ -84,6 +84,9 @@ export default {
 			link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 			desc: '欧美家长都在用的专业问卷，现在可以免费领取了，点击查看详情' //分享描述
 		};
+		
+		//清楚url参数code 与 state
+		data.link = data.link.substring(0,data.link.indexOf('code') -1);
 
 		//每次都需要重新初始化配置，才可以进行分享  
 		this.initJssdk(function() {
