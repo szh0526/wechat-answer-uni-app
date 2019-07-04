@@ -12,7 +12,7 @@
 				<div class="masker" catchtouchmove="ture"></div>
 				<div class="showMsg">
 					<div class="qrcode">
-						<img src="/build/static/image/etwy/code.jpeg"></img>
+						<img src="/build/static/image/etwy/code.jpeg?v=1.01"></img>
 					</div>
 					<div class="closeMsg" @click="handleClose"></div>
 				</div>
