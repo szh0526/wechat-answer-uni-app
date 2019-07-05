@@ -12,7 +12,7 @@
 				<div class="masker" catchtouchmove="ture"></div>
 				<div class="showMsg">
 					<div class="qrcode">
-						<img src="/build/static/image/etwy/code.jpeg?v=1.01"></img>
+						<img :src="qrcode"></img>
 					</div>
 					<div class="closeMsg" @click="handleClose"></div>
 				</div>
@@ -32,6 +32,7 @@ export default {
 			showGo: false,
 			showHelp: false,
 			questionsId: null,
+			qrcode:'',
 			imgList: []
 		};
 	},
@@ -113,7 +114,18 @@ export default {
 			this.$store
 				.dispatch('clickTest', {})
 				.then(data => {
-					console.log(data);
+					this.$store
+						.dispatch('getIntroduceQRCode', {})
+						.then(data => {
+							this.qrcode = data;
+						})
+						.catch(e => {
+							uni.showToast({
+								icon: 'none',
+								title: e.message,
+								duration: 2000
+							});
+						});
 				})
 				.catch(e => {
 					uni.showToast({
