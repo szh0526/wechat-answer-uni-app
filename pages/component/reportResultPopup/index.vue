@@ -3,15 +3,25 @@
 		<div class="masker" catchtouchmove="ture"></div>
 		<div class="showMsg">
 			<div class="begin">
-				<p>亲爱的家长朋友,</p>
+				<!-- <p>亲爱的家长朋友,</p>
 				<p>您已经成功完成了儿童喂养方式评估专业测试。</p>
 				<p style="font-weight: bold;font-size: 1.1em;">本报告将由三部分给您进行全面的现状分析及面临问题的科学指导建议 :</p>
 				<ul>
 					<li><p>您当前在孩子喂养方面的方式正确吗? (初步全面诊断)</p></li>
 					<li><p>哪些环节是做的好的、哪些环节是需要马上改善的?</p></li>
 					<li><p>针对面临的问题,如何具体做最有效?</p></li>
-				</ul>
-				<div class="goButton" @click="handleGo">看报告</div>
+				</ul> -->
+				
+				<!-- <rich-text :nodes="report_introduce_content"></rich-text> -->
+				<rich-text :nodes="first"></rich-text>
+				<rich-text :nodes="second"></rich-text>
+				<rich-text :nodes="third"></rich-text>
+				<view v-if="showPay">
+					<div class="goButton" @click="handlePay">支付{{payAmount}}继续查看</div>
+				</view>
+				<view v-if="!showPay">
+					<div class="goButton" @click="handleGo">好的，GO!</div>
+				</view>
 			</div>
 		</div>
 	</view>
@@ -24,17 +34,67 @@ export default {
 		show: {
 			type: Boolean,
 			default: false
+		},
+		initUserQuestionsPayInfo:{
+			type: Object,
+			required:true
 		}
 	},
 	data() {
-		return {};
+		return {
+			first:"",
+			second:"",
+			third:"",
+			report_introduce_content:"",
+			showPay:false,
+			payAmount:0,
+		};
 	},
-	//监听页面加载
-	onLoad: function(option) {},
+	mounted:function(option) {
+		const { payAmount } = this.initUserQuestionsPayInfo;
+		this.$store
+			.dispatch('getUserReportPage', {})
+			.then(data => {
+				const {first,second,third,report_introduce_content,must_pay} = data;
+				this.first=`<p>${first}</p>`;
+				this.second=`<p style='font-weight: bold;font-size: 1.1em;'>${second}</p>`;
+				this.third=`<p><br>${third}</p>`;
+				this.report_introduce_content = report_introduce_content;
+				this.payAmount = payAmount;
+				this.showPay = must_pay == 1;
+			})
+			.catch(e => {
+				uni.showToast({
+					icon: 'none',
+					title: e.message,
+					duration: 2000
+				});
+			});
+	},
 	//监听页面卸载
 	onUnload() {},
 	computed: {},
 	methods: {
+		handlePay: function() {
+			const _self = this;
+			_self.$store
+				.dispatch('getUserPayAmountInfo', {})
+				.then(data => {
+					if (_self.$wechat && _self.$wechat.isWechat()) {
+						_self.$wechat.pay(() => {
+							//支付完直接跳转
+							_self.handleGo();
+						});
+					}
+				})
+				.catch(e => {
+					uni.showToast({
+						icon: 'none',
+						title: e.message,
+						duration: 2000
+					});
+				});
+		},
 		handleGo: function() {
 			const _self = this;
 			this.$store

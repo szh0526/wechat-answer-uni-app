@@ -44,7 +44,7 @@
 				<div @click="handleNextQuestion">下一题</div>
 			</view>
 		</view>
-		<view><report-result-popup :show="showReport" /></view>
+		<view v-if="initUserQuestionsPayInfo"><report-result-popup :initUserQuestionsPayInfo="initUserQuestionsPayInfo" :show="showReport" /></view>
 	</view>
 </template>
 
@@ -92,6 +92,7 @@ export default {
 			cellBackground: '#fff',
 			showReport: false,
 			isStart:false,
+			initUserQuestionsPayInfo:null,
 		};
 	},
 	//监听页面加载
@@ -105,6 +106,7 @@ export default {
 		}
 
 		this.$store.commit('setCurrentPage', 'answerQuestion');
+		this.initUserQuestionsPayInfo = initUserQuestionsPayInfo;
 		const { question_id, countDownTime } = initUserQuestionsPayInfo;
 		this.currentQuestionId = question_id;
 		this.countDownTime = countDownTime || '';
