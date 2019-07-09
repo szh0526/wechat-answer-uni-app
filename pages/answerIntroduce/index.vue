@@ -79,7 +79,10 @@ export default {
 					_self.$store
 						.dispatch('getIntroducePage', {})
 						.then(data => {
-							_self.imgList = data || [];
+							_self.imgList = data ? data.map(x=>{
+								x.introduce_content =`${window.location.origin}${x.introduce_content}`;
+								return x;
+							}) : [];
 							_self.showGo = true;
 						})
 						.catch(e => {
