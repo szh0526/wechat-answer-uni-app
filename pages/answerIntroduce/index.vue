@@ -12,7 +12,7 @@
 				<div class="masker" catchtouchmove="ture"></div>
 				<div class="showMsg">
 					<div class="qrcode">
-						<img :src="qrcode"></img>
+						<img :src="qrcode"/>
 					</div>
 					<div class="closeMsg" @click="handleClose"></div>
 				</div>
