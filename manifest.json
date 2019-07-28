@@ -67,7 +67,7 @@
         "devServer" : {
             "host" : "",
             "disableHostCheck" : true,
-            "https" : false,
+            "https" : true,
             "port" : 8001
         },
         "router" : {
