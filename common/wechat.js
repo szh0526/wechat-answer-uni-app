@@ -105,7 +105,8 @@ export default {
           success: function (res) {
             // 用户点击分享后的回调，这里可以进行统计，例如分享送金币之类的  
             userShare({
-            uid})
+              uid
+            })
               .then(data => {
                 console.log('分享给朋友圈成功!')
                 if (callback) {
