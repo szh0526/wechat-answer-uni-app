@@ -5,6 +5,7 @@ import {
 	userPay,
 	userShare
 } from 'api.js';
+import util from './util.js';
 const jweixin = require('jweixin-module');
 
 export default {
@@ -70,23 +71,32 @@ export default {
 			});
 	},
 	//在需要自定义分享的页面中调用  
-	share: function(data,callback) {
+	share: function(data, callback) {
 		if (!this.isWechat()) {
 			return;
 		}
+		const {origin,pathname,search} = window.location;
+		let url = `${origin}${pathname}`;
+		let params = util.urlParamToObj(search);
+		//清除url参数code 与 state
+		delete params.state;
+		delete params.code;
+		let uid = window.wxanswer.userId;//谁分享的  第一次分享为空 第二次为第一次的userId
+		params = Object.assign({},params,{
+			uid
+		})
+		params = util.json2ParStr(params);
+		url = `${url}?${params}`;
 
-		//url必须是当前网址的url，不包含‘#’后面部分，不能是本地地址http://localhost:8080/之类的，而且url的domain必须在微信安全域名之中。
-		const url = window.location.href.split('#')[0];
-		const _urlPrefix = window.location.origin;
-		data = data || {
+		data = Object.assign({}, {
 			title: '90%宝妈都在犯的错误，快去测一测', // 分享标题
-			imgUrl: `${_urlPrefix}/build/static/image/logo.jpeg`, // 分享图标
-			link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+			imgUrl: `${origin}/build/static/image/logo.jpeg`, // 分享图标
+			//url必须是当前网址的url，不包含‘#’后面部分，不能是本地地址http://localhost:8080/之类的，而且url的domain必须在微信安全域名之中。
+			link: url,
 			desc: '欧美家长都在用的专业问卷，现在可以免费领取了，点击查看详情' //分享描述
-		};
-		
-		//清楚url参数code 与 state
-		data.link = data.link.substring(0,data.link.indexOf('code') -1);
+		}, data);
+
+		//console.log('当前分享配置', data);
 
 		//每次都需要重新初始化配置，才可以进行分享  
 		this.initJssdk(function() {
@@ -100,7 +110,9 @@ export default {
 					dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
 					success: function(res) {
 						//用户点击分享后的回调，这里可以进行统计，例如分享送金币之类的  
-						userShare({})
+						userShare({
+							uid
+						})
 							.then(data => {
 								console.log('分享给朋友圈成功!');
 								if (callback) {
@@ -140,16 +152,16 @@ export default {
 				//jweixin.updateTimelineShareData(shareData);
 				jweixin.onMenuShareTimeline(shareData);
 			});
-		}, url,'share');
+		}, url, 'share');
 	},
 	pay: function(callback) {
 		if (!this.isWechat()) {
 			return;
 		}
-		
+
 		//url必须是当前网址的url，不包含‘#’后面部分，不能是本地地址http://localhost:8080/之类的，而且url的domain必须在微信安全域名之中。
 		const url = window.location.href.split('#')[0];
-		
+
 		//每次都需要重新初始化配置，才可以进行支付
 		this.initJssdk(function(data) {
 			jweixin.ready(function() {

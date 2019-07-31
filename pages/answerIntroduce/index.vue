@@ -23,6 +23,11 @@
 
 <script>
 import util from '../../common/util.js';
+import {
+	getQueryString,
+	json2ParStr,
+	urlParamToObj
+} from '../../common/util.js';
 import hasPayHead from '../component/hasPayHead/hasPayHead.vue';
 
 export default {
@@ -45,21 +50,49 @@ export default {
 
 		const questionsId = util.getQueryString('id');
 		const channel = util.getQueryString('channel');
+		const uid = util.getQueryString('uid');
 		const page = util.getQueryString('page');
 		this.$store.commit('setQuestionsId', questionsId);
 		this.$store.commit('setPage', page);
 
 		this.$store
 			.dispatch('initUserQuestionsPayInfo', {
-				channel
+				channel,
+				uid:uid || ''
 			})
 			.then(data => {
 				const { is_test, questions_id, user_id, is_answered, question_id, questions_title } = data;
+				//没有uid重新进页面
+				if(!uid || uid != user_id){
+					const {origin,pathname,search} = window.location;
+					
+					let url = `${origin}${pathname}`;
+					let params = urlParamToObj(search);
+					//清除uid
+					if(params.uid){
+						delete params.uid;
+					}
+					let uid = user_id;//谁分享的  第一次分享为空 第二次为第一次的userId
+					params = Object.assign({},params,{
+						uid
+					})
+					params = json2ParStr(params);
+					url = `${url}?${params}`;
+					window.location.href = url;
+					return;
+				}
+				
 				_self.questionsId = questions_id;
 				_self.$store.commit('setQuestionsId', questions_id);
 				_self.$store.commit('setUserId', user_id);
 				_self.$store.commit('initUserQuestionsPayInfo', data);
-
+				
+				if (_self.$wechat && _self.$wechat.isWechat()) {
+					_self.$wechat.share(null,()=>{
+						console.log("初始化全局分享成功!");
+					});
+				}
+				
 				if (is_test && !is_answered && !question_id) {
 					//0未点测试 1已点测试
 					window.document.title = '开始问答';
