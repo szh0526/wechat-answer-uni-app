@@ -72,6 +72,9 @@ export default {
 					if(params.uid){
 						delete params.uid;
 					}
+					if(params.from){
+						delete params.from;
+					}
 					let uid = user_id;//谁分享的  第一次分享为空 第二次为第一次的userId
 					params = Object.assign({},params,{
 						uid
