@@ -82,11 +82,11 @@ export default {
 		} = window.location
 		let url = `${origin}${pathname}`
 		let params = util.urlParamToObj(search)
-		// 清除url参数code 与 state
-		delete params.state;
-		delete params.code;
-		delete params['from'];
-		delete params.isappinstalled;
+		// 清除url参数code , state , from, isappinstalled
+		// delete params.from;
+		// delete params.isappinstalled;
+		// delete params.code;
+		// delete params.state;
 		
 		let uid = window.wxanswer.userId; // 谁分享的  第一次分享为空 第二次为第一次的userId
 		params = Object.assign({}, params, {

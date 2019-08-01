@@ -62,8 +62,13 @@ export default {
 			})
 			.then(data => {
 				const { is_test, questions_id, user_id, is_answered, question_id, questions_title } = data;
+				
+				const code = getQueryString('code')
+				const state = getQueryString('state')
+				const _from = getQueryString('from')
+				const isappinstalled = getQueryString('isappinstalled')
 				//没有uid重新进页面
-				if(!uid || uid != user_id){
+				if(!uid || uid != user_id || _from || isappinstalled || code || state){
 					const {origin,pathname,search} = window.location;
 					
 					let url = `${origin}${pathname}`;
@@ -71,6 +76,18 @@ export default {
 					//清除uid
 					if(params.uid){
 						delete params.uid;
+					}
+					if(params.from){
+						delete params.from;
+					}
+					if(params.isappinstalled){
+						delete params.isappinstalled;
+					}
+					if(params.code){
+						delete params.code;
+					}
+					if(params.state){
+						delete params.state;
 					}
 					let uid = user_id;//谁分享的  第一次分享为空 第二次为第一次的userId
 					params = Object.assign({},params,{
