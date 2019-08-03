@@ -87,13 +87,10 @@ export default {
 		// delete params.isappinstalled;
 		// delete params.code;
 		// delete params.state;
-		
-		let uid = window.wxanswer.userId; // 谁分享的  第一次分享为空 第二次为第一次的userId
-		params = Object.assign({}, params, {
-			uid
-		})
-		params = util.json2ParStr(params)
-		url = `${url}?${params}`
+		if(params && !util.isEmptyObject(params)){
+			params = util.json2ParStr(params)
+			url = `${url}?${params}`;
+		}
 
 		data = Object.assign({}, {
 			title: '90%宝妈都在犯的错误，快去测一测', // 分享标题

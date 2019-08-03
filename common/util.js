@@ -109,6 +109,7 @@ let getQueryString = (name) => {
 }
 
 let urlParamToObj = (url) => {
+	if(!url) return {};
 	var arr1 = url.split("?");
 	var params = arr1[1].split("&");
 	var obj = {}; //声明对象
@@ -119,11 +120,14 @@ let urlParamToObj = (url) => {
 	return obj;
 }
 
+let isEmptyObject = (obj) => Object.prototype.toString.call(obj) == "[object Object]" && Object.keys(obj).length == 0;
+
 module.exports = {
 	formatTime: formatTime,
 	formatLocation: formatLocation,
 	dateUtils: dateUtils,
 	getQueryString,
 	json2ParStr,
-	urlParamToObj
+	urlParamToObj,
+	isEmptyObject
 }

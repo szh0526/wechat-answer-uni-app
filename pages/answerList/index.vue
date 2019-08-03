@@ -2,25 +2,11 @@
 	<view>
 		<view class="uni-flex uni-column">
 			<view class="flex-item flex-item-V">
-				<view class="bg-gradual-pink">
-					<view class="padding">
-						<view class="cu-avatar xl round margin-left" :style="[{ backgroundImage: 'url(' + logo + ')' }]"></view>
-						<text class="margin-left-sm text-white text-bold">欢迎回来,{{name}}！</text>
-					</view>
-				</view>
 				<view class="VerticalBox">
-					<scroll-view scroll-x class="bg-white nav">
-						<view class="flex text-center">
-							<view class="cu-item flex-sub" :class="index==tabCur?'text-green cur':''" v-for="(item,index) in tabList" :key="index"
-							 @tap="tabSelect" :data-id="item.id">
-								{{item.title}}
-							</view>
-						</view>
-					</scroll-view>
-					<scroll-view class="VerticalMain" scroll-x scroll-with-animation>
+					<scroll-view class="VerticalMain" scroll-y scroll-with-animation style="height:calc(100vh)">
 						<view class="padding-lr-xxs padding-bottom-sm">
 							<view class="cu-list menu-avatar">
-								<view class="cu-item solid-bottom" @click="onItemClick(item)"  v-for="(item, index) in dataList" :key="index">
+								<view class="cu-item solid-bottom" @click="onItemClick(item)" v-for="(item, index) in cuBarList" :key="index">
 									<view>
 										<image class="cu-avatar radius xxl" mode="scaleToFill" lazy-load :src="item.src" @error="imageError"></image>
 									</view>
@@ -49,46 +35,70 @@
 </template>
 
 <script>
+	import {
+		getQueryString,
+		json2ParStr,
+		urlParamToObj,
+		isEmptyObject
+	} from '../../common/util.js';
 	import bottomBar from '../component/bottomBar/bottomBar.vue';
 	export default {
 		data() {
 			return {
-				logo:"",
-				name:"",
-				tabList: [{
-					id: "0",
-					title: "未完成"
-				}, {
-					id: "1",
-					title: "已完成"
-				}],
-				tabCur: 0,
-				dataList: []
+				cuBarList: [],
+				load: true
 			};
 		},
-		onLoad() {
-			const {userinfo} = this.$store.state.initUserQuestionsPayInfo;
-			this.name = userinfo.name;
-			this.logo = userinfo.img;
-			this.getAssessment();
+		onReady:function(){
+			// uni.showTabBar({
+			// })
+		},
+		onLoad: function() {
+			this.init();
 		},
 		methods: {
-			tabSelect(e) {
-				this.tabCur = e.currentTarget.dataset.id;
-				this.getAssessment();
-			},
 			imageError: function(e) {
 				console.error('image发生error事件，携带值为' + e.detail.errMsg);
 			},
-			getAssessment() {
-				const status = this.tabCur;
+			init:function(){
+				const _self = this;
+				this.$store.commit('setCurrentPage', 'answerList');
+				//进首页
+				const {origin,pathname,search} = window.location;
+				let params = urlParamToObj(search);
+				if(!params || isEmptyObject(params)){
+					this.$store
+						.dispatch('initUserQuestionsPayInfo', {
+						})
+						.then(data => {
+							const {user_id} = data;
+							_self.$store.commit('setUserId', user_id);
+							_self.$store.commit('initUserQuestionsPayInfo', data);
+							_self.getScales();
+						})
+						.catch(e => {
+							uni.showToast({
+								icon: 'none',
+								title: e.message,
+								duration: 2000
+							});
+						});
+				}else{
+					params = json2ParStr(params)
+					const url = `${this.$pageConfig[0]}?${params}`;
+					uni.redirectTo({ url });
+				}
+			},
+			onItemClick:function(item){
+				const url = `${this.$pageConfig[0]}?id=${item.questions_id}&channel=${item.channel}`;
+				uni.redirectTo({ url });
+			},
+			getScales:function(){
 				const origin = window.location.origin;
 				this.$store
-					.dispatch('getAssessment', {
-						status
-					})
+					.dispatch('getScales', {})
 					.then(data => {
-						this.dataList = data ? data.filter((x, index) => {
+						this.cuBarList = data ? data.map((x, index) => {
 							x.id = index;
 							x.src = `${origin}${x.introPicture}`;
 							return x;
@@ -101,11 +111,7 @@
 							duration: 2000
 						});
 					});
-			},
-			onItemClick:function(item){
-				const url = `${this.$pageConfig[0]}?id=${item.questions_id}&channel=${item.channel}&page=${item.page}`;
-				uni.redirectTo({ url });
-			},
+			}
 		},
 		components: {
 			bottomBar
@@ -148,7 +154,7 @@
 	}
 
 	.VerticalBox {
-		/* display: flex; */
+		display: flex;
 	}
 
 	.VerticalMain {

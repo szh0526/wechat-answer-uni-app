@@ -1,6 +1,10 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			"path": "pages/answerList/index",
+			"style": {}
+		},
+		{
 			"path": "pages/answerIntroduce/index",
 			"style": {}
 		}, {
@@ -9,7 +13,7 @@
 		}, {
 			"path": "pages/answerQuestion/index",
 			"style": {}
-		}, 
+		},
 		// {
 		// 	"path": "pages/reportResult/index",
 		// 	"style": {}
@@ -19,6 +23,9 @@
 			"style": {}
 		}, {
 			"path": "pages/userComment/index",
+			"style": {}
+		}, {
+			"path": "pages/myAssessment/myAssessment",
 			"style": {}
 		}
 		// ,{
@@ -62,24 +69,6 @@
 		// 	}
 		// },
 		// {
-		// 	"path": "pages/myAssessment/myAssessment",
-		// 	"style": {
-		// 		"h5": {
-		// 			"titleNView": {
-		// 				"titleSize": "14",
-		// 				"searchInput": {
-		// 					"align": "left",
-		// 					"placeholder": "搜索",
-		// 					"backgroundColor": "#F7F7F7"
-		// 				}
-		// 			},
-		// 			"pullToRefresh": {
-		// 				"offset": 20
-		// 			}
-		// 		}
-		// 	}
-		// },
-		// {
 		// 	"path": "pages/serachTag/serachTag",
 		// 	"style": {
 		// 		"h5": {
@@ -104,24 +93,24 @@
 		"navigationBarTitleText": "妈妈测",
 		"navigationBarBackgroundColor": "#F7F7F7",
 		"backgroundColor": "#F8F8F8"
-	},
-	"tabBar": {
+	}
+	,"tabBar": {
 		"borderStyle": "black",
 		"backgroundColor": "#FFFFFF",
 		"color": "#C1C1C1",
 		"selectedColor": "#6E6E6E",
 		"list": [{
-				"pagePath": "pages/index/index",
+				"pagePath": "pages/answerList/index",
 				"iconPath": "static/image/tabbar/icon-home.png",
 				"selectedIconPath": "static/image/tabbar/icon-home-on.png",
 				"text": "首页"
 			},
-			{
-				"pagePath": "pages/category/category",
-				"iconPath": "static/image/tabbar/icon-sort.png",
-				"selectedIconPath": "static/image/tabbar/icon-sort_on.png",
-				"text": "分类"
-			},
+			// {
+			// 	"pagePath": "pages/category/category",
+			// 	"iconPath": "static/image/tabbar/icon-sort.png",
+			// 	"selectedIconPath": "static/image/tabbar/icon-sort_on.png",
+			// 	"text": "分类"
+			// },
 			{
 				"pagePath": "pages/myAssessment/myAssessment",
 				"iconPath": "static/image/tabbar/icon-mine.png",

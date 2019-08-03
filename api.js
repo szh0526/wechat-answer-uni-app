@@ -34,7 +34,13 @@ let apiUrl = {
 
 	//支付
 	userPay: '/questions/userPay',
-	unifiedOrder: '/orders/unifiedOrder'
+	unifiedOrder: '/orders/unifiedOrder',
+	
+	//测评列表页
+	getCategorys:'/service/getCategorys',
+	getScales:'/service/getScales',
+	getAssessment:'/service/getAssessment',
+	
 }
 
 for (let [key, value] of Object.entries(apiUrl)) {
@@ -128,6 +134,16 @@ const userPay = function(params) {
 const unifiedOrder = function(params) {
 	return fetch(apiUrl["unifiedOrder"], params);
 }
+const getCategorys = function(params) {
+	return fetch(apiUrl["getCategorys"], params);
+}
+const getScales = function(params) {
+	return fetch(apiUrl["getScales"], params);
+}
+const getAssessment = function(params) {
+	return fetch(apiUrl["getAssessment"], params);
+}
+
 
 export {
 	getIntroducePage,
@@ -150,5 +166,8 @@ export {
 	getUserReportPage,
 	getSignature,
 	userPay,
-	unifiedOrder
+	unifiedOrder,
+	getCategorys,
+	getScales,
+	getAssessment
 }

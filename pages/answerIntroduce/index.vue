@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import util from '../../common/util.js';
 import {
 	getQueryString,
 	json2ParStr,
@@ -42,17 +41,17 @@ export default {
 		};
 	},
 	//监听页面初次渲染完成
-	onReady() {},
+	onReady() {
+		uni.hideTabBar({
+		})
+	},
 	//监听页面加载
 	onLoad: function(option) {
 		const _self = this;
 		this.$store.commit('setCurrentPage', 'answerIntroduce');
-
-		const questionsId = util.getQueryString('id');
-		const channel = util.getQueryString('channel');
-		const uid = util.getQueryString('uid');
-		const page = util.getQueryString('page');
-		this.$store.commit('setQuestionsId', questionsId);
+		const {origin,pathname,search} = window.location;
+		const {id,channel,uid,page} = option;
+		this.$store.commit('setQuestionsId', id);
 		this.$store.commit('setPage', page);
 
 		this.$store
@@ -62,53 +61,51 @@ export default {
 			})
 			.then(data => {
 				const { is_test, questions_id, user_id, is_answered, question_id, questions_title } = data;
-				
-				const code = getQueryString('code')
-				const state = getQueryString('state')
-				const _from = getQueryString('from')
-				const isappinstalled = getQueryString('isappinstalled')
-				//没有uid重新进页面
-				if(!uid || uid != user_id || _from || isappinstalled || code || state){
-					const {origin,pathname,search} = window.location;
-					
-					let url = `${origin}${pathname}`;
-					let params = urlParamToObj(search);
-					//清除uid
-					if(params.uid){
-						delete params.uid;
-					}
-					if(params.from){
-						delete params.from;
-					}
-					if(params.isappinstalled){
-						delete params.isappinstalled;
-					}
-					if(params.code){
-						delete params.code;
-					}
-					if(params.state){
-						delete params.state;
-					}
-					let uid = user_id;//谁分享的  第一次分享为空 第二次为第一次的userId
-					params = Object.assign({},params,{
-						uid
-					})
-					params = json2ParStr(params);
-					url = `${url}?${params}`;
-					window.location.href = url;
-					return;
-				}
-				
+				// 
+				// const code = getQueryString('code')
+				// const state = getQueryString('state')
+				// const _from = getQueryString('from')
+				// const isappinstalled = getQueryString('isappinstalled')
+				// //没有uid重新进页面
+				// if(!uid || uid != user_id || _from || isappinstalled || code || state){
+				// 	let url = `${origin}${pathname}`;
+				// 	let params = urlParamToObj(search);
+				// 	//清除uid
+				// 	if(params.uid){
+				// 		delete params.uid;
+				// 	}
+				// 	if(params.from){
+				// 		delete params.from;
+				// 	}
+				// 	if(params.isappinstalled){
+				// 		delete params.isappinstalled;
+				// 	}
+				// 	if(params.code){
+				// 		delete params.code;
+				// 	}
+				// 	if(params.state){
+				// 		delete params.state;
+				// 	}
+				// 	let uid = user_id;//谁分享的  第一次分享为空 第二次为第一次的userId
+				// 	params = Object.assign({},params,{
+				// 		uid
+				// 	})
+				// 	params = json2ParStr(params);
+				// 	url = `${url}?${params}`;
+				// 	window.location.href = url;
+				// 	return;
+				// }
+				// 
 				_self.questionsId = questions_id;
 				_self.$store.commit('setQuestionsId', questions_id);
 				_self.$store.commit('setUserId', user_id);
 				_self.$store.commit('initUserQuestionsPayInfo', data);
 				
-				if (_self.$wechat && _self.$wechat.isWechat()) {
-					_self.$wechat.share(null,()=>{
-						console.log("初始化全局分享成功!");
-					});
-				}
+				// if (_self.$wechat && _self.$wechat.isWechat()) {
+				// 	_self.$wechat.share(null,()=>{
+				// 		console.log("初始化全局分享成功!");
+				// 	});
+				// }
 				
 				if (is_test && !is_answered && !question_id) {
 					//0未点测试 1已点测试
@@ -130,7 +127,7 @@ export default {
 						.dispatch('getIntroducePage', {})
 						.then(data => {
 							_self.imgList = data ? data.map(x=>{
-								x.introduce_content =`${window.location.origin}${x.introduce_content}`;
+								x.introduce_content =`${origin}${x.introduce_content}`;
 								return x;
 							}) : [];
 							_self.showGo = true;
