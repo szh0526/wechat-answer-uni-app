@@ -81,17 +81,19 @@ export default {
 			search
 		} = window.location
 		let url = `${origin}${pathname}`
-		let params = util.urlParamToObj(search)
+		let params = util.urlParamToObj(search);
+		let uid = '';
 		// 清除url参数code , state , from, isappinstalled
 		// delete params.from;
 		// delete params.isappinstalled;
 		// delete params.code;
 		// delete params.state;
 		if(params && !util.isEmptyObject(params)){
-			params = util.json2ParStr(params)
+			uid = params.uid ? params.uid : '';
+			params = util.json2ParStr(params);
 			url = `${url}?${params}`;
 		}
-
+		
 		data = Object.assign({}, {
 			title: '90%宝妈都在犯的错误，快去测一测', // 分享标题
 			imgUrl: `${origin}/build/static/image/logo.jpeg`, // 分享图标
@@ -115,7 +117,7 @@ export default {
 					success: function(res) {
 						// 用户点击分享后的回调，这里可以进行统计，例如分享送金币之类的  
 						userShare({
-								uid:params && params.uid ? params.uid : ''
+								uid
 							})
 							.then(data => {
 								console.log('分享给朋友圈成功!')

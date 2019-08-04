@@ -49,7 +49,7 @@
 				load: true
 			};
 		},
-		onReady:function(){
+		onReady: function() {
 			// uni.showTabBar({
 			// })
 		},
@@ -60,18 +60,23 @@
 			imageError: function(e) {
 				console.error('image发生error事件，携带值为' + e.detail.errMsg);
 			},
-			init:function(){
+			init: function() {
 				const _self = this;
 				this.$store.commit('setCurrentPage', 'answerList');
 				//进首页
-				const {origin,pathname,search} = window.location;
+				const {
+					origin,
+					pathname,
+					search
+				} = window.location;
 				let params = urlParamToObj(search);
-				if(!params || isEmptyObject(params)){
+				if (!params || isEmptyObject(params)) {
 					this.$store
-						.dispatch('initUserQuestionsPayInfo', {
-						})
+						.dispatch('initUserQuestionsPayInfo', {})
 						.then(data => {
-							const {user_id} = data;
+							const {
+								user_id
+							} = data;
 							_self.$store.commit('setUserId', user_id);
 							_self.$store.commit('initUserQuestionsPayInfo', data);
 							_self.getScales();
@@ -83,17 +88,123 @@
 								duration: 2000
 							});
 						});
-				}else{
-					params = json2ParStr(params)
-					const url = `${this.$pageConfig[0]}?${params}`;
-					uni.redirectTo({ url });
+				} else {
+					const {
+						id,
+						page,
+						channel,
+						uid,
+						code,
+						state,
+						isappinstalled
+					} = params;
+					const _from = params['from'];
+					this.$store.commit('setQuestionsId', id);
+					this.$store.commit('setPage', page);
+					
+					this.$store
+						.dispatch('initUserQuestionsPayInfo', {
+							channel,
+							uid: uid || ''
+						})
+						.then(data => {
+							const {
+								is_test,
+								questions_id,
+								user_id,
+								is_answered,
+								question_id,
+								questions_title
+							} = data;
+							debugger;
+							//动态修改url参数需要刷新页面
+							if (!uid || (uid && uid != user_id) || _from || isappinstalled || code || state) {
+								let url = `${origin}${pathname}`;
+								//清除uid
+								if (params.uid) {
+									delete params.uid;
+								}
+								if (params.from) {
+									delete params.from;
+								}
+								if (params.isappinstalled) {
+									delete params.isappinstalled;
+								}
+								if (params.code) {
+									delete params.code;
+								}
+								if (params.state) {
+									delete params.state;
+								}
+								let uid = user_id; //谁分享的  第一次分享为空 第二次为第一次的userId
+								params = Object.assign({}, params, {
+									uid
+								})
+								params = json2ParStr(params);
+								url = `${url}?${params}`;
+								debugger;
+								window.location.href = url;
+								return;
+							}
+							
+							debugger;
+
+							_self.$store.commit('setQuestionsId', questions_id);
+							_self.$store.commit('setUserId', user_id);
+							_self.$store.commit('initUserQuestionsPayInfo', data);
+
+							//动态修改参数要重新初始化分享
+							// if (_self.$wechat && _self.$wechat.isWechat()) {
+							// 	_self.$wechat.share(null, () => {
+							// 		console.log("初始化全局分享成功!");
+							// 	});
+							// }
+
+							if (is_test && !is_answered && !question_id) {
+								//0未点测试 1已点测试
+								window.document.title = '开始问答';
+								const url = _self.$pageConfig[1];
+								uni.redirectTo({
+									url
+								});
+							} else if (is_test && is_answered && question_id) {
+								//是否答完 0-没有答完 1-已答完 如果答完题则跳转到报告页第一页
+								window.document.title = '个人测评报告';
+								const url = _self.$pageConfig[4];
+								uni.redirectTo({
+									url
+								});
+							} else if (is_test && !is_answered && question_id) {
+								//question_id > 0 调转到对应题
+								window.document.title = questions_title;
+								const url = _self.$pageConfig[2];
+								uni.redirectTo({
+									url
+								});
+							} else {
+								params = json2ParStr(params);
+								const url = `${_self.$pageConfig[0]}?${params}`;
+								uni.redirectTo({
+									url
+								});
+							}
+						})
+						.catch(e => {
+							uni.showToast({
+								icon: 'none',
+								title: e.message,
+								duration: 2000
+							});
+						});
 				}
 			},
-			onItemClick:function(item){
+			onItemClick: function(item) {
 				const url = `${this.$pageConfig[0]}?id=${item.questions_id}&channel=${item.channel}`;
-				uni.redirectTo({ url });
+				uni.redirectTo({
+					url
+				});
 			},
-			getScales:function(){
+			getScales: function() {
 				const origin = window.location.origin;
 				this.$store
 					.dispatch('getScales', {})
