@@ -50,6 +50,10 @@ export default {
 			date: ''
 		};
 	},
+	//监听页面初次渲染完成
+	onReady() {
+		uni.hideTabBar({})
+	},
 	onLoad: function() {
 		const { initUserQuestionsPayInfo } = this.$store.state;
 		if (Object.prototype.toString.call(initUserQuestionsPayInfo) !== '[object Object]') {

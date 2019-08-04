@@ -95,6 +95,10 @@ export default {
 			initUserQuestionsPayInfo:null,
 		};
 	},
+	//监听页面初次渲染完成
+	onReady() {
+		uni.hideTabBar({})
+	},
 	//监听页面加载
 	onLoad: function(option) {
 		const { initUserQuestionsPayInfo } = this.$store.state;

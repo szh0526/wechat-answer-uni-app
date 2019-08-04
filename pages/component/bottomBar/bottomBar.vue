@@ -1,11 +1,11 @@
 <template>
 	<view class="bottombar">
 		<view class="cu-bar tabbar bg-white" style="padding-bottom: 7px;">
-			<view :class="{'action':true,'text-gray':(active !== 'home'),'text-green':(active == 'home')}" data-id="home" @click="onBarChange">
-				<view class="cuIcon-homefill"></view> 首页
+			<view :class="{'action':true,'text-gray':(curActive == 'home'),'text-green':(curActive == 'home')}" id="home" @click="onHomeClick">
+				<view class="cuIcon-homefill" id="my" @click="onHomeClick" ></view> 首页
 			</view>
-			<view :class="{'action':true,'text-gray':(active !== 'my'),'text-green':(active == 'my')}" data-id="my" @click="onBarChange">
-				<view class="cuIcon-my"></view>我的测评
+			<view :class="{'action':true,'text-gray':(curActive != 'my'),'text-green':(curActive == 'my')}" id="my" @click="onMyClick">
+				<view class="cuIcon-my" id="my" @click="onMyClick" ></view>我的测评
 			</view>
 		</view>
 	</view>
@@ -15,27 +15,34 @@
 export default {
 	name: 'bottom-bar',
 	props: {
+		status: {
+			type: String,
+			required: true
+		}
 	},
 	data() {
 		return {
-			active:"home"
+			curActive:"home"
 		};
 	},
 	mounted: function() {
+		this.curActive = this.status;
+	},
+	destroyed:function(){
+		this.curActive = "home";
 	},
 	methods: {
-		onBarChange:function(e){
-			this.active = e.target.dataset.id;
-			if(this.active == "home"){
-				window.document.title = "妈妈测";
-				const url = this.$pageConfig[1000];
-				uni.redirectTo({ url });
-			}else if(this.active == "my"){
-				debugger
-				window.document.title = "我的测评";
-				const url = this.$pageConfig[1001];
-				uni.redirectTo({ url });
-			}
+		onHomeClick:function(){
+			this.curActive = "home";
+			window.document.title = "妈妈测";
+			const url = this.$pageConfig[1000];
+			uni.redirectTo({ url });
+		},
+		onMyClick:function(){
+			this.curActive = "my";
+			window.document.title = "我的测评";
+			const url = this.$pageConfig[1001];
+			uni.redirectTo({ url });
 		}
 	},
 	components: {

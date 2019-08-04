@@ -74,7 +74,7 @@
 				return;
 			}
 
-			_self.questionsId = id;
+			_self.questionsId = _id;
 			_self.$store.commit('setCurrentPage', 'answerIntroduce');
 			_self.$store
 				.dispatch('getIntroducePage', {})

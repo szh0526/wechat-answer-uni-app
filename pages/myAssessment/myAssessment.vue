@@ -44,7 +44,7 @@
 				</view>
 			</view>
 		</view>
-		<!-- <view><bottom-bar/></view> -->
+		<!-- <view><bottom-bar status="my"/></view> -->
 	</view>
 </template>
 
@@ -67,7 +67,14 @@
 			};
 		},
 		onLoad() {
-			const {userinfo} = this.$store.state.initUserQuestionsPayInfo;
+			const { initUserQuestionsPayInfo } = this.$store.state;
+			if (Object.prototype.toString.call(initUserQuestionsPayInfo) !== '[object Object]') {
+				//当全局接口数据为空时 返回首页
+				const url = this.$pageConfig[0];
+				uni.redirectTo({ url });
+				return;
+			}
+			const {userinfo} = initUserQuestionsPayInfo;
 			this.name = userinfo.name;
 			this.logo = userinfo.img;
 			this.getAssessment();

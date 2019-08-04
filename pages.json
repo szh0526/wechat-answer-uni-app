@@ -101,8 +101,8 @@
 		"selectedColor": "#6E6E6E",
 		"list": [{
 				"pagePath": "pages/answerList/index",
-				"iconPath": "static/image/tabbar/icon-home.png",
-				"selectedIconPath": "static/image/tabbar/icon-home-on.png",
+				"iconPath": "static/image/tabbar/home-gray.png",
+				"selectedIconPath": "static/image/tabbar/home-green.png",
 				"text": "首页"
 			},
 			// {
@@ -113,8 +113,8 @@
 			// },
 			{
 				"pagePath": "pages/myAssessment/myAssessment",
-				"iconPath": "static/image/tabbar/icon-mine.png",
-				"selectedIconPath": "static/image/tabbar/icon-mine_on.png",
+				"iconPath": "static/image/tabbar/mine-gray.png",
+				"selectedIconPath": "static/image/tabbar/mine-green.png",
 				"text": "我的测评"
 			}
 		]

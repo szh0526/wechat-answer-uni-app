@@ -64,6 +64,10 @@ export default {
 			remainCount: 200
 		};
 	},
+	//监听页面初次渲染完成
+	onReady() {
+		uni.hideTabBar({})
+	},
 	//监听页面加载
 	onLoad: function(option) {
 		const { initUserQuestionsPayInfo } = this.$store.state;
@@ -278,6 +282,7 @@ export default {
 	padding: 16px 8px 20px 8px;
 	margin: auto;
 	height: 330px;
+	/* height: 60vh; */
 	width: 88vw;
 	color: #78747e;
 	font-size: 1em;
@@ -311,6 +316,7 @@ export default {
 	position: relative;
 	padding: 5px;
 	height: 195px;
+	/* height: 34vh; */
 	background-color: #d6f7f7;
 	border-radius: 5px;
 }

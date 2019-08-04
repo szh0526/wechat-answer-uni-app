@@ -30,7 +30,7 @@
 				</view>
 			</view>
 		</view>
-		<!-- <view><bottom-bar/></view> -->
+		<!-- <view><bottom-bar status="home"/></view> -->
 	</view>
 </template>
 
@@ -50,8 +50,6 @@
 			};
 		},
 		onReady: function() {
-			// uni.showTabBar({
-			// })
 		},
 		onLoad: function() {
 			this.init();
@@ -116,7 +114,7 @@
 								question_id,
 								questions_title
 							} = data;
-							debugger;
+							
 							//动态修改url参数需要刷新页面
 							if (!uid || (uid && uid != user_id) || _from || isappinstalled || code || state) {
 								let url = `${origin}${pathname}`;
@@ -141,13 +139,10 @@
 									uid
 								})
 								params = json2ParStr(params);
-								url = `${url}?${params}`;
-								debugger;
+								url = `${url}${isEmptyObject(params) ? '' : '?'}${params}`;
 								window.location.href = url;
 								return;
 							}
-							
-							debugger;
 
 							_self.$store.commit('setQuestionsId', questions_id);
 							_self.$store.commit('setUserId', user_id);
@@ -183,7 +178,7 @@
 								});
 							} else {
 								params = json2ParStr(params);
-								const url = `${_self.$pageConfig[0]}?${params}`;
+								const url = `${_self.$pageConfig[0]}${isEmptyObject(params) ? '' : '?'}${params}`;
 								uni.redirectTo({
 									url
 								});
