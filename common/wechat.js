@@ -100,7 +100,7 @@ export default {
 			desc: '欧美家长都在用的专业问卷，现在可以免费领取了，点击查看详情' // 分享描述
 		}, data)
 
-		//console.log('当前分享配置', data)
+		console.log('当前分享配置', data)
 
 		// 每次都需要重新初始化配置，才可以进行分享  
 		this.initJssdk(function() {
@@ -115,7 +115,7 @@ export default {
 					success: function(res) {
 						// 用户点击分享后的回调，这里可以进行统计，例如分享送金币之类的  
 						userShare({
-								uid
+								uid:params && params.uid ? params.uid : ''
 							})
 							.then(data => {
 								console.log('分享给朋友圈成功!')
@@ -147,7 +147,7 @@ export default {
 						})
 					},
 					complete: function() {
-						console.log('分享完成!')
+						console.log('操作完成!')
 					}
 				}
 				// 分享给朋友接口  
@@ -210,7 +210,7 @@ export default {
 								})
 							},
 							complete: function() {
-								console.log('支付完成!')
+								console.log('操作完成!')
 							}
 						}
 
