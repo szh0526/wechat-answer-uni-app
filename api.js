@@ -51,6 +51,7 @@ const fetch = async function(url, params, method = "GET") {
 		questionsId: window.wxanswer.questionsId,
 		userId: window.wxanswer.userId,
 		page: window.wxanswer.page,
+		channel:window.wxanswer.channel
 	}
 	params = Object.assign({}, params, commonParams);
 	return await new Promise((resolve, reject) => {

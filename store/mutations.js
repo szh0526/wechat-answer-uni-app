@@ -3,6 +3,11 @@ const setCurrentPage = function(state, currentPage) {
 	state.currentPage = currentPage
 }
 
+const setChannel = function(state, channel) {
+	window.wxanswer.channel = channel;
+	state.channel = channel
+}
+
 const setUserId = function(state, userId) {
 	window.wxanswer.userId = userId;
 	state.userId = userId
@@ -27,5 +32,6 @@ export default {
 	setUserId,
 	setQuestionsId,
 	setPage,
+	setChannel,
 	initUserQuestionsPayInfo
 }

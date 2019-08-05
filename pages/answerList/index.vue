@@ -68,9 +68,14 @@
 					search
 				} = window.location;
 				let params = urlParamToObj(search);
-				if (!params || isEmptyObject(params)) {
+				let channel = params && params.channel ? params.channel : "123";
+				this.$store.commit('setChannel',channel);
+				//进首页需要带着channel参数 默认123
+				if (channel && !params.id) {
+					const {channel} = params;
 					this.$store
-						.dispatch('initUserQuestionsPayInfo', {})
+						.dispatch('initUserQuestionsPayInfo', {
+						})
 						.then(data => {
 							const {
 								user_id
@@ -102,7 +107,6 @@
 					
 					this.$store
 						.dispatch('initUserQuestionsPayInfo', {
-							channel,
 							uid: uid || ''
 						})
 						.then(data => {
