@@ -19,6 +19,10 @@ let apiUrl = {
 	getPreviousQuestion: '/questions/getPreviousQuestion',
 	getUserPayAmount: '/questions/getUserPayAmount',
 	userShare: '/questions/userShare',
+	getCategorys:'/questions/getCategorys',
+	getScales:'/questions/getScales',
+	getAssessment:'/questions/getAssessment',
+	
 	//评论
 	getUserComment: '/userComment/getUserComment',
 	saveUserComment: '/userComment/saveUserComment',
@@ -35,11 +39,6 @@ let apiUrl = {
 	//支付
 	userPay: '/questions/userPay',
 	unifiedOrder: '/orders/unifiedOrder',
-	
-	//测评列表页
-	getCategorys:'/service/getCategorys',
-	getScales:'/service/getScales',
-	getAssessment:'/service/getAssessment',
 	
 }
 
