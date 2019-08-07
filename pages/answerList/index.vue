@@ -49,8 +49,7 @@
 				load: true
 			};
 		},
-		onReady: function() {
-		},
+		onReady: function() {},
 		onLoad: function() {
 			this.init();
 		},
@@ -69,12 +68,16 @@
 				} = window.location;
 				let params = urlParamToObj(search);
 				let channel = params && params.channel ? params.channel : "123";
-				this.$store.commit('setChannel',channel);
+				this.$store.commit('setChannel', channel);
 				//进首页需要带着channel参数 默认123
 				if (channel && !params.id) {
-					const {channel} = params;
+					const {
+						channel,
+						uid
+					} = params;
 					this.$store
 						.dispatch('initUserQuestionsPayInfo', {
+							uid: uid || ''
 						})
 						.then(data => {
 							const {
@@ -99,12 +102,13 @@
 						uid,
 						code,
 						state,
-						isappinstalled
+						isappinstalled,
+						pages
 					} = params;
 					const _from = params['from'];
 					this.$store.commit('setQuestionsId', id);
 					this.$store.commit('setPage', page);
-					
+
 					this.$store
 						.dispatch('initUserQuestionsPayInfo', {
 							uid: uid || ''
@@ -118,7 +122,7 @@
 								question_id,
 								questions_title
 							} = data;
-							
+
 							//动态修改url参数需要刷新页面
 							if (!uid || (uid && uid != user_id) || _from || isappinstalled || code || state) {
 								let url = `${origin}${pathname}`;
@@ -159,21 +163,21 @@
 							// 	});
 							// }
 
-							if (is_test && !is_answered && !question_id) {
+							if (is_test && !is_answered && !question_id && (pages != "2")) {
 								//0未点测试 1已点测试
 								window.document.title = '开始问答';
 								const url = _self.$pageConfig[1];
 								uni.redirectTo({
 									url
 								});
-							} else if (is_test && is_answered && question_id) {
+							} else if (is_test && is_answered && question_id && (pages != "2")) {
 								//是否答完 0-没有答完 1-已答完 如果答完题则跳转到报告页第一页
 								window.document.title = '个人测评报告';
 								const url = _self.$pageConfig[4];
 								uni.redirectTo({
 									url
 								});
-							} else if (is_test && !is_answered && question_id) {
+							} else if (is_test && !is_answered && question_id && (pages != "2")) {
 								//question_id > 0 调转到对应题
 								window.document.title = questions_title;
 								const url = _self.$pageConfig[2];
@@ -181,11 +185,19 @@
 									url
 								});
 							} else {
-								params = json2ParStr(params);
-								const url = `${_self.$pageConfig[0]}${isEmptyObject(params) ? '' : '?'}${params}`;
-								uni.redirectTo({
-									url
-								});
+								//推送过来直接跳转
+								if (pages == '2') {
+									const url = _self.$pageConfig[7];
+									uni.redirectTo({
+										url
+									});
+								} else {
+									params = json2ParStr(params);
+									const url = `${_self.$pageConfig[0]}${isEmptyObject(params) ? '' : '?'}${params}`;
+									uni.redirectTo({
+										url
+									});
+								}
 							}
 						})
 						.catch(e => {

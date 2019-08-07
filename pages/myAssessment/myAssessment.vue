@@ -20,7 +20,7 @@
 					<scroll-view class="VerticalMain" scroll-x scroll-with-animation>
 						<view class="padding-lr-xxs padding-bottom-sm">
 							<view class="cu-list menu-avatar">
-								<view class="cu-item solid-bottom" @click="onItemClick(item)"  v-for="(item, index) in dataList" :key="index">
+								<view class="cu-item solid-bottom" @click="onItemClick(item)" v-for="(item, index) in dataList" :key="index">
 									<view>
 										<image class="cu-avatar radius xxl" mode="scaleToFill" lazy-load :src="item.src" @error="imageError"></image>
 									</view>
@@ -53,8 +53,8 @@
 	export default {
 		data() {
 			return {
-				logo:"",
-				name:"",
+				logo: "",
+				name: "",
 				tabList: [{
 					id: "0",
 					title: "未完成"
@@ -67,14 +67,20 @@
 			};
 		},
 		onLoad() {
-			const { initUserQuestionsPayInfo } = this.$store.state;
+			const {
+				initUserQuestionsPayInfo
+			} = this.$store.state;
 			if (Object.prototype.toString.call(initUserQuestionsPayInfo) !== '[object Object]') {
 				//当全局接口数据为空时 返回首页
-				const url = this.$pageConfig[0];
-				uni.redirectTo({ url });
+				const url = this.$pageConfig[1000];
+				uni.redirectTo({
+					url
+				});
 				return;
 			}
-			const {userinfo} = initUserQuestionsPayInfo;
+			const {
+				userinfo
+			} = initUserQuestionsPayInfo;
 			this.name = userinfo.name;
 			this.logo = userinfo.img;
 			this.getAssessment();
@@ -109,9 +115,11 @@
 						});
 					});
 			},
-			onItemClick:function(item){
+			onItemClick: function(item) {
 				const url = `${this.$pageConfig[0]}?id=${item.questions_id}&channel=${item.channel}&page=${item.page}`;
-				uni.redirectTo({ url });
+				uni.redirectTo({
+					url
+				});
 			},
 		},
 		components: {

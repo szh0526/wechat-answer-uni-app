@@ -25,6 +25,7 @@ Vue.prototype.$pageConfig = {
 	4: "/pages/reportShow/index", //报告展示页
 	5: "/pages/userComment/index", //用户评价页
 	6: "/pages/userShare/index", //用户分享页
+	7: "/pages/schedule/index", //任务页
 	101: "/pages/serachTag/serachTag", //搜索页
 	102: "/pages/category/category", //分类页
 	1000: "/pages/answerList/index", //测评列表页

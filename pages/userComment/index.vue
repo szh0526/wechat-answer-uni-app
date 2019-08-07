@@ -7,23 +7,29 @@
 					<text style="font-size: 1.2em;">{{ name }}</text>
 					<text>{{ date }}</text>
 				</div>
-				<div class="img"><view class="cu-avatar lg round" :style="[{ backgroundImage: 'url(' + img + ')' }]"></view></div>
+				<div class="img">
+					<view class="cu-avatar lg round" :style="[{ backgroundImage: 'url(' + img + ')' }]"></view>
+				</div>
 			</div>
 			<div class="evaluation">
 				<view class="score">
 					<text>题目易用性</text>
-					<uni-rate max="5" :value="easyuseScore" @change="onRateChange('easyuseScore', $event)" color="#cecece" activeColor="#f5aa4c" margin="10"></uni-rate>
+					<uni-rate max="5" :value="easyuseScore" @change="onRateChange('easyuseScore', $event)" color="#cecece" activeColor="#f5aa4c"
+					 margin="10"></uni-rate>
 				</view>
 				<view class="score">
 					<text>结果准确性</text>
-					<uni-rate max="5" :value="accuracyScore" @change="onRateChange('accuracyScore', $event)" color="#cecece" activeColor="#f5aa4c" margin="10"></uni-rate>
+					<uni-rate max="5" :value="accuracyScore" @change="onRateChange('accuracyScore', $event)" color="#cecece"
+					 activeColor="#f5aa4c" margin="10"></uni-rate>
 				</view>
 				<view class="score" style="border-bottom-width: 0;">
 					<text>建议实用性</text>
-					<uni-rate max="5" :value="practicabilityScore" @change="onRateChange('practicabilityScore', $event)" color="#cecece" activeColor="#f5aa4c" margin="10"></uni-rate>
+					<uni-rate max="5" :value="practicabilityScore" @change="onRateChange('practicabilityScore', $event)" color="#cecece"
+					 activeColor="#f5aa4c" margin="10"></uni-rate>
 				</view>
 				<view class="uni-textarea">
-					<textarea :value="commentStr" @blur="bindTextAreaBlur" @input="bindTextAreaInput" placeholder="请留下您的反馈意见" maxlength="200" />
+					<textarea :value="commentStr" @blur="bindTextAreaBlur" @input="bindTextAreaInput" placeholder="请留下您的反馈意见"
+					 maxlength="200" />
 					<div class="tip">剩余 {{ remainCount }} 字</div>
 				</view>
 			</div>
@@ -39,7 +45,7 @@
 						@click="handleSubmit"
 					>提交</div>
 				</view>
-				<view v-if="true"><wx-share-button title="去分享" /></view>
+				<view v-if="true"><wx-share-button title="分享给朋友" /></view>
 			</view>
 		</view>
 	</view>
@@ -73,7 +79,7 @@ export default {
 		const { initUserQuestionsPayInfo } = this.$store.state;
 		if (Object.prototype.toString.call(initUserQuestionsPayInfo) !== '[object Object]') {
 			//当全局接口数据为空时 返回首页
-			const url = this.$pageConfig[0];
+			const url = this.$pageConfig[7];
 			uni.redirectTo({ url });
 			return;
 		}

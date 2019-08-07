@@ -27,6 +27,9 @@
 		}, {
 			"path": "pages/myAssessment/myAssessment",
 			"style": {}
+		},{
+			"path" : "pages/schedule/index",
+			"style" : {}
 		}
 		// ,{
 		// 	"path": "pages/userShare/index",
@@ -86,7 +89,7 @@
 		// 		}
 		// 	}
 		// }
-	],
+    ],
 	"globalStyle": {
 		"navigationStyle": "custom",
 		"navigationBarTextStyle": "black",
@@ -102,7 +105,7 @@
 		"list": [{
 				"pagePath": "pages/answerList/index",
 				"iconPath": "static/image/tabbar/home-gray.png",
-				"selectedIconPath": "static/image/tabbar/home-green.png",
+				"selectedIconPath": "static/image/tabbar/home-yellow.png",
 				"text": "首页"
 			},
 			// {
@@ -114,7 +117,7 @@
 			{
 				"pagePath": "pages/myAssessment/myAssessment",
 				"iconPath": "static/image/tabbar/mine-gray.png",
-				"selectedIconPath": "static/image/tabbar/mine-green.png",
+				"selectedIconPath": "static/image/tabbar/mine-yellow.png",
 				"text": "我的测评"
 			}
 		]

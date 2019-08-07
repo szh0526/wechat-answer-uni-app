@@ -12,6 +12,7 @@ import reportResult from './modules/reportResult'
 import reportShow from './modules/reportShow'
 import userComment from './modules/userComment'
 import userShare from './modules/userShare'
+import schedule from './modules/schedule'
 
 Vue.use(Vuex);
 
@@ -38,7 +39,8 @@ const store = new Vuex.Store({
 		reportResult,
 		reportShow,
 		userComment,
-		userShare
+		userShare,
+		schedule
 	},
 	plugins: [createLogger()],
 	strict: process.env.NODE_ENV !== 'production',
@@ -56,7 +58,8 @@ if (module.hot) {
 		'./modules/reportResult',
 		'./modules/reportShow',
 		'./modules/userComment',
-		'./modules/userShare'
+		'./modules/userShare',
+		'./modules/schedule'
 	], () => {
 		// 获取更新后的模块
 		// 因为 babel 6 的模块编译格式问题，这里需要加上 `.default`
@@ -70,6 +73,7 @@ if (module.hot) {
 		const $reportShow = require('./modules/preparePage').default
 		const $userComment = require('./modules/userComment').default
 		const $userShare = require('./modules/userShare').default
+		const $schedule = require('./modules/schedule').default
 		
 		// 加载新模块
 		store.hotUpdate({
@@ -83,7 +87,8 @@ if (module.hot) {
 				reportResult:$reportResult,
 				reportShow:$reportShow,
 				userComment:$userComment,
-				userShare:$userShare
+				userShare:$userShare,
+				schedule:$schedule
 			}             
 		})
 	})

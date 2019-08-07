@@ -51,7 +51,7 @@ export default {
 		const { initUserQuestionsPayInfo } = this.$store.state;
 		if (Object.prototype.toString.call(initUserQuestionsPayInfo) !== '[object Object]') {
 			//当全局接口数据为空时 返回首页
-			const url = this.$pageConfig[0];
+			const url = this.$pageConfig[1000];
 			uni.redirectTo({ url });
 			return;
 		}

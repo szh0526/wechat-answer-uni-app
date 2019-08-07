@@ -35,6 +35,7 @@ let apiUrl = {
 	getPreviousUserReport: '/userReport/getPreviousUserReport',
 	createUserReport: '/userReport/createUserReport',
 	getUserReportPage: '/userReport/getUserReportPage',
+	getUserShareInfo: '/userReport/getUserShareInfo',
 
 	//支付
 	userPay: '/questions/userPay',
@@ -125,6 +126,9 @@ const createUserReport = function(params) {
 const getUserReportPage = function(params) {
 	return fetch(apiUrl["getUserReportPage"], params);
 }
+const getUserShareInfo = function(params) {
+	return fetch(apiUrl["getUserShareInfo"], params);
+}
 const getSignature = function(params) {
 	return fetch(`${$wxjssdkUrl}/getSignature`, params);
 }
@@ -169,5 +173,6 @@ export {
 	unifiedOrder,
 	getCategorys,
 	getScales,
-	getAssessment
+	getAssessment,
+	getUserShareInfo
 }
