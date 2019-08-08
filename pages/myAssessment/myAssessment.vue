@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="VerticalMain">
 		<view class="uni-flex uni-column">
 			<view class="flex-item flex-item-V">
 				<view class="bg-gradual-pink">
@@ -17,10 +17,10 @@
 							</view>
 						</view>
 					</scroll-view>
-					<scroll-view class="VerticalMain" scroll-x scroll-with-animation>
-						<view class="padding-lr-xxs padding-bottom-sm">
+					<scroll-view scroll-x scroll-with-animation>
+						<view v-if="dataList && dataList.length" class="padding-lr-xxs padding-bottom-sm">
 							<view class="cu-list menu-avatar">
-								<view class="cu-item solid-bottom" @click="onItemClick(item)" v-for="(item, index) in dataList" :key="index">
+								<view class="cu-item solid-bottom" @click="onItemClick(item)"  v-for="(item, index) in dataList" :key="index">
 									<view>
 										<image class="cu-avatar radius xxl" mode="scaleToFill" lazy-load :src="item.src" @error="imageError"></image>
 									</view>
@@ -40,6 +40,7 @@
 								</view>
 							</view>
 						</view>
+						<view v-else class="nodata">暂无数据</view>
 					</scroll-view>
 				</view>
 			</view>
@@ -53,8 +54,8 @@
 	export default {
 		data() {
 			return {
-				logo: "",
-				name: "",
+				logo:"",
+				name:"",
 				tabList: [{
 					id: "0",
 					title: "未完成"
@@ -67,20 +68,14 @@
 			};
 		},
 		onLoad() {
-			const {
-				initUserQuestionsPayInfo
-			} = this.$store.state;
+			const { initUserQuestionsPayInfo } = this.$store.state;
 			if (Object.prototype.toString.call(initUserQuestionsPayInfo) !== '[object Object]') {
 				//当全局接口数据为空时 返回首页
 				const url = this.$pageConfig[1000];
-				uni.redirectTo({
-					url
-				});
+				uni.redirectTo({ url });
 				return;
 			}
-			const {
-				userinfo
-			} = initUserQuestionsPayInfo;
+			const {userinfo} = initUserQuestionsPayInfo;
 			this.name = userinfo.name;
 			this.logo = userinfo.img;
 			this.getAssessment();
@@ -115,11 +110,9 @@
 						});
 					});
 			},
-			onItemClick: function(item) {
+			onItemClick:function(item){
 				const url = `${this.$pageConfig[0]}?id=${item.questions_id}&channel=${item.channel}&page=${item.page}`;
-				uni.redirectTo({
-					url
-				});
+				uni.redirectTo({ url });
 			},
 		},
 		components: {
@@ -167,7 +160,13 @@
 	}
 
 	.VerticalMain {
-		background-color: #f1f1f1;
+		background-color: #FFFFFF;
+		height: 100vh;
 		flex: 1;
+	}
+	.nodata{
+		margin: 20px;
+		text-align: center;
+		font-size: 14px;
 	}
 </style>

@@ -67,7 +67,7 @@
 			const _id = getQueryString('id');
 			const _channel = getQueryString('channel');
 
-			if (!_id && !_channel) {
+			if (!_id || (_id && !_channel)) {
 				//重定向一次
 				const params = json2ParStr(option);
 				window.location.href = `${origin}${pathname}?${params}`;
