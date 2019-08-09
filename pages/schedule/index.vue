@@ -14,7 +14,7 @@
 							<view class="cu-item" v-for="(item, index) in infos" :key="index">
 								<view class="cu-avatar round xxl" :style="{backgroundImage:`url(${item.img})`}"></view>
 								<view class="content">
-									<view class="text-black" style="width: 38vw;">
+									<view class="text-black" style="width: 38vw;font-size: 1.2em;">
 										<text class="text-cut text-bold">{{item.title}}</text>
 									</view>
 									<view class="status" @click="handleShare(item.status)" :style="{backgroundColor:item.bgColor}">
@@ -81,6 +81,7 @@
 				this.$store
 					.dispatch('getUserShareInfo', {})
 					.then(data => {
+						const {origin} = window.location;
 						this.infos = data ? data.map((x, idx) => {
 							if (idx == 0) {
 								x.title = '完成测试';
@@ -89,15 +90,16 @@
 							} else if (idx == 2) {
 								x.title = '邀请2人完成测试';
 							}
+							x.img = !!x.img ? x.img : `${origin}/build/static/image/common/gray.jpg`;
 							x.desc = x.status == "0" ? "前往" : "已完成";
 							x.bgColor = x.status == "0" ? "#e54d42" : "#44e766";
 							x.icon = x.status == "0" ? "goodsfill" : "roundcheckfill";
 							return x;
 						}) : [];
 
-						const temps = data ? data.filter(x => x.status == "0") : null;
+						const temps = data && data.length > 0 ? data.filter(x => x.status == "0") : null;
 
-						this.showFreeReport = temps && temps.length == 0 ? true : false;
+						this.showFreeReport =  temps && temps.length == 0;
 					})
 					.catch(e => {
 						uni.showToast({
@@ -173,24 +175,24 @@
 	}
 
 	.cu-list.menu-avatar>.tip {
-		background: #FFFFFF;
-		font-size: 18px;
-		text-align: center;
-		height: 100px;
-		line-height: 100px;
+    background: #FFFFFF;
+    font-size: 1.4em;
+    text-align: center;
+    height: 15vh;
+    line-height: 15vh;
 	}
 
 	.cu-list.menu-avatar>.cu-item .content>.status {
 		border-radius: 10px;
-		color: #FFFFFF;
-		/* font-weight: bold; */
-		margin-right: 15px;
-		font-size: 18px;
-		padding: 5px;
-		width: 70px;
-		height: 40px;
-		text-align: center;
-		line-height: 32px;
+    color: #FFFFFF;
+    /* font-weight: bold; */
+    margin-right: 12px;
+    font-size: 1.5em;
+    padding: 5px;
+    width: 18vw;
+    height: 7vh;
+    text-align: center;
+    line-height: 5.5vh;
 	}
 
 	.cu-list.menu-avatar>.cu-item>.cu-avatar {
