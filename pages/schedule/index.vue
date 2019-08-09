@@ -2,7 +2,28 @@
 	<view class="VerticalMain">
 		<view class="uni-flex uni-column">
 			<view class="flex-item flex-item-V" v-if="isFollowPublic">
-				<has-follow-public />
+				<view class="title">
+					<view class="text-box">
+						<view class="cu-item">
+							<text class="lg text-red cuIcon-notice"></text>
+						</view>
+						<text>关注公众号<b style="color: #FF0000;">,及时接收奖励金到账通知</b></text>
+					</view>
+					<view class="follow">
+						<!-- 公众号原始ID 3577957379 base64加密后:MzU3Nzk1NzM3OQ== -->
+						<!-- <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU3Nzk1NzM3OQ==#wechat_redirect">马上关注</a> -->
+						<a href="#" @click="handleFollow">马上关注</a>
+					</view>
+					<view v-show="showHelp">
+						<div class="masker" catchtouchmove="ture"></div>
+						<div class="showMsg">
+							<div class="qrcode">
+								<img :src="qrcode" />
+							</div>
+							<div class="closeMsg" @click="handleCloseFollow"></div>
+						</div>
+					</view>
+				</view>
 			</view>
 			<view class="flex-item flex-item-V">
 				<view v-if="infos.length">
@@ -14,7 +35,7 @@
 							<view class="cu-item" v-for="(item, index) in infos" :key="index">
 								<view class="cu-avatar round xxl" :style="{backgroundImage:`url(${item.img})`}"></view>
 								<view class="content">
-									<view class="text-black" style="width: 38vw;font-size: 1.2em;">
+									<view class="text-black" style="width: 36vw;font-size: 1.2em;margin-right: 15px;">
 										<text class="text-cut text-bold">{{item.title}}</text>
 									</view>
 									<view class="status" @click="handleShare(item.status)" :style="{backgroundColor:item.bgColor}">
@@ -44,7 +65,6 @@
 </template>
 
 <script>
-	import hasFollowPublic from '../component/hasFollowPublic/hasFollowPublic.vue';
 	export default {
 		data() {
 			return {
@@ -52,7 +72,9 @@
 				showFreeReport: false,
 				showShare: false,
 				payAmount: "0元",
-				infos: []
+				infos: [],
+				showHelp:false,
+				qrcode:'',
 			}
 		},
 		//监听页面初次渲染完成
@@ -91,7 +113,7 @@
 								x.title = '邀请2人完成测试';
 							}
 							x.img = !!x.img ? x.img : `${origin}/build/static/image/common/gray.jpg`;
-							x.desc = x.status == "0" ? "前往" : "已完成";
+							x.desc = x.status == "0" ? "前往" : "已完";
 							x.bgColor = x.status == "0" ? "#e54d42" : "#44e766";
 							x.icon = x.status == "0" ? "goodsfill" : "roundcheckfill";
 							return x;
@@ -154,10 +176,17 @@
 			},
 			handleCancel: function() {
 				this.showShare = false;
-			}
+			},
+			handleFollow: function() {
+				const {origin} = window.location;
+				this.showHelp = true;
+				this.qrcode = `${origin}/build/static/image/qrCode.jpeg`;
+			},
+			handleCloseFollow: function() {
+				this.showHelp = false;
+			},
 		},
 		components: {
-			hasFollowPublic
 		}
 	}
 </script>
@@ -186,13 +215,13 @@
 		border-radius: 10px;
     color: #FFFFFF;
     /* font-weight: bold; */
-    margin-right: 12px;
+    margin-right: 18px;
     font-size: 1.5em;
     padding: 5px;
-    width: 18vw;
-    height: 7vh;
+    width: 16vw;
+    height: 6vh;
     text-align: center;
-    line-height: 5.5vh;
+    line-height: 5vh;
 	}
 
 	.cu-list.menu-avatar>.cu-item>.cu-avatar {
@@ -302,5 +331,108 @@
 		float: right;
 		width: 300px;
 		max-width: 80%;
+	}
+	
+
+	.title {
+		background-color: #EED5D2;
+		height: 90upx;
+		font-size: 14px;
+		position: relative;
+		z-index: 2;
+		margin-bottom: -1.28rem;
+		height: 2.3rem;
+		line-height: 2.1rem;
+		color: #4c4b58;
+		transition: all 0.5s;
+		transition-property: all;
+		transition-duration: 0.5s;
+		transition-timing-function: ease;
+		transition-delay: 0s;
+	}
+	
+	.follow {
+		float: right;
+		margin: 5px;
+		line-height: 1.2rem;
+	}
+	
+	.follow a {
+		padding: 5px;
+	  display: block;
+	  border-radius: 5px;
+	  border: 1px solid #FF0000;
+	  color: #FF0000;
+	  height: 3vh;
+	  line-height: 3.2vh;
+	  text-decoration: none;
+	}
+	
+	.text-box {
+		display: inline-flex;
+		line-height: 32px;
+		margin: 7px 5px;
+		font-weight: 400;
+		color: #000000;
+	}
+	
+	.cu-item {
+		font-size: 18px;
+	}
+	
+	.masker {
+		pointer-events: none;
+		background-color: black;
+		left: 0;
+		opacity: 0.7;
+		position: fixed;
+		top: 0;
+		z-index: 9999;
+		height: 100%;
+		width: 100%;
+	}
+	
+	.showMsg {
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: 25px;
+		top: 0;
+		margin: auto;
+		height: 60vh;
+		width: 87vw;
+		background-image: url(/build/static/image/common/showFollow.png);
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+		z-index: 9999;
+	}
+	
+	.showMsg .qrcode {
+		height: 20vh;
+		width: 34vw;
+		left: 0;
+		right: 0;
+		bottom: 3vh;
+		margin: auto;
+		position: absolute;
+	}
+	
+	.showMsg .qrcode img {
+		width: 100%;
+		height: 100%;
+	}
+	
+	.closeMsg {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: -10vh;
+		margin: auto;
+		height: 7vh;
+		width: 11vw;
+		background-image: url(/build/static/image/common/closeMsg2x.png);
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+		z-index: 9999;
 	}
 </style>

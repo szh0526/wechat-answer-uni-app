@@ -76,12 +76,13 @@
 
 	.follow a {
 		padding: 5px;
-		display: block;
-		border-radius: 5px;
-		border: 1px solid #FF0000;
-		color: #FF0000;
-		height: 3.5vh;
-		text-decoration: none;
+    display: block;
+    border-radius: 5px;
+    border: 1px solid #FF0000;
+    color: #FF0000;
+    height: 3vh;
+    line-height: 3.2vh;
+    text-decoration: none;
 	}
 
 	.text-box {
