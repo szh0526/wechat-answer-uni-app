@@ -35,7 +35,7 @@
 							<view class="cu-item" v-for="(item, index) in infos" :key="index">
 								<view class="cu-avatar round xxl" :style="{backgroundImage:`url(${item.img})`}"></view>
 								<view class="content">
-									<view class="text-black" style="width: 36vw;font-size: 1.2em;margin-right: 15px;">
+									<view class="text-black" style="width: 34vw;font-size: 1.2em;margin-right: 15px;">
 										<text class="text-cut text-bold">{{item.title}}</text>
 									</view>
 									<view class="status" @click="handleShare(item.status)" :style="{backgroundColor:item.bgColor}">
@@ -113,7 +113,7 @@
 								x.title = '邀请2人完成测试';
 							}
 							x.img = !!x.img ? x.img : `${origin}/build/static/image/common/gray.jpg`;
-							x.desc = x.status == "0" ? "前往" : "已完";
+							x.desc = x.status == "0" ? "前往" : "已完成";
 							x.bgColor = x.status == "0" ? "#e54d42" : "#44e766";
 							x.icon = x.status == "0" ? "goodsfill" : "roundcheckfill";
 							return x;
@@ -216,9 +216,9 @@
     color: #FFFFFF;
     /* font-weight: bold; */
     margin-right: 18px;
-    font-size: 1.5em;
+    font-size: 1.2em;
     padding: 5px;
-    width: 16vw;
+    width: 18vw;
     height: 6vh;
     text-align: center;
     line-height: 5vh;
