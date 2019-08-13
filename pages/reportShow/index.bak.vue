@@ -52,7 +52,7 @@ export default {
 		if (Object.prototype.toString.call(initUserQuestionsPayInfo) !== '[object Object]') {
 			//当全局接口数据为空时 返回首页
 			const url = this.$pageConfig[1000];
-			uni.redirectTo({ url });
+			uni.navigateTo({ url });
 			return;
 		}
 		this.$store.commit('setCurrentPage', 'reportShow');
@@ -69,7 +69,7 @@ export default {
 		handleComment: function() {
 			window.document.title = '发表评价';
 			const url = this.$pageConfig[5];
-			uni.redirectTo({ url });
+			uni.navigateTo({ url });
 		},
 		// mescroll组件初始化的回调,可获取到mescroll对象
 		mescrollInit(mescroll) {

@@ -35,7 +35,7 @@
 							<view class="cu-item" v-for="(item, index) in infos" :key="index">
 								<view class="cu-avatar round xxl" :style="{backgroundImage:`url(${item.img})`}"></view>
 								<view class="content">
-									<view class="text-black" style="width: 34vw;font-size: 1.2em;margin-right: 15px;">
+									<view class="text-black" style="width: 32vw;font-size: 1.2em;margin-right: 15px;">
 										<text class="text-cut text-bold">{{item.title}}</text>
 									</view>
 									<view class="status" @click="handleShare(item.status)" :style="{backgroundColor:item.bgColor}">
@@ -88,7 +88,7 @@
 			if (Object.prototype.toString.call(initUserQuestionsPayInfo) !== '[object Object]') {
 				//当全局接口数据为空时 返回首页
 				const url = this.$pageConfig[7];
-				uni.redirectTo({
+				uni.navigateTo({
 					url
 				});
 				return;
@@ -162,7 +162,7 @@
 					.then(data => {
 						window.document.title = '个人测评报告';
 						const url = _self.$pageConfig[4];
-						uni.redirectTo({
+						uni.navigateTo({
 							url
 						});
 					})
@@ -214,13 +214,15 @@
 	.cu-list.menu-avatar>.cu-item .content>.status {
 		border-radius: 10px;
     color: #FFFFFF;
-    /* font-weight: bold; */
     margin-right: 18px;
     font-size: 1.2em;
+    font-weight: bold;
     padding: 5px;
+    margin-bottom: 7px;
     width: 18vw;
     height: 6vh;
     text-align: center;
+    vertical-align: middle;
     line-height: 5vh;
 	}
 

@@ -50,53 +50,113 @@
 		onReady() {
 			uni.hideTabBar({})
 		},
-		//监听页面加载
 		onLoad: function(option) {
-			const _self = this;
-			const {
-				origin,
-				pathname,
-				search
-			} = window.location;
 			const {
 				id,
 				channel,
-				uid,
 				page
 			} = option;
-			const _id = getQueryString('id');
-			const _channel = getQueryString('channel');
 
-			if (!_id || (_id && !_channel)) {
-				//重定向一次
-				const params = json2ParStr(option);
-				window.location.href = `${origin}${pathname}?${params}`;
-				return;
-			}
-
-			_self.questionsId = _id;
-			_self.$store.commit('setCurrentPage', 'answerIntroduce');
-			_self.$store
-				.dispatch('getIntroducePage', {})
-				.then(data => {
-					_self.imgList = data ? data.map(x => {
-						x.introduce_content = `${origin}${x.introduce_content}`;
-						return x;
-					}) : [];
-					_self.showGo = true;
-				})
-				.catch(e => {
-					uni.showToast({
-						icon: 'none',
-						title: e.message,
-						duration: 2000
-					});
-				});
+			this.questionsId = id;
+			this.$store.commit('setCurrentPage', 'answerIntroduce');
+			this.$store.commit('setQuestionsId', id);
+			this.$store.commit('setPage', page);
+			this.initPage();
+		},
+		onShow: function() {
+			//this.initPage();
 		},
 		//监听页面卸载
 		onUnload() {},
 		computed: {},
 		methods: {
+			initPage: function() {
+				const _self = this;
+				_self.$store
+					.dispatch('initUserQuestionsPayInfo', {})
+					.then(data => {
+						const {
+							is_test,
+							questions_id,
+							user_id,
+							is_answered,
+							question_id,
+							questions_title
+						} = data;
+
+						_self.$store.commit('setQuestionsId', questions_id);
+						_self.$store.commit('setUserId', user_id);
+						_self.$store.commit('initUserQuestionsPayInfo', data);
+
+						const pagesStorage = uni.getStorageSync('push_pages');
+						//如果hasPagesStorage 为true则为推送
+						const hasPagesStorage = pagesStorage && pagesStorage == '2' ? true : false;
+
+						if (is_test && !is_answered && !question_id && !hasPagesStorage) {
+							//0未点测试 1已点测试
+							window.document.title = '开始问答';
+							const url = _self.$pageConfig[1];
+							uni.navigateTo({
+								url
+							});
+						} else if (is_test && is_answered && question_id && !hasPagesStorage) {
+							//是否答完 0-没有答完 1-已答完 如果答完题则跳转到报告页第一页
+							window.document.title = '个人测评报告';
+							const url = _self.$pageConfig[4];
+							uni.navigateTo({
+								url
+							});
+						} else if (is_test && !is_answered && question_id && !hasPagesStorage) {
+							//question_id > 0 调转到对应题
+							window.document.title = questions_title;
+							const url = _self.$pageConfig[2];
+							uni.navigateTo({
+								url
+							});
+						} else {
+							if (hasPagesStorage) {
+								//服务号推送的消息 直接跳转任务页
+								const url = _self.$pageConfig[7];
+								uni.navigateTo({
+									url,
+									success: function() {
+										uni.removeStorageSync('push_pages');
+									}
+								});
+							}
+						}
+						_self.getIntroducePage();
+					})
+					.catch(e => {
+						uni.showToast({
+							icon: 'none',
+							title: e.message,
+							duration: 2000
+						});
+					});
+			},
+			getIntroducePage: function() {
+				const _self = this;
+				const {
+					origin,
+				} = window.location;
+				_self.$store
+					.dispatch('getIntroducePage', {})
+					.then(data => {
+						_self.imgList = data ? data.map(x => {
+							x.introduce_content = `${origin}${x.introduce_content}`;
+							return x;
+						}) : [];
+						_self.showGo = true;
+					})
+					.catch(e => {
+						uni.showToast({
+							icon: 'none',
+							title: e.message,
+							duration: 2000
+						});
+					});
+			},
 			handleClose: function() {
 				this.showHelp = false;
 				this.scrollable = true;

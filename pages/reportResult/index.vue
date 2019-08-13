@@ -42,7 +42,7 @@
 			if (Object.prototype.toString.call(initUserQuestionsPayInfo) !== '[object Object]') {
 				//当全局接口数据为空时 返回首页
 				const url = this.$pageConfig[1000];
-				uni.redirectTo({
+				uni.navigateTo({
 					url
 				});
 				return;
@@ -78,7 +78,7 @@
 					.then(data => {
 						window.document.title = '个人测评报告';
 						const url = _self.$pageConfig[4];
-						uni.redirectTo({
+						uni.navigateTo({
 							url
 						});
 					})

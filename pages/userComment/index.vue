@@ -80,7 +80,7 @@ export default {
 		if (Object.prototype.toString.call(initUserQuestionsPayInfo) !== '[object Object]') {
 			//当全局接口数据为空时 返回首页
 			const url = this.$pageConfig[7];
-			uni.redirectTo({ url });
+			uni.navigateTo({ url });
 			return;
 		}
 		//监听窗口大小变化事件 解决弹出软键盘时页面错乱

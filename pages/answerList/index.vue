@@ -58,7 +58,9 @@
 				console.error('image发生error事件，携带值为' + e.detail.errMsg);
 			},
 			//动态修改url参数需要刷新页面  否则分享失败
-			redirectFn: function(url,params,user_id) {
+			redirectFn: function(url, _params, user_id) {
+				let params = { ..._params
+				};
 				let result = false; //是否需要跳转 
 				let {
 					id,
@@ -73,7 +75,8 @@
 				const _from = params['from'];
 				channel = channel || "123";
 				this.$store.commit('setChannel', channel);
-				if (!uid || (uid != undefined && uid != user_id) || (pages && pages == "2") || _from || isappinstalled || code || state) {
+				if (!uid || (uid != undefined && uid != user_id) || (pages && pages == "2") || _from || isappinstalled || code ||
+					state || ((id && channel) || (id && page && channel))) {
 					//清除uid
 					if (params.uid) {
 						delete params.uid;
@@ -90,13 +93,23 @@
 					if (params.state) {
 						delete params.state;
 					}
-					
-					if(params.pages){
+
+					if (params.id) {
+						delete params.id;
+					}
+					if (params.channel) {
+						delete params.channel;
+					}
+					if (params.page) {
+						delete params.page;
+					}
+
+					if (params.pages) {
 						//推送链接 保存pages 并删除url参数 
-						uni.setStorageSync('push_pages',pages);
+						uni.setStorageSync('push_pages', pages);
 						delete params.pages;
 					}
-					
+
 					let uid = user_id; //谁分享的  第一次分享为空 第二次为第一次的userId
 					params = Object.assign({}, params, {
 						uid,
@@ -126,8 +139,8 @@
 					uid,
 					pages
 				} = params;
-
-				if (!params.id) {
+				//没有id则为首页
+				if (!id) {
 					this.$store
 						.dispatch('initUserQuestionsPayInfo', {
 							uid: uid || ''
@@ -136,8 +149,8 @@
 							const {
 								user_id
 							} = data;
-							const redirectFnResult = _self.redirectFn(url,params,user_id);
-							if(!redirectFnResult){
+							const redirectFnResult = _self.redirectFn(url, params, user_id);
+							if (!redirectFnResult) {
 								_self.$store.commit('setUserId', user_id);
 								_self.$store.commit('initUserQuestionsPayInfo', data);
 								_self.getScales();
@@ -151,71 +164,21 @@
 							});
 						});
 				} else {
-					this.$store.commit('setQuestionsId', id);
-					this.$store.commit('setPage', page);
 					this.$store
-						.dispatch('initUserQuestionsPayInfo', {
-							uid: uid || ''
-						})
+						.dispatch('initUserQuestionsPayInfo', {})
 						.then(data => {
 							const {
-								is_test,
 								questions_id,
 								user_id,
-								is_answered,
-								question_id,
-								questions_title
 							} = data;
-							
-							const redirectFnResult = _self.redirectFn(url,params,user_id);
-							if(!redirectFnResult){
-								_self.$store.commit('setQuestionsId', questions_id);
-								_self.$store.commit('setUserId', user_id);
-								_self.$store.commit('initUserQuestionsPayInfo', data);
-								
-								const pagesStorage = uni.getStorageSync('push_pages');
-								//如果hasPagesStorage 为true则为推送
-								const hasPagesStorage = pagesStorage && pagesStorage == '2' ? true : false;
 
-								if (is_test && !is_answered && !question_id && !hasPagesStorage) {
-									//0未点测试 1已点测试
-									window.document.title = '开始问答';
-									const url = _self.$pageConfig[1];
-									uni.redirectTo({
-										url
-									});
-								} else if (is_test && is_answered && question_id && !hasPagesStorage) {
-									//是否答完 0-没有答完 1-已答完 如果答完题则跳转到报告页第一页
-									window.document.title = '个人测评报告';
-									const url = _self.$pageConfig[4];
-									uni.redirectTo({
-										url
-									});
-								} else if (is_test && !is_answered && question_id && !hasPagesStorage) {
-									//question_id > 0 调转到对应题
-									window.document.title = questions_title;
-									const url = _self.$pageConfig[2];
-									uni.redirectTo({
-										url
-									});
-								} else {
-									if(hasPagesStorage){
-										//服务号推送的消息 直接跳转任务页
-										const url = _self.$pageConfig[7];
-										uni.redirectTo({
-											url,
-											success:function(){
-												uni.removeStorageSync('push_pages');
-											}
-										});
-									}else{
-										params = json2ParStr(params);
-										const url = `${_self.$pageConfig[0]}${isEmptyObject(params) ? '' : '?'}${params}`;
-										uni.redirectTo({
-											url
-										});
-									}
-								}
+							const redirectFnResult = _self.redirectFn(url, params, user_id);
+							if (!redirectFnResult) {
+								params = json2ParStr(params);
+								const url = `${_self.$pageConfig[0]}${isEmptyObject(params) ? '' : '?'}${params}`;
+								uni.navigateTo({
+									url
+								});
 							}
 						})
 						.catch(e => {
@@ -229,7 +192,7 @@
 			},
 			onItemClick: function(item) {
 				const url = `${this.$pageConfig[0]}?id=${item.questions_id}&channel=${item.channel}`;
-				uni.redirectTo({
+				uni.navigateTo({
 					url
 				});
 			},

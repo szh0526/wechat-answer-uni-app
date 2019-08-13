@@ -109,7 +109,7 @@
 			handleFree: function() {
 				window.document.title = '妈妈测';
 				const url = this.$pageConfig[7];
-				uni.redirectTo({
+				uni.navigateTo({
 					url
 				});
 			},
@@ -120,7 +120,7 @@
 					.then(data => {
 						window.document.title = '个人测评报告';
 						const url = _self.$pageConfig[4];
-						uni.redirectTo({
+						uni.navigateTo({
 							url
 						});
 					})

@@ -36,13 +36,13 @@ export default {
 			this.curActive = "home";
 			window.document.title = "妈妈测";
 			const url = this.$pageConfig[1000];
-			uni.redirectTo({ url });
+			uni.navigateTo({ url });
 		},
 		onMyClick:function(){
 			this.curActive = "my";
 			window.document.title = "我的测评";
 			const url = this.$pageConfig[1001];
-			uni.redirectTo({ url });
+			uni.navigateTo({ url });
 		}
 	},
 	components: {
